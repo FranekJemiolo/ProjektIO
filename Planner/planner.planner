@@ -41,7 +41,9 @@
       <task id="16" name="Options gui" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       <task id="17" name="Shop GUI" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
     </task>
-    <task id="18" name="Asteroid logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="18" name="Game loop" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="19" name="Game logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="20" name="Asteroid logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
   </tasks>
   <resource-groups/>
   <resources>
@@ -50,5 +52,13 @@
     <resource id="3" name="Micha&#x142;" short-name="Micha&#x142;" type="1" units="0" email="michal.p.lukasik@gmail.com" note="" std-rate="0"/>
     <resource id="4" name="Szulc" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
   </resources>
-  <allocations/>
+  <allocations>
+    <allocation task-id="4" resource-id="1" units="100"/>
+    <allocation task-id="1" resource-id="1" units="100"/>
+    <allocation task-id="9" resource-id="2" units="100"/>
+    <allocation task-id="5" resource-id="2" units="100"/>
+    <allocation task-id="9" resource-id="3" units="100"/>
+    <allocation task-id="5" resource-id="3" units="100"/>
+    <allocation task-id="13" resource-id="4" units="100"/>
+  </allocations>
 </project>
