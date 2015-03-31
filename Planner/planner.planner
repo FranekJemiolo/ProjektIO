@@ -4,9 +4,9 @@
   <phases/>
   <calendars>
     <day-types>
-      <day-type id="0" name="Working" description="A default working day"/>
-      <day-type id="1" name="Nonworking" description="A default non working day"/>
-      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+      <day-type id="0" name="Dzie&#x144; roboczy" description="Domy&#x15B;lny dzie&#x144; roboczy"/>
+      <day-type id="1" name="Dzie&#x144; wolny" description="Domy&#x15B;lny dzie&#x144; wolny"/>
+      <day-type id="2" name="U&#x17C;ycie podstawowego" description="U&#x17C;ycie dania z kalendarza podstawowego"/>
     </day-types>
     <calendar id="1" name="Default">
       <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
@@ -20,30 +20,66 @@
     </calendar>
   </calendars>
   <tasks>
-    <task id="1" name="Models" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="2" name="Mothership model" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="3" name="Units models" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="1" name="Models" note="" work="115200" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="70" priority="0" type="normal" scheduling="fixed-work">
+      <task id="2" name="Mothership model" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="3" name="Mothership textures" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="4" name="Mothership shaders" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="5" name="Units models" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="50" priority="0" type="normal" scheduling="fixed-work">
+        <task id="6" name="Units textures" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="7" name="Units shaders" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
     </task>
-    <task id="4" name="AI" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    <task id="5" name="Unit logic" note="" work="86400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="6" name="Unit move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="7" name="Unit attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="8" name="Unit build" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="8" name="AI" note="" work="201600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="9" name="AI main logic - move the units" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="10" name="AI logic on offence" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="11" name="AI logic on defence" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="12" name="AI logic move unit" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="13" name="AI logic attack unit" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="14" name="AI logic build units" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="15" name="AI logic fight for points" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
     </task>
-    <task id="9" name="Mothership logic" note="" work="86400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="10" name="Mothership move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="11" name="Mothership attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="12" name="Mothership move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="16" name="Unit logic" note="" work="230400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="17" name="Unit move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="18" name="Unit attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="19" name="Unit build" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="20" name="Unit select" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="21" name="Select multiple units" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="22" name="Highlight selected terrain" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="23" name="Highliht selected units" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="24" name="Group attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="25" name="Group move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
     </task>
-    <task id="13" name="GUI" note="" work="115200" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="14" name="Main menu gui" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="15" name="In game gui" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="16" name="Options gui" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="17" name="Shop GUI" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="26" name="Mothership logic" note="" work="86400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="27" name="Mothership move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="28" name="Mothership attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="29" name="Mothership move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
     </task>
-    <task id="18" name="Game loop" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    <task id="19" name="Game logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    <task id="20" name="Asteroid logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="30" name="GUI" note="" work="374400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="31" name="Main menu gui" note="" work="115200" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="32" name="Game start" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="33" name="Modes" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="34" name="Options" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="35" name="" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="36" name="In game gui" note="" work="201600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="37" name="Game options" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="38" name="Pause" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="39" name="HUD" note="" work="144000" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="40" name="Unit health" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="41" name="Mothership health" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="42" name="Units to build" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="43" name="Unit available building" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="44" name="Mothership attacks" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        </task>
+      </task>
+      <task id="45" name="Options gui" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="46" name="Shop GUI" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    </task>
+    <task id="47" name="Game loop" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="48" name="Game logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="49" name="Asteroid logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
   </tasks>
   <resource-groups/>
   <resources>
@@ -53,12 +89,12 @@
     <resource id="4" name="Szulc" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
   </resources>
   <allocations>
-    <allocation task-id="4" resource-id="1" units="100"/>
+    <allocation task-id="8" resource-id="1" units="100"/>
     <allocation task-id="1" resource-id="1" units="100"/>
-    <allocation task-id="9" resource-id="2" units="100"/>
-    <allocation task-id="5" resource-id="2" units="100"/>
-    <allocation task-id="9" resource-id="3" units="100"/>
-    <allocation task-id="5" resource-id="3" units="100"/>
-    <allocation task-id="13" resource-id="4" units="100"/>
+    <allocation task-id="26" resource-id="2" units="100"/>
+    <allocation task-id="16" resource-id="2" units="100"/>
+    <allocation task-id="26" resource-id="3" units="100"/>
+    <allocation task-id="16" resource-id="3" units="100"/>
+    <allocation task-id="30" resource-id="4" units="100"/>
   </allocations>
 </project>
