@@ -1,12 +1,16 @@
 <?xml version="1.0"?>
 <project name="Temp" company="World Dominance" manager="Franek" phase="" project-start="20150324T000000Z" mrproject-version="2" calendar="1">
   <properties/>
-  <phases/>
+  <phases>
+    <phase name="1 iteracja"/>
+    <phase name="2 iteracja"/>
+    <phase name="3 iteracja"/>
+  </phases>
   <calendars>
     <day-types>
-      <day-type id="0" name="Dzie&#x144; roboczy" description="Domy&#x15B;lny dzie&#x144; roboczy"/>
-      <day-type id="1" name="Dzie&#x144; wolny" description="Domy&#x15B;lny dzie&#x144; wolny"/>
-      <day-type id="2" name="U&#x17C;ycie podstawowego" description="U&#x17C;ycie dania z kalendarza podstawowego"/>
+      <day-type id="0" name="Working" description="A default working day"/>
+      <day-type id="1" name="Nonworking" description="A default non working day"/>
+      <day-type id="2" name="Use base" description="Use day from base calendar"/>
     </day-types>
     <calendar id="1" name="Default">
       <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
@@ -20,81 +24,249 @@
     </calendar>
   </calendars>
   <tasks>
-    <task id="1" name="Models" note="" work="115200" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="70" priority="0" type="normal" scheduling="fixed-work">
-      <task id="2" name="Mothership model" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
-        <task id="3" name="Mothership textures" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="4" name="Mothership shaders" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="1" name="All Models" note="" work="316800" start="20150324T000000Z" end="20150408T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="2" name="Mothership model" note="" work="86400" start="20150324T000000Z" end="20150408T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="3" name="Mothership textures" note="" work="28800" start="20150408T000000Z" end="20150408T170000Z" work-start="20150408T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <constraint type="start-no-earlier-than" time="20150408T000000Z"/>
+          <predecessors>
+            <predecessor id="1" predecessor-id="5" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="4" name="Mothership shaders" note="" work="28800" start="20150408T000000Z" end="20150408T170000Z" work-start="20150408T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <constraint type="start-no-earlier-than" time="20150408T000000Z"/>
+          <predecessors>
+            <predecessor id="1" predecessor-id="5" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="5" name="Creating model" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work"/>
       </task>
-      <task id="5" name="Units models" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="50" priority="0" type="normal" scheduling="fixed-work">
-        <task id="6" name="Units textures" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="7" name="Units shaders" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="6" name="Units models" note="" work="230400" start="20150324T000000Z" end="20150331T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="7" name="Units textures" note="" work="57600" start="20150327T170000Z" end="20150331T170000Z" work-start="20150330T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="9" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="8" name="Units shaders" note="" work="57600" start="20150327T170000Z" end="20150331T170000Z" work-start="20150330T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="9" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="9" name="Models" note="" work="115200" start="20150324T000000Z" end="20150327T170000Z" work-start="20150324T080000Z" percent-complete="40" priority="0" type="normal" scheduling="fixed-work"/>
       </task>
     </task>
-    <task id="8" name="AI" note="" work="201600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="9" name="AI main logic - move the units" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="10" name="AI logic on offence" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="11" name="AI logic on defence" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="12" name="AI logic move unit" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="13" name="AI logic attack unit" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="14" name="AI logic build units" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="15" name="AI logic fight for points" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    </task>
-    <task id="16" name="Unit logic" note="" work="230400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="17" name="Unit move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="18" name="Unit attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="19" name="Unit build" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="20" name="Unit select" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="21" name="Select multiple units" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="22" name="Highlight selected terrain" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="23" name="Highliht selected units" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="10" name="AI" note="" work="230400" start="20150420T170000Z" end="20150423T170000Z" work-start="20150421T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="33" type="FS"/>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+        <predecessor id="1" predecessor-id="20" type="FS"/>
+      </predecessors>
+      <task id="11" name="AI main logic - move the units" note="" work="28800" start="20150421T170000Z" end="20150422T170000Z" work-start="20150422T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="16" type="FS"/>
+        </predecessors>
       </task>
-      <task id="24" name="Group attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="25" name="Group move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    </task>
-    <task id="26" name="Mothership logic" note="" work="86400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="27" name="Mothership move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="28" name="Mothership attack" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="29" name="Mothership move" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    </task>
-    <task id="30" name="GUI" note="" work="374400" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="31" name="Main menu gui" note="" work="115200" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="32" name="Game start" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="33" name="Modes" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="34" name="Options" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="35" name="" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="12" name="AI logic on offence" note="" work="28800" start="20150421T170000Z" end="20150422T170000Z" work-start="20150422T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="16" type="FS"/>
+        </predecessors>
       </task>
-      <task id="36" name="In game gui" note="" work="201600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="37" name="Game options" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="38" name="Pause" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="39" name="HUD" note="" work="144000" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="40" name="Unit health" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-          <task id="41" name="Mothership health" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-          <task id="42" name="Units to build" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-          <task id="43" name="Unit available building" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-          <task id="44" name="Mothership attacks" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="13" name="AI logic on defence" note="" work="28800" start="20150421T170000Z" end="20150422T170000Z" work-start="20150422T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="16" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="14" name="AI logic fight for points" note="" work="28800" start="20150421T170000Z" end="20150422T170000Z" work-start="20150422T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="16" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="15" name="AI game controller" note="" work="28800" start="20150422T170000Z" end="20150423T170000Z" work-start="20150423T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="11" type="FS"/>
+          <predecessor id="1" predecessor-id="14" type="FS"/>
+          <predecessor id="1" predecessor-id="13" type="FS"/>
+          <predecessor id="1" predecessor-id="12" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="16" name="AI steering" note="" work="86400" start="20150420T170000Z" end="20150421T170000Z" work-start="20150421T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="17" name="AI logic move unit" note="" work="28800" start="20150420T170000Z" end="20150421T170000Z" work-start="20150421T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="18" name="AI logic build units" note="" work="28800" start="20150420T170000Z" end="20150421T170000Z" work-start="20150421T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="19" name="AI logic attack unit" note="" work="28800" start="20150420T170000Z" end="20150421T170000Z" work-start="20150421T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+    </task>
+    <task id="20" name="Unit logic" note="" work="288000" start="20150324T000000Z" end="20150327T120000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="21" name="Unit move" note="" work="28800" start="20150324T170000Z" end="20150325T170000Z" work-start="20150325T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="24" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="22" name="Unit attack" note="" work="28800" start="20150325T170000Z" end="20150326T170000Z" work-start="20150326T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="21" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="23" name="Unit build" note="" work="28800" start="20150325T170000Z" end="20150326T170000Z" work-start="20150326T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="21" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="24" name="Unit select" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="25" name="Unit highlight" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="26" name="Unit stored in game controller" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="27" name="Select multiple units" note="" work="57600" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="28" name="Highlight selected terrain" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="29" name="Highliht selected units" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="30" name="Group attack" note="" work="28800" start="20150325T170000Z" end="20150326T170000Z" work-start="20150326T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="31" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="31" name="Group move" note="" work="28800" start="20150324T170000Z" end="20150325T170000Z" work-start="20150325T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="27" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="32" name="Game controller" note="" work="28800" start="20150326T170000Z" end="20150327T120000Z" work-start="20150327T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="31" type="FS"/>
+          <predecessor id="1" predecessor-id="27" type="FS"/>
+          <predecessor id="1" predecessor-id="30" type="FS"/>
+          <predecessor id="1" predecessor-id="24" type="FS"/>
+          <predecessor id="1" predecessor-id="23" type="FS"/>
+          <predecessor id="1" predecessor-id="22" type="FS"/>
+          <predecessor id="1" predecessor-id="21" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="33" name="Mothership logic" note="" work="57600" start="20150418T000000Z" end="20150420T170000Z" work-start="20150420T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="34" name="Mothership move" note="" work="28800" start="20150418T000000Z" end="20150420T170000Z" work-start="20150420T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20150418T000000Z"/>
+      </task>
+      <task id="35" name="Mothership attack" note="" work="28800" start="20150419T000000Z" end="20150420T170000Z" work-start="20150420T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20150419T000000Z"/>
+      </task>
+    </task>
+    <task id="36" name="GUI" note="" work="417600" start="20150412T000000Z" end="20150501T170000Z" work-start="20150413T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="37" name="Main menu gui" note="" work="86400" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="53" type="FS"/>
+          <predecessor id="1" predecessor-id="52" type="FS"/>
+        </predecessors>
+        <task id="38" name="Game start" note="" work="28800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="39" name="Modes" note="" work="28800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="40" name="Options" note="" work="28800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="41" name="In game gui" note="" work="158400" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="53" type="FS"/>
+          <predecessor id="1" predecessor-id="52" type="FS"/>
+        </predecessors>
+        <task id="42" name="Game options" note="" work="28800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="43" name="Pause" note="" work="28800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="44" name="HUD" note="" work="100800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="45" name="Unit health" note="" work="14400" start="20150414T170000Z" end="20150415T120000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="46" name="Mothership health" note="" work="14400" start="20150414T170000Z" end="20150415T120000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="47" name="Units to build" note="" work="28800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="48" name="Unit available building" note="" work="28800" start="20150414T170000Z" end="20150415T170000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="49" name="Mothership attacks" note="" work="14400" start="20150414T170000Z" end="20150415T120000Z" work-start="20150415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
         </task>
       </task>
-      <task id="45" name="Options gui" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="46" name="Shop GUI" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="50" name="Options gui" note="" work="57600" start="20150430T000000Z" end="20150501T170000Z" work-start="20150430T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20150430T000000Z"/>
+      </task>
+      <task id="51" name="Shop GUI" note="" work="57600" start="20150430T000000Z" end="20150501T170000Z" work-start="20150430T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20150430T000000Z"/>
+      </task>
+      <task id="52" name="GUI Layout" note="" work="28800" start="20150414T000000Z" end="20150414T170000Z" work-start="20150414T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20150414T000000Z"/>
+      </task>
+      <task id="53" name="GUI Images" note="" work="28800" start="20150412T000000Z" end="20150413T170000Z" work-start="20150413T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20150412T000000Z"/>
+      </task>
     </task>
-    <task id="47" name="Game loop" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    <task id="48" name="Game logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-    <task id="49" name="Asteroid logic" note="" work="28800" start="20150324T000000Z" end="20150324T170000Z" work-start="20150324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="54" name="Game loop" note="" work="57600" start="20150423T170000Z" end="20150427T170000Z" work-start="20150424T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="56" type="FS"/>
+        <predecessor id="1" predecessor-id="33" type="FS"/>
+        <predecessor id="1" predecessor-id="20" type="FS"/>
+        <predecessor id="1" predecessor-id="10" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="55" name="Game logic" note="" work="57600" start="20150427T170000Z" end="20150429T170000Z" work-start="20150428T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="54" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="56" name="Asteroid logic" note="" work="57600" start="20150419T000000Z" end="20150421T170000Z" work-start="20150420T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="start-no-earlier-than" time="20150419T000000Z"/>
+    </task>
   </tasks>
   <resource-groups/>
   <resources>
     <resource id="1" name="Franek" short-name="Franek" type="1" units="0" email="f.jemiolo@student.uw.edu.pl" note="" std-rate="0"/>
     <resource id="2" name="Daniel" short-name="Daniel" type="1" units="0" email="daniel.pmhp.le@gmail.com" note="" std-rate="0"/>
     <resource id="3" name="Micha&#x142;" short-name="Micha&#x142;" type="1" units="0" email="michal.p.lukasik@gmail.com" note="" std-rate="0"/>
-    <resource id="4" name="Szulc" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+    <resource id="4" name="Piotrek" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
   </resources>
   <allocations>
-    <allocation task-id="8" resource-id="1" units="100"/>
+    <allocation task-id="32" resource-id="1" units="100"/>
+    <allocation task-id="17" resource-id="1" units="100"/>
+    <allocation task-id="18" resource-id="1" units="100"/>
+    <allocation task-id="19" resource-id="1" units="100"/>
+    <allocation task-id="16" resource-id="1" units="100"/>
+    <allocation task-id="11" resource-id="1" units="100"/>
+    <allocation task-id="12" resource-id="1" units="100"/>
+    <allocation task-id="13" resource-id="1" units="100"/>
+    <allocation task-id="14" resource-id="1" units="100"/>
+    <allocation task-id="15" resource-id="1" units="100"/>
+    <allocation task-id="3" resource-id="1" units="100"/>
+    <allocation task-id="5" resource-id="1" units="100"/>
+    <allocation task-id="7" resource-id="1" units="100"/>
+    <allocation task-id="9" resource-id="1" units="100"/>
+    <allocation task-id="2" resource-id="1" units="100"/>
+    <allocation task-id="6" resource-id="1" units="100"/>
+    <allocation task-id="55" resource-id="1" units="100"/>
+    <allocation task-id="54" resource-id="1" units="100"/>
+    <allocation task-id="56" resource-id="1" units="100"/>
+    <allocation task-id="10" resource-id="1" units="100"/>
     <allocation task-id="1" resource-id="1" units="100"/>
+    <allocation task-id="34" resource-id="2" units="100"/>
+    <allocation task-id="32" resource-id="2" units="100"/>
     <allocation task-id="26" resource-id="2" units="100"/>
-    <allocation task-id="16" resource-id="2" units="100"/>
-    <allocation task-id="26" resource-id="3" units="100"/>
-    <allocation task-id="16" resource-id="3" units="100"/>
-    <allocation task-id="30" resource-id="4" units="100"/>
+    <allocation task-id="30" resource-id="2" units="100"/>
+    <allocation task-id="31" resource-id="2" units="100"/>
+    <allocation task-id="21" resource-id="2" units="100"/>
+    <allocation task-id="22" resource-id="2" units="100"/>
+    <allocation task-id="23" resource-id="2" units="100"/>
+    <allocation task-id="33" resource-id="2" units="100"/>
+    <allocation task-id="20" resource-id="2" units="100"/>
+    <allocation task-id="35" resource-id="3" units="100"/>
+    <allocation task-id="29" resource-id="3" units="100"/>
+    <allocation task-id="28" resource-id="3" units="100"/>
+    <allocation task-id="25" resource-id="3" units="100"/>
+    <allocation task-id="33" resource-id="3" units="100"/>
+    <allocation task-id="20" resource-id="3" units="100"/>
+    <allocation task-id="37" resource-id="4" units="100"/>
+    <allocation task-id="38" resource-id="4" units="100"/>
+    <allocation task-id="39" resource-id="4" units="100"/>
+    <allocation task-id="40" resource-id="4" units="100"/>
+    <allocation task-id="41" resource-id="4" units="100"/>
+    <allocation task-id="42" resource-id="4" units="100"/>
+    <allocation task-id="43" resource-id="4" units="100"/>
+    <allocation task-id="44" resource-id="4" units="100"/>
+    <allocation task-id="45" resource-id="4" units="100"/>
+    <allocation task-id="46" resource-id="4" units="100"/>
+    <allocation task-id="47" resource-id="4" units="100"/>
+    <allocation task-id="48" resource-id="4" units="100"/>
+    <allocation task-id="49" resource-id="4" units="100"/>
+    <allocation task-id="50" resource-id="4" units="100"/>
+    <allocation task-id="51" resource-id="4" units="100"/>
+    <allocation task-id="52" resource-id="4" units="100"/>
+    <allocation task-id="53" resource-id="4" units="100"/>
+    <allocation task-id="8" resource-id="4" units="100"/>
+    <allocation task-id="4" resource-id="4" units="100"/>
+    <allocation task-id="36" resource-id="4" units="100"/>
   </allocations>
 </project>
