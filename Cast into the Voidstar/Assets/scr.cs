@@ -8,7 +8,7 @@ public class scr : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		mybut = this.GetComponent<Button> ();
-		GameC gc = FindObjectOfType<GameC> ();
+		GameController gc = FindObjectOfType<GameController> ();
 		mybut.onClick.AddListener (() => {
 			gc.navigateTo (GameObject.FindGameObjectWithTag ("Unit"), new Vector3 (50, 0, 0));});
 	}
