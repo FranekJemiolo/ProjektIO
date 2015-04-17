@@ -1,0 +1,20 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scr1.cs">
+    <Files>
+      <File FileName="Assets\GameC.cs" Line="12" Column="3" />
+      <File FileName="..\StrategyGame\Assets\Scripts\PlayerScript.cs" Line="1" Column="1" />
+      <File FileName="..\StrategyGame\Assets\Guitesting.cs" Line="1" Column="1" />
+      <File FileName="..\StrategyGame\Assets\GUITest.cs" Line="1" Column="1" />
+      <File FileName="..\StrategyGame\Assets\Shot.cs" Line="1" Column="1" />
+      <File FileName="..\StrategyGame\Assets\Scripts\GameController.cs" Line="1" Column="1" />
+      <File FileName="..\StrategyGame\Assets\Scripts\Mouse.cs" Line="1" Column="1" />
+      <File FileName="Assets\scr.cs" Line="17" Column="6" />
+      <File FileName="Assets\scr1.cs" Line="13" Column="83" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
