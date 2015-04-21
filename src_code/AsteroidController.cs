@@ -2,16 +2,67 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class AsteroidController : MonoBehaviour {
-	
+
+	public enum Master{Player, Enemy, None};
+
+	public Master getPlayer(GameObject ob)
+	{
+		if (ob.tag == "Player")
+		{
+			return Master.Player;
+		}
+		else if (ob.tag == "Enemy")
+		{
+			return Master.Enemy;
+		}
+		else
+		{
+			return Master.None;
+		}
+	}
+
+	public class Building
+	{
+		// Reference to GameObject of the building.
+		private GameObject building;
+		
+		// Who controlls our building.
+		private Master who;
+		
+		// Creates the building we want to build.
+		Building (Master who, GameObject b)
+		{
+			this.building = b;
+			this.who = who;
+		}
+		
+		public void destroyBuilding()
+		{
+			// Calls destructor and create some form of explosion.
+		}
+		
+		public GameObject getBuilding()
+		{
+			return this.building;
+		}
+		
+		public Master whoControlls()
+		{
+			return this.who;
+		}
+	}
+
+
+
 	// The range from which we can capture an asteroid, square size.
 	public float captureRangeSqr = 4900.0f;
 
+	private Building building;
 
 	private List<GameObject> units;
 	private List<GameObject> enemies;
-
-	private enum Master{Player, Enemy, None};
 
 	// Who owns the asteroid.
 	private Master belongsTo;
@@ -26,6 +77,7 @@ public class AsteroidController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		building = null;
 		belongsTo = Master.None;
 		capping = Master.None;
 		units = new List<GameObject> ();
@@ -44,6 +96,7 @@ public class AsteroidController : MonoBehaviour {
 
 	}
 
+	// When unit enters asteroid vicinity.	
 	void OnTriggerEnter (Collider other) 
 	{
 		Debug.Log (other + "Entering" + other.gameObject.tag);
@@ -51,12 +104,14 @@ public class AsteroidController : MonoBehaviour {
 		{
 			enemies.Add (other.gameObject);
 		} 
-		else if (other.gameObject.tag == "Unit") 
+		else if (other.gameObject.tag == "Player") 
 		{
 			units.Add (other.gameObject);
 		}
 
 	}
+
+	// When unit is in asteroid vicinity.
 	void OnTriggerStay (Collider other) 
 	{
 		Master whoAmI = Master.None;
@@ -64,7 +119,7 @@ public class AsteroidController : MonoBehaviour {
 		{
 			whoAmI = Master.Enemy;
 		} 
-		else if (other.gameObject.tag == "Unit") 
+		else if (other.gameObject.tag == "Player") 
 		{
 			whoAmI = Master.Player;
 		}
@@ -133,6 +188,8 @@ public class AsteroidController : MonoBehaviour {
 		Debug.Log(belongsTo);
 		// Else do nothing we already have it.
 	}
+
+	// When object leaves asteroid field.
 	void OnTriggerExit (Collider other) 
 	{
 		Debug.Log (other + "Leaving" + other.gameObject.tag);
@@ -145,7 +202,7 @@ public class AsteroidController : MonoBehaviour {
 				timeCapped = 0.0f;
 			}*/
 		} 
-		else if (other.gameObject.tag == "Unit") 
+		else if (other.gameObject.tag == "Player") 
 		{
 			units.Remove (other.gameObject);
 			/*if (units.Count == 0)
@@ -155,4 +212,55 @@ public class AsteroidController : MonoBehaviour {
 			}*/
 		}
 	}
+
+	public bool createBuilding(Master player)
+	{
+		// If no building.
+		if (building == null)
+		{
+			// If we capped asteroid.
+			if (belongsTo == player)
+			{
+				building = new Building(player,GameObject someModel);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else 
+		{
+			return false;
+		}
+	}
+
+
+	// Attack the building on asteroid by player with his unit.
+	public bool attackBuilding(GameObject unit)
+	{
+		// If there is building to attack.
+		if (building != null)
+		{
+			// If it belongs to our enemy.
+			if (getPlayer(unit) != building.whoControlls)
+			{
+				unit.GetComponent<UnitController> ().setTarget(building.getBuilding());
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+
+	// On building destruction.
+	public bool destroyBuilding()
+	{
+		building.destroyBuilding();
+		building = null;
+	}
+
+	
+
 }
