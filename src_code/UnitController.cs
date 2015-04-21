@@ -4,14 +4,18 @@ using System.Collections;
 public class UnitController : MonoBehaviour {
 
 	// The firing range of our unit. Range = 50.0f
-	public float rangeSqr = 2500.0f;
+	private float rangeSqr = 2500.0f;
 
 	// The firing rate of our unit. How many seconds between attacks.
-	public float firingRate = 2.0f;
-
-
+	private float firingRate = 2.0f;
+	
 	// Time needed for rotation so the unit faces enemy.
-	public float damping = 2.0f;
+	private float damping = 2.0f;
+
+	// The life points of the unit.
+	private float hitPoints = 100.0f;
+
+
 
 	// The targeted unit which unit wants to attack.
 	private GameObject target;

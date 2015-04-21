@@ -27,6 +27,10 @@ public class AsteroidController : MonoBehaviour {
 	{
 		// Reference to GameObject of the building.
 		private GameObject building;
+
+
+		// Building's life points. Some size.
+		private float hitPoints;
 		
 		// Who controlls our building.
 		private Master who;
@@ -36,6 +40,7 @@ public class AsteroidController : MonoBehaviour {
 		{
 			this.building = b;
 			this.who = who;
+			this.hitPoints = 100.0f;
 		}
 		
 		public void destroyBuilding()
@@ -51,6 +56,16 @@ public class AsteroidController : MonoBehaviour {
 		public Master whoControlls()
 		{
 			return this.who;
+		}
+
+		public float getHP ()
+		{
+			return this.hitPoints;
+		}
+
+		public void setHP (float hp)
+		{
+			this.hitPoints = hp;
 		}
 	}
 
@@ -93,6 +108,7 @@ public class AsteroidController : MonoBehaviour {
 			capping = Master.None;
 			timeCapped = 0.0f;
 		}
+		handleBuilding();
 
 	}
 
@@ -221,7 +237,7 @@ public class AsteroidController : MonoBehaviour {
 			// If we capped asteroid.
 			if (belongsTo == player)
 			{
-				building = new Building(player,GameObject someModel);
+				//building = Building(player, GameObject someModel);
 				return true;
 			}
 			else
@@ -243,7 +259,7 @@ public class AsteroidController : MonoBehaviour {
 		if (building != null)
 		{
 			// If it belongs to our enemy.
-			if (getPlayer(unit) != building.whoControlls)
+			if (getPlayer(unit) != building.whoControlls())
 			{
 				unit.GetComponent<UnitController> ().setTarget(building.getBuilding());
 				return true;
@@ -253,14 +269,50 @@ public class AsteroidController : MonoBehaviour {
 		return false;
 	}
 
+	// Attack the building on asteroid by player with his units.
+	public bool attackBuilding(List<GameObject> units)
+	{
+		// If there is building to attack.
+		if (building != null)
+		{
+				
+			foreach(GameObject unit in units)
+			{
+				if (this.getPlayer(unit) != building.whoControlls())
+				{
+				unit.GetComponent<UnitController> ().setTarget(building.getBuilding());
+				}
+			
+			}
+			return true;
+		}
+		return false;
+	}
 
 	// On building destruction.
 	public bool destroyBuilding()
 	{
-		building.destroyBuilding();
-		building = null;
+		if (building != null)
+		{
+			building.destroyBuilding();
+			building = null;
+			return true;
+		}
+		return false;
 	}
 
+	// In this function we check the status of the building.
+	private void handleBuilding()
+	{
+		if (building != null)
+		{
+			// If no life left.
+			if (building.getHP() < 0.0f)
+			{
+				this.destroyBuilding();
+			}
+		}
+	}
 	
-
+	
 }
