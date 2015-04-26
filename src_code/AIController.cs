@@ -72,7 +72,7 @@ public class AIController : MonoBehaviour
 
 	// Our recorded AIStates. - 
 	// We can have many because they contain only simple values.
-	private List<AIState> knowledgeBase;
+	private HashSet<AIState> knowledgeBase;
 	// Actual factor of aggresivness.
 	private float aggresivness;
 	// Actual factor of defensivness.
@@ -88,16 +88,19 @@ public class AIController : MonoBehaviour
 	// What is enemy tag?
 	private string enemyTag;
 
-	// The list of units which we control.
-	private List<GameObject> units;
-	// The list of enemy objects we see, or we have seen.
+	// The set of units which we control.
+	private HashSet<GameObject> units;
+	// The set of enemy objects we see, or we have seen.
 	// AI is very intelligent - once it seen an object it 
 	// tracks it till the end.
 	private HashSet<GameObject> enemies;
-	// The list of asteroids we control.
-	private List<GameObject> asteroids;
+	// The number of asteroids we control.
+	private int asteroids;
 	// Our command center - mothership.
 	private GameObject mothership;
+	// The rate of updating values.
+	private float valueRate = 1.0f;
+	private float lastValuesCheck = 0.0f;
 	// The rate of recording knowledge.
 	private float gatherRate = 2.0f;
 	// How many time passed from last update.
@@ -107,7 +110,32 @@ public class AIController : MonoBehaviour
 	// How many time passed since last update.
 	private float timeFromUpdate = 0.0f;
 
+	// Game controller will be needed.
+	GameController gameController;
 
+
+	public bool requestedBackup (GameObject go)
+	{
+		// Find every free unit, if none - return false
+		int backup = 0;
+		foreach (GameObject unit in units)
+		{
+			EnemyController uc = unit.GetComponentInChildren<EnemyController>();
+			if (uc.agent.getTarget() == null)
+			{
+				uc.agent.setTarget(go);
+				backup++;
+			}
+		}
+		if (backup == 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 	// This function records current gameState.
 	public void recordKnowledge ()
@@ -115,7 +143,7 @@ public class AIController : MonoBehaviour
 		AIState state = new AIState (this.aggresivness,
 		     this.defensivness, this.units.Count,
 			 this.enemies.Count, this.points,
-			 this.enemyPoints, this.asteroids.Count,
+			 this.enemyPoints, this.asteroids,
 			 this.credits);
 		this.knowledgeBase.Add(state);
 
@@ -125,6 +153,7 @@ public class AIController : MonoBehaviour
 	{
 		this.enemies.Add(go);
 	}
+
 
 	// Do some mutation on load.
 	public void loadParams (AIState state)
@@ -159,10 +188,11 @@ public class AIController : MonoBehaviour
 
 	void Start () 
 	{
-		units = new List<GameObject>();
+		gameController = GetComponent<GameController>();
+		units = new HashSet<GameObject>();
 		enemies = new HashSet<GameObject>();
-		asteroids = new List<GameObject>();
-		knowledgeBase = new List<AIState>();
+		asteroids = 0;
+		knowledgeBase = new HashSet<AIState>();
 		// Set the parameters.
 		this.aggresivness = 1.0f;
 		this.defensivness = 1.0f;
@@ -183,17 +213,61 @@ public class AIController : MonoBehaviour
 
 	void Update () 
 	{
+		this.lastValuesCheck += Time.deltaTime;
+		if (this.lastValuesCheck > this.valueRate)
+		{
+			this.lastValuesCheck = 0.0f;
+			this.updateValues();
+		}
+
 		this.timePassed += Time.deltaTime;
 		if (this.timePassed > this.gatherRate)
 		{
 			this.timePassed = 0.0f;
 			this.recordKnowledge();
 		}
+
 		this.timeFromUpdate += Time.deltaTime;
 		if (this.timeFromUpdate > this.updateRate)
 		{
 			this.timeFromUpdate = 0.0f;
 			this.rethinkMyActions();
+		}
+	}
+
+	public void updateValues()
+	{
+		if (myTag == "Player")
+		{
+			this.points = gameController.players[0].getPoints();
+			this.enemyPoints = gameController.players[1].getPoints();
+			this.credits = gameController.players[0].getCredits();
+			int count = 0;
+			foreach (GameObject astero in gameController.asteroids)
+			{
+				AsteroidController ac = astero.GetComponent<AsteroidController>();
+				if (ac.belongsTo == AsteroidController.Master.Player)
+				{
+					count++;
+				}
+			}
+			this.asteroids = count;
+		}
+		else if (myTag == "Enemy")
+		{
+			this.points = gameController.players[1].getPoints();
+			this.enemyPoints = gameController.players[0].getPoints();
+			this.credits = gameController.players[1].getCredits();
+			int count = 0;
+			foreach (GameObject astero in gameController.asteroids)
+			{
+				AsteroidController ac = astero.GetComponent<AsteroidController>();
+				if (ac.belongsTo == AsteroidController.Master.Enemy)
+				{
+					count++;
+				}
+			}
+			this.asteroids = count;
 		}
 	}
 }

@@ -46,9 +46,19 @@ public class EnemyController : MonoBehaviour
 			this.target = go;
 		}
 
+		public GameObject getTarget ()
+		{
+			return this.target;
+		}
+
 		public void setTransform (Transform t)
 		{
 			this.myTransform = t;
+		}
+
+		public Transform getTransform ()
+		{
+			return this.myTransform;
 		}
 
 		public void addEnemy (GameObject enemy)
@@ -81,16 +91,54 @@ public class EnemyController : MonoBehaviour
 		{
 			if (enemies.Count > 0)
 			{
+				this.setTarget(null);
 				Transform enemyPosition = enemies.First().transform;
 				Vector3 runVector = this.myTransform.parent.position - enemyPosition.position;
-				this.myTransform.parent.GetComponent<UnitController>().moveTo (runVector);
+				this.myTransform.parent.GetComponent<UnitController>().moveTo(runVector);
+			}
+			else
+			{
+				this.scout();
 			}
 		}
 
 
-		// Called when support is needed to attack opponent.
-		public void callForBackup ()
+		// If no units in vicinity, we will scout.
+		public void scout ()
 		{
+			Vector3 randomPosition = new Vector3(
+				this.myTransform.position.x + Random.Range(-50.0f, 50.0f), 
+         		this.myTransform.position.y,
+			    this.myTransform.position.z + Random.Range(-50.0f, 50.0f));
+			this.myTransform.parent.GetComponent<UnitController>().moveTo(randomPosition);
+		}
+
+
+		// Called when support is needed to attack opponent.
+		public bool callForBackup ()
+		{
+			if (target == null)
+			{
+				if (enemies.Count > 0)
+				{
+					target = enemies.First();
+				}
+			}
+			if (target != null)
+			{
+				if (GameObject.FindWithTag("AICore").GetComponent<AIController>().requestedBackup(target))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return true;
+			}
 
 		}
 
@@ -104,9 +152,28 @@ public class EnemyController : MonoBehaviour
 			}
 			else
 			{
+				bool backup = true;
 				if (this.enemiesStrength > this.groupStrength)
 				{
-					this.callForBackup();
+					backup = this.callForBackup();
+				}
+				if (backup)
+				{
+					if (this.target == null)
+					{
+						if (enemies.Count > 0)
+						{
+							this.target = enemies.First();
+						}
+					}
+					if (target != null)
+					{
+						this.myTransform.parent.GetComponent<UnitController>().attack(target);
+					}
+					else
+					{
+						this.scout();
+					}
 				}
 
 			}
@@ -117,7 +184,7 @@ public class EnemyController : MonoBehaviour
 	private UnitController unitController;
 	private string myTag;
 	private string enemyTag;
-	private Agent agent;
+	public Agent agent;
 
 	
 	void Start () 
@@ -152,7 +219,7 @@ public class EnemyController : MonoBehaviour
 		else if (other.gameObject.tag == enemyTag)
 		{
 			agent.addEnemy(other.gameObject);
-			this.reportEnemy();
+			this.reportEnemy(other.gameObject);
 		}
 		// The agent has to think again probably in update.
 		// Else do nothing. We are not interested in other things.
@@ -185,4 +252,5 @@ public class EnemyController : MonoBehaviour
 	{
 		GetComponent<AIController>().reportedEnemy(go);
 	}
+
 }

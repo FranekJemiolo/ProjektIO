@@ -127,11 +127,15 @@ public class GameController : MonoBehaviour
 	// This is only for know, because in future it will be possible to have
 	// many players at once.
 	private const int numberOfPlayers = 2;
-	private Player[] players;
+	public Player[] players;
 	// Array of Asteroids.
-	private GameObject[] asteroids;
+	public GameObject[] asteroids;
 	// In which state of game are we?
 	private GameState gameState = GameState.NotStarted;
+
+	// How many times we update the values?
+	private float updateRate = 1.0f;
+	private float timePassed = 0.0f;
 
 
 	// End of game variables.
@@ -158,7 +162,13 @@ public class GameController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		handleGame();
+		timePassed += Time.deltaTime;
+		if (this.timePassed > this.updateRate)
+		{
+			this.timePassed = 0.0f;
+			this.handleGame();
+		}
+
 		Debug.Log ("Player points is :" + players[0].getPoints());
 		Debug.Log ("Enemy points is :" + players[1].getPoints());
 		// Debug test.
@@ -290,6 +300,7 @@ public class GameController : MonoBehaviour
 
 
 	}
+	
 
 
 
