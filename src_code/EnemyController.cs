@@ -152,6 +152,7 @@ public class EnemyController : MonoBehaviour
 		else if (other.gameObject.tag == enemyTag)
 		{
 			agent.addEnemy(other.gameObject);
+			this.reportEnemy();
 		}
 		// The agent has to think again probably in update.
 		// Else do nothing. We are not interested in other things.
@@ -177,5 +178,11 @@ public class EnemyController : MonoBehaviour
 		}
 		// The agent has to think again probably in update.
 		// Else do nothing. We are not interested in other things.
+	}
+
+
+	public void reportEnemy (GameObject go)
+	{
+		GetComponent<AIController>().reportedEnemy(go);
 	}
 }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 
 
-
+// This script holds the main game api and contains main game loop.
 public class GameController : MonoBehaviour 
 {
 

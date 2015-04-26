@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+// This script describes unit function and it's attributes.
 public class UnitController : MonoBehaviour 
 {
 
@@ -9,6 +11,8 @@ public class UnitController : MonoBehaviour
 
 	// The firing rate of our unit. How many seconds between attacks.
 	private float firingRate = 2.0f;
+	// How many time passed from last firing.
+	private float timePassed = 0.0f;
 	
 	// Time needed for rotation so the unit faces enemy.
 	private float damping = 2.0f;

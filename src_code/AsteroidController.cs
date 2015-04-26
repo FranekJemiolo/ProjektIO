@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
+// This script describes behaviour of an asteroid in-game.
 public class AsteroidController : MonoBehaviour 
 {
 
