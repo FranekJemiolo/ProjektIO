@@ -119,6 +119,8 @@ public class GameController : MonoBehaviour
 	private const float START_CREDITS = 1000.0f;
 	// How many points player gets for holding an asteroid.
 	private const float pointsForAsteroid = 1.0f;
+	// How many points player gets for killing enemy units.
+	private const float pointsForKilling = 1.0f;
 	// How many points one has to get to win.
 	private const float winPoints = 1000.0f;
 	// Array of players. Player[0] - is our player. Player[1] - enemy.
@@ -129,7 +131,7 @@ public class GameController : MonoBehaviour
 	// Array of Asteroids.
 	private GameObject[] asteroids;
 	// In which state of game are we?
-	private GameState gameState;
+	private GameState gameState = GameState.NotStarted;
 
 
 	// End of game variables.
@@ -149,11 +151,16 @@ public class GameController : MonoBehaviour
 		players[1].setCredits(START_CREDITS);
 		// Get all the asteroids so we can handle them.
 		asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
+		// Set the game state to playing.
+		gameState = GameState.Playing;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		handleGame();
+		Debug.Log ("Player points is :" + players[0].getPoints());
+		Debug.Log ("Enemy points is :" + players[1].getPoints());
 		// Debug test.
 		if (!first)
 		{
@@ -205,10 +212,23 @@ public class GameController : MonoBehaviour
 		this.transform.position = pos;
 	}
 
+	// Should be called before the destruction of enemy unit.
+	public void givePointsForKilling (GameObject unit)
+	{
+		if (unit.tag == "Enemy")
+		{
+			players[0].setPoints(players[0].getPoints() + pointsForKilling);
+		}
+		else if (unit.tag == "Player")
+		{
+			players[1].setPoints(players[1].getPoints() + pointsForKilling);
+		}
+	}
 
-	public void handleAsteroid(GameObject asteroid)
+	public void handleAsteroid (GameObject asteroid)
 	{
 		AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
+		// Handle points for holding the asteroid.
 		float morePoints = pointsForAsteroid * Time.deltaTime;
 		if (asteroidController.belongsTo == AsteroidController.Master.Player)
 		{
@@ -218,11 +238,12 @@ public class GameController : MonoBehaviour
 		{
 			players[1].setPoints(players[1].getPoints() + morePoints);
 		}
+		// Handle resources gained from asteroid.
 	}
 
-	public void handleGame()
+	public void handleGame ()
 	{
-		if (gameState != GameState.Paused)
+		if (gameState == GameState.Playing)
 		{
 			// Handle points for asteroids.
 			// Every asteroid gives some points for winning.
@@ -232,20 +253,34 @@ public class GameController : MonoBehaviour
 			}
 			
 			// Check if player has won the game.
-			if ((players[0].getPoints() >= this.winPoints) && (players[1].getPoints() < players[0].getPoints()))
+			if ((players[0].getPoints() >= winPoints) && (players[1].getPoints() < players[0].getPoints()))
 			{
-				
+				// Yaaay player has won the game. Set the game state to player won and announce it.
+				gameState = GameState.PlayerWon;
 			}
 			// Check if enemy has won the game.
-			else if ((players[1].getPoints() >= this.winPoints) && (players[0].getPoints() < players[1].getPoints()))
+			else if ((players[1].getPoints() >= winPoints) && (players[0].getPoints() < players[1].getPoints()))
 			{
-				
+				// :< Player has lost. Setting the game state and do something with it.
+				gameState = GameState.EnemyWon;
 			}
 			// Check if the game result is draw.
-			else if ((players[0].getPoints() >= this.winPoints) && (players[1].getPoints() >= this.winPoints))
+			else if ((players[0].getPoints() >= winPoints) && (players[1].getPoints() >= winPoints))
 			{
+				// The game ended in draw. Do something about it.
+				gameState = GameState.Draw;
 			}
 			// Else we are playing the game - no need to change the game state.
+		}
+		// Stop game and show some screens.
+		else if (gameState == GameState.PlayerWon)
+		{
+		}
+		else if (gameState == GameState.EnemyWon)
+		{
+		}
+		else if (gameState == GameState.Draw)
+		{
 		}
 		// The game is paused.
 		else
