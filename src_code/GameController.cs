@@ -10,16 +10,18 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour 
 {
+
+
 	public enum UnitType {Mothership = 0, Destroyer, Cruiser, Fighter, Transporter, Shuttle, Unknown};
 	
-	// Unit type translation.
+	public enum GameState {NotStarted, Playing, Paused, PlayerWon, EnemyWon, Draw};
 
 
 
 	// This class is used to represent players in-game variables.
 	public class Player
 	{
-
+		// Unit type translation.
 		public static UnitType getUnitType (GameObject ob)
 		{
 			if (ob.name == "Mothership")
@@ -53,13 +55,16 @@ public class GameController : MonoBehaviour
 		}
 		// Points to victory of a player.
 		private float points;
+
+		// Credits for buying units.
+		private float credits;
 		
 		// Now will be the list of units of some types.
 		
 		private const int typeOfUnits = 7;
 		private List<GameObject>[] units;
 		
-		Player () 
+		public Player () 
 		{
 			List<GameObject>[] units = new List<GameObject>[typeOfUnits];
 			for (int i = 0; i < typeOfUnits; i++)
@@ -96,20 +101,54 @@ public class GameController : MonoBehaviour
 		{
 			return this.points;
 		}
+
+		public void setCredits (float c)
+		{
+			this.credits = c;
+		}
+
+		public float getCredits ()
+		{
+			return this.credits;
+		}
+
 		
 	}
 	// Space for game variables.
+	// The amount of credits that every player gets on start.
+	private const float START_CREDITS = 1000.0f;
+	// How many points player gets for holding an asteroid.
+	private const float pointsForAsteroid = 1.0f;
+	// How many points one has to get to win.
+	private const float winPoints = 1000.0f;
+	// Array of players. Player[0] - is our player. Player[1] - enemy.
+	// This is only for know, because in future it will be possible to have
+	// many players at once.
 	private const int numberOfPlayers = 2;
-	Player[] players = new Player[numberOfPlayers];
-
+	private Player[] players;
+	// Array of Asteroids.
+	private GameObject[] asteroids;
+	// In which state of game are we?
+	private GameState gameState;
 
 
 	// End of game variables.
+
+
 	private bool first = false;
 	private float ten = 0.0f;
 	void Start () 
 	{
-
+		players = new Player[numberOfPlayers];
+		// Initialize players variables.
+		players[0] = new Player();
+		players[1] = new Player();
+		players[0].setPoints(0.0f);
+		players[1].setPoints(0.0f);
+		players[0].setCredits(START_CREDITS);
+		players[1].setCredits(START_CREDITS);
+		// Get all the asteroids so we can handle them.
+		asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 	}
 	
 	// Update is called once per frame
@@ -165,6 +204,58 @@ public class GameController : MonoBehaviour
 	{
 		this.transform.position = pos;
 	}
+
+
+	public void handleAsteroid(GameObject asteroid)
+	{
+		AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
+		float morePoints = pointsForAsteroid * Time.deltaTime;
+		if (asteroidController.belongsTo == AsteroidController.Master.Player)
+		{
+			players[0].setPoints(players[0].getPoints() + morePoints);
+		}
+		else if (asteroidController.belongsTo == AsteroidController.Master.Enemy)
+		{
+			players[1].setPoints(players[1].getPoints() + morePoints);
+		}
+	}
+
+	public void handleGame()
+	{
+		if (gameState != GameState.Paused)
+		{
+			// Handle points for asteroids.
+			// Every asteroid gives some points for winning.
+			foreach (GameObject Asteroid in this.asteroids)
+			{
+				this.handleAsteroid(Asteroid);
+			}
+			
+			// Check if player has won the game.
+			if ((players[0].getPoints() >= this.winPoints) && (players[1].getPoints() < players[0].getPoints()))
+			{
+				
+			}
+			// Check if enemy has won the game.
+			else if ((players[1].getPoints() >= this.winPoints) && (players[0].getPoints() < players[1].getPoints()))
+			{
+				
+			}
+			// Check if the game result is draw.
+			else if ((players[0].getPoints() >= this.winPoints) && (players[1].getPoints() >= this.winPoints))
+			{
+			}
+			// Else we are playing the game - no need to change the game state.
+		}
+		// The game is paused.
+		else
+		{
+			// Do something or nothing.
+		}
+
+
+	}
+
 
 
 }

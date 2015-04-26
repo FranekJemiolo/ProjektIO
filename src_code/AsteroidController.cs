@@ -80,13 +80,13 @@ public class AsteroidController : MonoBehaviour {
 	private List<GameObject> enemies;
 
 	// Who owns the asteroid.
-	private Master belongsTo;
+	public Master belongsTo;
 	// Who is currently capping.
 	private Master capping;
 
 	// Time from cap start.
 	private float timeCapped = 0.0f;
-	public float cappingTime = 5.0f;
+	private float cappingTime = 5.0f;
 
 
 	// Use this for initialization
