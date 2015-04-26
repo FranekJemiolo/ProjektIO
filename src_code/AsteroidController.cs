@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class AsteroidController : MonoBehaviour {
+public class AsteroidController : MonoBehaviour 
+{
 
 	public enum Master{Player, Enemy, None};
 

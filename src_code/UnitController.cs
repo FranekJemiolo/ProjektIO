@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UnitController : MonoBehaviour {
+public class UnitController : MonoBehaviour 
+{
 
 	// The firing range of our unit. Range = 50.0f
 	private float rangeSqr = 2500.0f;
