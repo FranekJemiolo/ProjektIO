@@ -16,6 +16,9 @@ public class UnitController : MonoBehaviour
 	// The life points of the unit.
 	private float hitPoints = 100.0f;
 
+	// The strength of the attack of the unit.
+	private float attackForce = 10.0f;
+
 
 
 	// The targeted unit which unit wants to attack.
@@ -82,5 +85,15 @@ public class UnitController : MonoBehaviour
 			this.moveTo(go.transform.position);
 		}
 
+	}
+
+	public float getAttackForce ()
+	{
+		return this.attackForce;
+	}
+
+	public float getHitPoints ()
+	{
+		return this.hitPoints;
 	}
 }
