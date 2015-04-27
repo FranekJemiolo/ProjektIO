@@ -24,6 +24,10 @@ public class GameController : MonoBehaviour
 		// Unit type translation.
 		public static UnitType getUnitType (GameObject ob)
 		{
+			if (ob == null)
+			{
+				return UnitType.Unknown;
+			}
 			if (ob.name == "Mothership")
 			{
 				return UnitType.Mothership;
@@ -66,10 +70,10 @@ public class GameController : MonoBehaviour
 		
 		public Player () 
 		{
-			List<GameObject>[] units = new List<GameObject>[typeOfUnits];
+			this.units = new List<GameObject>[typeOfUnits];
 			for (int i = 0; i < typeOfUnits; i++)
 			{
-				units[i] = new List<GameObject>();
+				this.units[i] = new List<GameObject>();
 			}
 		}
 		
@@ -80,15 +84,21 @@ public class GameController : MonoBehaviour
 		// Should be called when creating new object for a player.
 		public void addUnit(GameObject ob)
 		{
-			UnitType t = getUnitType(ob); 
-			units[(int)t].Add(ob);
+			if (ob != null)
+			{
+				UnitType t = getUnitType(ob); 
+				this.units[(int)t].Add(ob);
+			}
 		}
 		
 		// Should be called on destroying an object.
 		public void removeUnit(GameObject ob)
 		{
-			UnitType t = getUnitType(ob); 
-			units[(int)t].Add(ob);
+			if (ob != null)
+			{
+				UnitType t = getUnitType(ob); 
+				this.units[(int)t].Remove(ob);
+			}
 		}
 		
 		

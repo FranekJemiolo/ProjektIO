@@ -7,8 +7,11 @@ using System.Linq;
 public class EnemyController : MonoBehaviour 
 {
 
+
+
 	public class Agent
 	{
+		private float rangeSqr = 25.0f; 
 		private Transform myTransform;
 
 		private List<GameObject> allies;
@@ -23,6 +26,9 @@ public class EnemyController : MonoBehaviour
 
 		private GameObject target;
 
+		// Where the object should go?
+		private Vector3 destination;
+
 		public Agent (float agg, float def)
 		{
 			this.allies = new List<GameObject>();
@@ -32,8 +38,18 @@ public class EnemyController : MonoBehaviour
 			this.enemiesStrength = 0.0f;
 			this.aggresivness = agg;
 			this.defensiveness = def;
-			target = null;
-			myTransform = null;
+			this.target = null;
+			this.myTransform = null;
+		}
+
+		public void setDestination (Vector3 pos)
+		{
+			this.destination = pos;
+		}
+
+		public Vector3 getDestination ()
+		{
+			return this.destination;
 		}
 
 		public void setAggresivness (float f)
@@ -122,10 +138,11 @@ public class EnemyController : MonoBehaviour
 		public void scout ()
 		{
 			Vector3 randomPosition = new Vector3(
-				this.myTransform.parent.position.x + Random.Range(-50.0f, 50.0f), 
+				this.myTransform.parent.position.x + Random.Range(-100.0f, 100.0f), 
 				this.myTransform.parent.position.y,
-				this.myTransform.parent.position.z + Random.Range(-50.0f, 50.0f));
-			this.myTransform.parent.GetComponent<UnitController>().moveTo(randomPosition);
+				this.myTransform.parent.position.z + Random.Range(-100.0f, 100.0f));
+			this.destination = randomPosition;
+			this.myTransform.parent.GetComponent<UnitController>().moveTo(destination);
 		}
 
 
@@ -179,16 +196,25 @@ public class EnemyController : MonoBehaviour
 						if (enemies.Count > 0)
 						{
 							this.target = enemies.First();
+							this.myTransform.parent.GetComponent<UnitController>().setTarget(target);
 						}
 					}
 					if (target != null)
 					{
-						this.myTransform.parent.GetComponent<UnitController>().attack(target);
+						this.myTransform.parent.GetComponent<UnitController>().setTarget(target);
 					}
 					else
 					{
-						this.scout();
+						if (((this.myTransform.position - this.destination).sqrMagnitude) < rangeSqr)
+						{
+							this.scout();
+						}
+
 					}
+				}
+				else 
+				{
+					this.flee();
 				}
 
 			}
@@ -202,25 +228,29 @@ public class EnemyController : MonoBehaviour
 	public Agent agent;
 
 	// How often agents think.
-	private float thinkRate = 5.0f;
+	private float thinkRate = 4.0f;
 	private float timePassed = 0.0f;
 
 	
 	void Start () 
 	{
 		// Initialize the unit controller.
-		unitController = this.transform.parent.gameObject.GetComponent<UnitController>();
-		myTag = this.transform.parent.gameObject.tag;
-		if (myTag == "Enemy")
+		this.unitController = this.transform.parent.gameObject.GetComponent<UnitController>();
+		this.myTag = this.transform.parent.gameObject.tag;
+		if (this.myTag == "Enemy")
 		{
-			enemyTag = "Player";
+			this.enemyTag = "Player";
 		}
-		else if (myTag == "Player")
+		else if (this.myTag == "Player")
 		{
-			enemyTag = "Enemy";
+			this.enemyTag = "Enemy";
 		}
-		agent = new Agent(1.0f, 1.0f);
-		agent.setTransform(this.transform);
+		this.agent = new Agent(1.0f, 1.0f);
+		this.agent.setTransform(this.transform);
+		float s = this.transform.parent.GetComponent<UnitController>().getAttackForce();
+		this.agent.setStrength(s);
+		this.agent.setGroupStrength(s);
+		this.agent.setDestination(this.agent.getTransform().position);
 	}
 
 	void Update () 
@@ -238,12 +268,13 @@ public class EnemyController : MonoBehaviour
 		// If an ally come in our area.
 		if (other.gameObject.tag == myTag)
 		{
-			agent.addAlly(other.gameObject);
+			this.agent.addAlly(other.gameObject);
 		}
 		// Check if an enemy has come to our area?
 		else if (other.gameObject.tag == enemyTag)
 		{
-			agent.addEnemy(other.gameObject);
+			this.agent.addEnemy(other.gameObject);
+			Debug.Log("Enemy enters " + other.gameObject);
 			this.reportEnemy(other.gameObject);
 		}
 		// The agent has to think again probably in update.
@@ -261,12 +292,13 @@ public class EnemyController : MonoBehaviour
 		// If an ally leaves our area.
 		if (other.gameObject.tag == myTag)
 		{
-			agent.removeAlly(other.gameObject);
+			this.agent.removeAlly(other.gameObject);
 		}
 		// Check if an enemy leaves our area?
 		else if (other.gameObject.tag == enemyTag)
 		{
-			agent.removeEnemy(other.gameObject);
+			this.agent.removeEnemy(other.gameObject);
+			Debug.Log("Enemy leaves " + other.gameObject);
 		}
 		// The agent has to think again probably in update.
 		// Else do nothing. We are not interested in other things.
@@ -275,7 +307,7 @@ public class EnemyController : MonoBehaviour
 
 	public void reportEnemy (GameObject go)
 	{
-		GetComponent<AIController>().reportedEnemy(go);
+		GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().reportedEnemy(go);
 	}
 
 	public void updateAgent (float agg, float def)

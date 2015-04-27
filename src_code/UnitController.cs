@@ -72,37 +72,40 @@ public class UnitController : MonoBehaviour
 	{
 		GameObject firedShot;
 		firedShot = Instantiate(shot, shotSpawn.position, this.transform.rotation) as GameObject;
-		Physics.IgnoreCollision(firedShot.GetComponent<Collider>(), this.gameObject.GetComponent<Collider>());
+		firedShot.GetComponent<Shot>().setOwner(this.gameObject);
 		firedShot.GetComponent<Shot>().fire(this.attackForce);
 	}
 
 	public void attack (GameObject go)
 	{
-		float distanceSqr = (this.transform.position - go.transform.position).sqrMagnitude;
-		// Enemy is in the firing range.
-		if (distanceSqr < this.rangeSqr) 
+		if (go != null)
 		{
-			this.navAgent.ResetPath ();
-			// Rotate towards enemy.
-			Quaternion lookAtRotation = Quaternion.LookRotation
-				(go.transform.position - this.transform.position);
-			this.transform.rotation = Quaternion.Slerp
-				(this.transform.rotation, lookAtRotation, Time.deltaTime/damping);
-			// Alternative is:
-			//this.transform.LookAt(go.transform.position, Vector3.back);
-
-			// Do some firing.
-			if (this.timePassed > this.firingRate)
+			float distanceSqr = (this.transform.position - go.transform.position).sqrMagnitude;
+			// Enemy is in the firing range.
+			if (distanceSqr < this.rangeSqr) 
 			{
-				this.timePassed = 0.0f;
-				this.fire ();
+				this.navAgent.ResetPath ();
+				// Rotate towards enemy.
+				Quaternion lookAtRotation = Quaternion.LookRotation
+					(go.transform.position - this.transform.position);
+				this.transform.rotation = Quaternion.Slerp
+					(this.transform.rotation, lookAtRotation, Time.deltaTime/damping);
+				// Alternative is:
+				//this.transform.LookAt(go.transform.position, Vector3.back);
+				
+				// Do some firing.
+				if (this.timePassed > this.firingRate)
+				{
+					this.timePassed = 0.0f;
+					this.fire ();
+				}
+				
 			}
-
-		}
-		// Follow the enemy!
-		else
-		{
-			this.moveTo(go.transform.position);
+			// Follow the enemy!
+			else
+			{
+				this.moveTo(go.transform.position);
+			}
 		}
 
 	}
@@ -127,9 +130,13 @@ public class UnitController : MonoBehaviour
 	// plus explosions later.
 	public void die ()
 	{
-		GameController gc = GetComponent<GameController>();
-		gc.givePointsForKilling(this.gameObject);
-		gc.deleteUnit(this.gameObject);
-		Destroy(this.gameObject);
+		GameController gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		gc.givePointsForKilling(this.transform.gameObject);
+		gc.deleteUnit(this.transform.gameObject);
+		foreach (Transform child in this.transform)
+		{
+			Destroy(child.gameObject);
+		}
+		Destroy(this.transform.gameObject);
 	}
 }
