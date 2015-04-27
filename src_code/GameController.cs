@@ -168,6 +168,8 @@ public class GameController : MonoBehaviour
 	private const float pointsForAsteroid = 1.0f;
 	// How many points player gets for killing enemy units.
 	private const float pointsForKilling = 1.0f;
+	// How many credits player gets for building on asteroid.
+	private const float creditsPerBuilding = 1.0f;
 	// How many points one has to get to win.
 	private const float winPoints = 1000.0f;
 	// Array of players. Player[0] - is our player. Player[1] - enemy.
@@ -289,6 +291,23 @@ public class GameController : MonoBehaviour
 		}
 	}
 
+	public void handleBuilding (AsteroidController ac)
+	{
+		AsteroidController.Building bld = ac.getBuilding();
+		if (bld != null)
+		{
+			if (bld.whoControlls() == AsteroidController.Master.Player)
+			{
+				players[0].setCredits(players[0].getCredits() + creditsPerBuilding);
+			}
+			else if (bld.whoControlls() == AsteroidController.Master.Enemy)
+			{
+				players[1].setCredits(players[1].getCredits() + creditsPerBuilding);
+			}
+		}
+	}
+
+
 	public void handleAsteroid (GameObject asteroid)
 	{
 		AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
@@ -304,6 +323,7 @@ public class GameController : MonoBehaviour
 			players[1].setPoints(players[1].getPoints() + morePoints);
 		}
 		// Handle resources gained from asteroid.
+		this.handleBuilding(asteroidController);
 	}
 
 	public void handleGame ()

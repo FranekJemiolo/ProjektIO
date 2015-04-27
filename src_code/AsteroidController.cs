@@ -324,5 +324,10 @@ public class AsteroidController : MonoBehaviour
 		}
 	}
 
+
+	public Building getBuilding ()
+	{
+		return this.building;
+	}
 	
 }

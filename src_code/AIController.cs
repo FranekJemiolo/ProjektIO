@@ -292,4 +292,11 @@ public class AIController : MonoBehaviour
 			this.enemies.Remove(unit);
 		}
 	}
+
+	// Here the ai will have to decide which unit it needs the most - and builds it.
+	// No time for it now :<
+	public void buildUnit ()
+	{
+
+	}
 }
