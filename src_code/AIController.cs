@@ -292,11 +292,36 @@ public class AIController : MonoBehaviour
 			this.enemies.Remove(unit);
 		}
 	}
+	
 
 	// Here the ai will have to decide which unit it needs the most - and builds it.
 	// No time for it now :<
 	public void buildUnit ()
 	{
-
+		int[] enemyUnits = new int[GameController.typeOfUnits];
+		int[] myUnits = new int[GameController.typeOfUnits];
+		int myIndex = 0;
+		int enemyIndex = 1;
+		if (myTag == "Player")
+		{
+			myIndex = 0;
+			enemyIndex = 1;
+		}
+		else if (myTag == "Enemy")
+		{
+			myIndex = 1;
+			enemyIndex = 0;
+		}
+		GameController.UnitType t = GameController.UnitType.Mothership;
+		for (int i = 0; i < GameController.typeOfUnits; i++)
+		{
+			enemyUnits[i] = this.gameController.players[enemyIndex].getUnitCount(t);
+			myUnits[i] = this.gameController.players[myIndex].getUnitCount(t);
+			t++;
+		}
+		// Now decide what to build.
+		t = GameController.UnitType.Mothership;
+		t++;
+		// To be continued.
 	}
 }

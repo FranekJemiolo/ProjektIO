@@ -137,7 +137,12 @@ public class GameController : MonoBehaviour
 				this.units[(int)t].Remove(ob);
 			}
 		}
-		
+
+		public int getUnitCount (UnitType type)
+		{
+			return this.units[(int) type].Count;
+		}
+
 		
 		public void setPoints (float p)
 		{
@@ -187,7 +192,7 @@ public class GameController : MonoBehaviour
 	private float timePassed = 0.0f;
 
 	// Array of unit prefabs - gameObject to instantiate.
-	private const int typeOfUnits = 7;
+	public const int typeOfUnits = 7;
 	public float[] unitCosts = new float[typeOfUnits];
 	public GameObject[] unitPrefabs = new GameObject[typeOfUnits];
 	public GameObject[] enemyPrefabs = new GameObject[typeOfUnits];
