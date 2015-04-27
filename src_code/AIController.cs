@@ -89,11 +89,11 @@ public class AIController : MonoBehaviour
 	private string enemyTag;
 
 	// The set of units which we control.
-	private HashSet<GameObject> units;
+	public HashSet<GameObject> units;
 	// The set of enemy objects we see, or we have seen.
 	// AI is very intelligent - once it seen an object it 
 	// tracks it till the end.
-	private HashSet<GameObject> enemies;
+	public HashSet<GameObject> enemies;
 	// The number of asteroids we control.
 	private int asteroids;
 	// Our command center - mothership.

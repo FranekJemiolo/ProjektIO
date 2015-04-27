@@ -16,7 +16,44 @@ public class GameController : MonoBehaviour
 	
 	public enum GameState {NotStarted, Playing, Paused, PlayerWon, EnemyWon, Draw};
 
+	public enum Who {Player, Enemy};
 
+	// Unit type translation.
+	public static UnitType getUnitType (GameObject ob)
+	{
+		if (ob == null)
+		{
+			return UnitType.Unknown;
+		}
+		if (ob.name == "Mothership")
+		{
+			return UnitType.Mothership;
+		}
+		else if (ob.name == "Destroyer")
+		{
+			return UnitType.Destroyer;
+		}
+		else if (ob.name == "Cruiser")
+		{
+			return UnitType.Cruiser;
+		}
+		else if (ob.name == "Fighter")
+		{
+			return UnitType.Fighter;
+		}
+		else if (ob.name == "Transporter")
+		{
+			return UnitType.Transporter;
+		}
+		else if (ob.name == "Shuttle")
+		{
+			return UnitType.Shuttle;
+		}
+		else
+		{
+			return UnitType.Unknown;
+		}
+	}
 
 	// This class is used to represent players in-game variables.
 	public class Player
@@ -147,6 +184,11 @@ public class GameController : MonoBehaviour
 	private float updateRate = 1.0f;
 	private float timePassed = 0.0f;
 
+	// Array of unit prefabs - gameObject to instantiate.
+	private const int typeOfUnits = 7;
+	public float[] unitCosts = new float[typeOfUnits];
+	public GameObject[] unitPrefabs = new GameObject[typeOfUnits];
+	public GameObject[] enemyPrefabs = new GameObject[typeOfUnits];
 
 	// End of game variables.
 
@@ -339,6 +381,45 @@ public class GameController : MonoBehaviour
 		{
 			agent.GetComponent<EnemyController>().removeUnit(unit);
 		}
+	}
+
+
+	// Builds a unit in desired position and of desired type of unit.
+	public bool buildUnit (Who who, UnitType typeOfUnit, Vector3 position)
+	{
+		GameObject unit;
+		if (who == Who.Player)
+		{
+			if (players[0].getCredits() > unitCosts[(int) typeOfUnit])
+			{
+				players[0].setCredits(players[0].getCredits() - unitCosts[(int) typeOfUnit]);
+				unit = Instantiate (unitPrefabs[(int) typeOfUnit], position, Quaternion.identity) as GameObject;
+				players[0].addUnit(unit);
+				GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().enemies.Add(unit);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if (who == Who.Enemy)
+		{
+			if (players[1].getCredits() > unitCosts[(int) typeOfUnit])
+			{
+				players[1].setCredits(players[1].getCredits() - unitCosts[(int) typeOfUnit]);
+				unit = Instantiate (enemyPrefabs[(int) typeOfUnit], position, Quaternion.identity) as GameObject;
+				players[1].addUnit(unit);
+				GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().units.Add(unit);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return false;
+
 	}
 
 

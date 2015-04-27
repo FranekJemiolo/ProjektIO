@@ -337,7 +337,7 @@ public class EnemyController : MonoBehaviour
 		}
 		this.agent = new Agent(1.0f, 1.0f);
 		this.agent.setTransform(this.transform);
-		float s = this.transform.parent.GetComponent<UnitController>().getAttackForce();
+		float s = unitController.getAttackForce();
 		this.agent.setStrength(s);
 		this.agent.setGroupStrength(s);
 		this.agent.setDestination(this.agent.getTransform().position);
