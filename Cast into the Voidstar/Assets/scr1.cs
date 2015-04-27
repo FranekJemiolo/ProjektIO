@@ -6,7 +6,8 @@ public class scr1 : MonoBehaviour {
 	
 	private Button mybut;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		mybut = this.GetComponent<Button> ();
 		GameController gc = FindObjectOfType<GameController> ();
 		mybut.onClick.AddListener (() => {
@@ -14,7 +15,8 @@ public class scr1 : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		
 	}
 	
