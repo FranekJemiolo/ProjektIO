@@ -11,7 +11,15 @@ public class EnemyController : MonoBehaviour
 
 	public class Agent
 	{
-		private float rangeSqr = 25.0f; 
+		// Some variables for movement.
+		// This is the size of map.
+		private float rangeSqr = 25.0f;
+		private float minX = 0.0f;
+		private float maxX = 500.0f;
+		private float minZ = 0.0f;
+		private float maxZ = 500.0f;
+
+
 		private Transform myTransform;
 
 		private List<GameObject> allies;
@@ -22,24 +30,64 @@ public class EnemyController : MonoBehaviour
 		private float myStrength;
 
 		private float aggresivness;
-		private float defensiveness;
+		private float defensivness;
 
 		private GameObject target;
 
 		// Where the object should go?
 		private Vector3 destination;
 
+		// The values if detected asteroid.
+		private GameObject asteroid;
+
+		private float capping;
+		private float timePassed;
+
+
 		public Agent (float agg, float def)
 		{
 			this.allies = new List<GameObject>();
 			this.enemies = new List<GameObject>();
 			this.myStrength = 0.0f;
+			this.capping = 10.0f;
+			this.timePassed = 0.0f;
 			this.groupStrength = myStrength;
 			this.enemiesStrength = 0.0f;
 			this.aggresivness = agg;
-			this.defensiveness = def;
+			this.defensivness = def;
 			this.target = null;
 			this.myTransform = null;
+			this.asteroid = null;
+		}
+
+		public void setAsteroid (GameObject astero)
+		{
+			this.asteroid = astero;
+		}
+
+		public GameObject getAsteroid ()
+		{
+			return this.asteroid;
+		}
+
+		public void setTimePassed (float f)
+		{
+			this.timePassed = f;
+		}
+
+		public float getTimePassed ()
+		{
+			return this.timePassed;
+		}
+
+		public void setCapping (float f)
+		{
+			this.capping = f;
+		}
+
+		public float getCapping ()
+		{
+			return this.capping;
 		}
 
 		public void setDestination (Vector3 pos)
@@ -59,7 +107,7 @@ public class EnemyController : MonoBehaviour
 
 		public void setDefensivness (float f)
 		{
-			this.defensiveness = f;
+			this.defensivness = f;
 		}
 
 		public void setStrength (float f)
@@ -138,9 +186,25 @@ public class EnemyController : MonoBehaviour
 		public void scout ()
 		{
 			Vector3 randomPosition = new Vector3(
-				this.myTransform.parent.position.x + Random.Range(-100.0f, 100.0f), 
+				this.myTransform.parent.position.x + (Random.Range(-100.0f, 100.0f)*(this.aggresivness)), 
 				this.myTransform.parent.position.y,
-				this.myTransform.parent.position.z + Random.Range(-100.0f, 100.0f));
+				this.myTransform.parent.position.z + (Random.Range(-100.0f, 100.0f)*(this.aggresivness)));
+			if (randomPosition.x < minX)
+			{
+				randomPosition.x = minX;
+			}
+			if (randomPosition.x > maxX)
+			{
+				randomPosition.x = maxX;
+			}
+			if (randomPosition.z < minZ)
+			{
+				randomPosition.z = minZ;
+			}
+			if (randomPosition.z > maxZ)
+			{
+				randomPosition.z = maxZ;
+			}
 			this.destination = randomPosition;
 			this.myTransform.parent.GetComponent<UnitController>().moveTo(destination);
 		}
@@ -177,6 +241,9 @@ public class EnemyController : MonoBehaviour
 		// This method is called on update and forces unit to think.
 		public void think ()
 		{
+			this.capping = this.defensivness - this.aggresivness + 10.0f;
+			Debug.Log ("Aggresivnes is " + this.aggresivness);
+			Debug.Log ("Defenisvness is " + this.defensivness);
 			if (this.enemiesStrength > ((1.0f + this.aggresivness) * this.groupStrength))
 			{
 				// Flee!!!
@@ -205,7 +272,29 @@ public class EnemyController : MonoBehaviour
 					}
 					else
 					{
-						if (((this.myTransform.position - this.destination).sqrMagnitude) < rangeSqr)
+						if (this.asteroid != null)
+						{
+							if (this.asteroid.GetComponent<AsteroidController>().belongsTo != 
+							    AsteroidController.getPlayer(myTransform.parent.gameObject))
+							{
+								this.timePassed = 0.0f;
+							}
+							else
+							{
+								// We are leaving anyway.
+								if (this.timePassed > this.capping)
+								{
+									this.timePassed = 0.0f;
+									this.asteroid = null;
+									this.scout();
+								}
+								else
+								{
+									this.destination = this.myTransform.parent.position;
+								}
+							}
+						}
+						else if (((this.myTransform.position - this.destination).sqrMagnitude) < rangeSqr)
 						{
 							this.scout();
 						}
@@ -216,7 +305,8 @@ public class EnemyController : MonoBehaviour
 				{
 					this.flee();
 				}
-
+				Debug.Log (asteroid);
+				Debug.Log (destination);
 			}
 		}
 
@@ -228,7 +318,7 @@ public class EnemyController : MonoBehaviour
 	public Agent agent;
 
 	// How often agents think.
-	private float thinkRate = 4.0f;
+	private float thinkRate = 2.0f;
 	private float timePassed = 0.0f;
 
 	
@@ -259,6 +349,7 @@ public class EnemyController : MonoBehaviour
 		if (this.timePassed > this.thinkRate)
 		{
 			this.timePassed = 0.0f;
+			this.agent.setTimePassed(this.agent.getTimePassed() + this.thinkRate);
 			this.agent.think();
 		}
 	}
@@ -276,6 +367,10 @@ public class EnemyController : MonoBehaviour
 			this.agent.addEnemy(other.gameObject);
 			Debug.Log("Enemy enters " + other.gameObject);
 			this.reportEnemy(other.gameObject);
+		}
+		else if (other.gameObject.tag == "Asteroid")
+		{
+			this.agent.setAsteroid(other.gameObject);
 		}
 		// The agent has to think again probably in update.
 		// Else do nothing. We are not interested in other things.
@@ -299,6 +394,10 @@ public class EnemyController : MonoBehaviour
 		{
 			this.agent.removeEnemy(other.gameObject);
 			Debug.Log("Enemy leaves " + other.gameObject);
+		}
+		else if (other.gameObject.tag == "Asteroid")
+		{
+			this.agent.setAsteroid(null);
 		}
 		// The agent has to think again probably in update.
 		// Else do nothing. We are not interested in other things.

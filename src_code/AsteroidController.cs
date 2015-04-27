@@ -9,7 +9,7 @@ public class AsteroidController : MonoBehaviour
 
 	public enum Master{Player, Enemy, None};
 
-	public Master getPlayer(GameObject ob)
+	public static Master getPlayer(GameObject ob)
 	{
 		if (ob.tag == "Player")
 		{

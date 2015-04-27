@@ -177,6 +177,8 @@ public class GameController : MonoBehaviour
 		{
 			this.timePassed = 0.0f;
 			this.handleGame();
+			Debug.Log ("Player points is :" + players[0].getPoints());
+			Debug.Log ("Enemy points is :" + players[1].getPoints());
 		}
 		//Debug.Log (timePassed);
 		//Debug.Log ("Player points is :" + players[0].getPoints());

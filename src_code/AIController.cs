@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 
 // This script is used to control every enemy unit - ai core.
 public class AIController : MonoBehaviour 
@@ -175,8 +175,8 @@ public class AIController : MonoBehaviour
 	public void rethinkMyActions ()
 	{
 		AIState bestState = null;
-		float max = 0.0f;
-		float current = 0.0f;
+		float current = this.knowledgeBase.Last().calculateState();
+		float max = current;
 		foreach (AIState state in this.knowledgeBase)
 		{
 			current = state.calculateState();
@@ -187,10 +187,12 @@ public class AIController : MonoBehaviour
 			}
 		}
 		// Adjust parameters.
-		if (max > 0.0f)
+		if (max > this.knowledgeBase.Last().calculateState())
 		{
 			this.loadParams (bestState);
 		}
+		Debug.Log ("Aggresivnes is " + this.aggresivness);
+		Debug.Log ("Defenisvness is " + this.defensivness);
 	}
 
 
