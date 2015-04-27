@@ -301,8 +301,33 @@ public class GameController : MonoBehaviour
 
 
 	}
-	
 
+	// Handles unit deletion from every list and set that it would be.
+	public void deleteUnit (GameObject unit)
+	{
+		if (unit.tag == "Enemy")
+		{
+			this.players[1].removeUnit(unit);
+		}
+		else if (unit.tag == "Player")
+		{
+			this.players[0].removeUnit(unit);
+		}
+		foreach (GameObject astero in asteroids)
+		{
+			astero.GetComponent<AsteroidController>().unitKilled(unit);
+		}
+		GameObject[] AIs = GameObject.FindGameObjectsWithTag("AICore");
+		foreach (GameObject ai in AIs)
+		{
+			ai.GetComponent<AIController>().deleteUnit(unit);
+		}
+		GameObject[] agents = GameObject.FindGameObjectsWithTag("EnemyAgent");
+		foreach (GameObject agent in agents)
+		{
+			agent.GetComponent<EnemyController>().removeUnit(unit);
+		}
+	}
 
 
 }

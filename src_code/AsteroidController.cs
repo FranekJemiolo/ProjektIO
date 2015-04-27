@@ -227,7 +227,7 @@ public class AsteroidController : MonoBehaviour
 		}
 	}
 
-	public bool createBuilding(Master player)
+	public bool createBuilding (Master player)
 	{
 		// If no building.
 		if (building == null)
@@ -251,7 +251,7 @@ public class AsteroidController : MonoBehaviour
 
 
 	// Attack the building on asteroid by player with his unit.
-	public bool attackBuilding(GameObject unit)
+	public bool attackBuilding (GameObject unit)
 	{
 		// If there is building to attack.
 		if (this.building != null)
@@ -268,7 +268,7 @@ public class AsteroidController : MonoBehaviour
 	}
 
 	// Attack the building on asteroid by player with his units.
-	public bool attackBuilding(List<GameObject> units)
+	public bool attackBuilding (List<GameObject> units)
 	{
 		// If there is building to attack.
 		if (this.building != null)
@@ -288,7 +288,7 @@ public class AsteroidController : MonoBehaviour
 	}
 
 	// On building destruction.
-	public bool destroyBuilding()
+	public bool destroyBuilding ()
 	{
 		if (this.building != null)
 		{
@@ -300,7 +300,7 @@ public class AsteroidController : MonoBehaviour
 	}
 
 	// In this function we check the status of the building.
-	private void handleBuilding()
+	private void handleBuilding ()
 	{
 		if (this.building != null)
 		{
@@ -311,6 +311,18 @@ public class AsteroidController : MonoBehaviour
 			}
 		}
 	}
-	
+
+	public void unitKilled (GameObject unit)
+	{
+		if (unit.tag == "Player")
+		{
+			this.units.Remove(unit);
+		}
+		else if (unit.tag == "Enemy")
+		{
+			this.enemies.Remove(unit);
+		}
+	}
+
 	
 }

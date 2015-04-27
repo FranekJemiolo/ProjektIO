@@ -278,4 +278,16 @@ public class AIController : MonoBehaviour
 			this.asteroids = count;
 		}
 	}
+
+	public void deleteUnit (GameObject unit)
+	{
+		if (unit.tag == myTag)
+		{
+			this.units.Remove(unit);
+		}
+		else if (unit.tag == enemyTag)
+		{
+			this.enemies.Remove(unit);
+		}
+	}
 }

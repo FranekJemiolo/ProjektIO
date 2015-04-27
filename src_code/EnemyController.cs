@@ -122,9 +122,9 @@ public class EnemyController : MonoBehaviour
 		public void scout ()
 		{
 			Vector3 randomPosition = new Vector3(
-				this.myTransform.position.x + Random.Range(-50.0f, 50.0f), 
-         		this.myTransform.position.y,
-			    this.myTransform.position.z + Random.Range(-50.0f, 50.0f));
+				this.myTransform.parent.position.x + Random.Range(-50.0f, 50.0f), 
+				this.myTransform.parent.position.y,
+				this.myTransform.parent.position.z + Random.Range(-50.0f, 50.0f));
 			this.myTransform.parent.GetComponent<UnitController>().moveTo(randomPosition);
 		}
 
@@ -201,6 +201,10 @@ public class EnemyController : MonoBehaviour
 	private string enemyTag;
 	public Agent agent;
 
+	// How often agents think.
+	private float thinkRate = 5.0f;
+	private float timePassed = 0.0f;
+
 	
 	void Start () 
 	{
@@ -216,11 +220,17 @@ public class EnemyController : MonoBehaviour
 			enemyTag = "Enemy";
 		}
 		agent = new Agent(1.0f, 1.0f);
+		agent.setTransform(this.transform);
 	}
 
 	void Update () 
 	{
-	
+		this.timePassed += Time.deltaTime;
+		if (this.timePassed > this.thinkRate)
+		{
+			this.timePassed = 0.0f;
+			this.agent.think();
+		}
 	}
 
 	void OnTriggerEnter (Collider other) 
@@ -272,6 +282,18 @@ public class EnemyController : MonoBehaviour
 	{
 		this.agent.setAggresivness(agg);
 		this.agent.setDefensivness(def);
+	}
+
+	public void removeUnit (GameObject unit)
+	{
+		if (unit.tag == myTag)
+		{
+			this.agent.removeAlly(unit);
+		}
+		else if (unit.tag == enemyTag)
+		{
+			this.agent.removeEnemy(unit);
+		}
 	}
 
 }

@@ -72,7 +72,8 @@ public class UnitController : MonoBehaviour
 	{
 		GameObject firedShot;
 		firedShot = Instantiate(shot, shotSpawn.position, this.transform.rotation) as GameObject;
-		firedShot.GetComponent<Shot>().fire();
+		Physics.IgnoreCollision(firedShot.GetComponent<Collider>(), this.gameObject.GetComponent<Collider>());
+		firedShot.GetComponent<Shot>().fire(this.attackForce);
 	}
 
 	public void attack (GameObject go)
@@ -114,5 +115,21 @@ public class UnitController : MonoBehaviour
 	public float getHitPoints ()
 	{
 		return this.hitPoints;
+	}
+
+	public void setHitPoints (float f)
+	{
+		this.hitPoints = f;
+	}
+
+	// Called when unit reach below 0 hp.
+	// Destroys object and does some preparation
+	// plus explosions later.
+	public void die ()
+	{
+		GameController gc = GetComponent<GameController>();
+		gc.givePointsForKilling(this.gameObject);
+		gc.deleteUnit(this.gameObject);
+		Destroy(this.gameObject);
 	}
 }
