@@ -155,11 +155,19 @@ public class AIController : MonoBehaviour
 	}
 
 
+	public void changeUnitsBehaviour ()
+	{
+		foreach (GameObject unit in units)
+		{
+			unit.GetComponentInChildren<EnemyController>().updateAgent(this.aggresivness, this.defensivness);
+		}
+	}
+
 	// Do some mutation on load.
 	public void loadParams (AIState state)
 	{
-		this.aggresivness = state.aggresivness + Random.Range(0.0f, 1.0f);
-		this.defensivness = state.defensivness + Random.Range(0.0f, 1.0f);
+		this.aggresivness = state.aggresivness + Random.Range(-1.0f, 1.0f);
+		this.defensivness = state.defensivness + Random.Range(-1.0f, 1.0f);
 	}
 
 	// This function should be called not so often.

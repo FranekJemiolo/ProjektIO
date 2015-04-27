@@ -23,6 +23,11 @@ public class UnitController : MonoBehaviour
 	// The strength of the attack of the unit.
 	private float attackForce = 10.0f;
 
+	// The gameobject of a shot.
+	public GameObject shot;
+
+	// The transform object where to spawn shots.
+	public Transform shotSpawn;
 
 
 	// The targeted unit which unit wants to attack.
@@ -31,17 +36,15 @@ public class UnitController : MonoBehaviour
 
 	// Unit navigation agent.
 	private NavMeshAgent navAgent;
-
-	// Use this for initialization
+	
 	void Start () 
 	{
-		//this.target = GameObject.FindGameObjectWithTag ("Cube");//GameObject.FindGameObjectWithTag ("Unit");
 		this.navAgent = this.GetComponent<NavMeshAgent> ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () 
 	{
+		timePassed += Time.deltaTime;
 	
 	}
 
@@ -65,6 +68,13 @@ public class UnitController : MonoBehaviour
 		navAgent.SetDestination (pos);
 	}
 
+	public void fire ()
+	{
+		GameObject firedShot;
+		firedShot = Instantiate(shot, shotSpawn.position, this.transform.rotation) as GameObject;
+		firedShot.GetComponent<Shot>().fire();
+	}
+
 	public void attack (GameObject go)
 	{
 		float distanceSqr = (this.transform.position - go.transform.position).sqrMagnitude;
@@ -81,6 +91,11 @@ public class UnitController : MonoBehaviour
 			//this.transform.LookAt(go.transform.position, Vector3.back);
 
 			// Do some firing.
+			if (this.timePassed > this.firingRate)
+			{
+				this.timePassed = 0.0f;
+				this.fire ();
+			}
 
 		}
 		// Follow the enemy!

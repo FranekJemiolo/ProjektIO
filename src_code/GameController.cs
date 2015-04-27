@@ -168,9 +168,9 @@ public class GameController : MonoBehaviour
 			this.timePassed = 0.0f;
 			this.handleGame();
 		}
-
-		Debug.Log ("Player points is :" + players[0].getPoints());
-		Debug.Log ("Enemy points is :" + players[1].getPoints());
+		//Debug.Log (timePassed);
+		//Debug.Log ("Player points is :" + players[0].getPoints());
+		//Debug.Log ("Enemy points is :" + players[1].getPoints());
 		// Debug test.
 		if (!first)
 		{
@@ -239,9 +239,10 @@ public class GameController : MonoBehaviour
 	{
 		AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
 		// Handle points for holding the asteroid.
-		float morePoints = pointsForAsteroid * Time.deltaTime;
+		float morePoints = pointsForAsteroid;
 		if (asteroidController.belongsTo == AsteroidController.Master.Player)
 		{
+			//Debug.Log ("Here");
 			players[0].setPoints(players[0].getPoints() + morePoints);
 		}
 		else if (asteroidController.belongsTo == AsteroidController.Master.Enemy)

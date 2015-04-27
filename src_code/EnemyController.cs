@@ -18,17 +18,32 @@ public class EnemyController : MonoBehaviour
 		private float enemiesStrength;
 		private float myStrength;
 
+		private float aggresivness;
+		private float defensiveness;
+
 		private GameObject target;
 
-		public Agent ()
+		public Agent (float agg, float def)
 		{
 			this.allies = new List<GameObject>();
 			this.enemies = new List<GameObject>();
 			this.myStrength = 0.0f;
 			this.groupStrength = myStrength;
 			this.enemiesStrength = 0.0f;
+			this.aggresivness = agg;
+			this.defensiveness = def;
 			target = null;
 			myTransform = null;
+		}
+
+		public void setAggresivness (float f)
+		{
+			this.aggresivness = f;
+		}
+
+		public void setDefensivness (float f)
+		{
+			this.defensiveness = f;
 		}
 
 		public void setStrength (float f)
@@ -145,7 +160,7 @@ public class EnemyController : MonoBehaviour
 		// This method is called on update and forces unit to think.
 		public void think ()
 		{
-			if (this.enemiesStrength > (2.0f * this.groupStrength))
+			if (this.enemiesStrength > ((1.0f + this.aggresivness) * this.groupStrength))
 			{
 				// Flee!!!
 				this.flee();
@@ -200,7 +215,7 @@ public class EnemyController : MonoBehaviour
 		{
 			enemyTag = "Enemy";
 		}
-		agent = new Agent();
+		agent = new Agent(1.0f, 1.0f);
 	}
 
 	void Update () 
@@ -251,6 +266,12 @@ public class EnemyController : MonoBehaviour
 	public void reportEnemy (GameObject go)
 	{
 		GetComponent<AIController>().reportedEnemy(go);
+	}
+
+	public void updateAgent (float agg, float def)
+	{
+		this.agent.setAggresivness(agg);
+		this.agent.setDefensivness(def);
 	}
 
 }

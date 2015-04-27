@@ -107,10 +107,10 @@ public class AsteroidController : MonoBehaviour
 		// Check if someone is capping? Set to none if no one.
 		if ((units.Count == 0) && (enemies.Count == 0))
 		{
-			capping = Master.None;
-			timeCapped = 0.0f;
+			this.capping = Master.None;
+			this.timeCapped = 0.0f;
 		}
-		handleBuilding();
+		this.handleBuilding();
 
 	}
 
@@ -120,11 +120,11 @@ public class AsteroidController : MonoBehaviour
 		Debug.Log (other + "Entering" + other.gameObject.tag);
 		if (other.gameObject.tag == "Enemy") 
 		{
-			enemies.Add (other.gameObject);
+			this.enemies.Add (other.gameObject);
 		} 
 		else if (other.gameObject.tag == "Player") 
 		{
-			units.Add (other.gameObject);
+			this.units.Add (other.gameObject);
 		}
 
 	}
@@ -132,35 +132,31 @@ public class AsteroidController : MonoBehaviour
 	// When unit is in asteroid vicinity.
 	void OnTriggerStay (Collider other) 
 	{
-		Master whoAmI = Master.None;
-		if (other.gameObject.tag == "Enemy") 
+		Master whoAmI = this.getPlayer(other.gameObject);
+		if (whoAmI == Master.None)
 		{
-			whoAmI = Master.Enemy;
-		} 
-		else if (other.gameObject.tag == "Player") 
-		{
-			whoAmI = Master.Player;
+			return;
 		}
 		// If no one holds the asteroid.
-		if (timeCapped > cappingTime)
+		if (this.timeCapped > this.cappingTime)
 		{
-			if ((capping == whoAmI) && (capping != Master.None))
+			if ((this.capping == whoAmI) && (this.capping != Master.None))
 			{
-				belongsTo = whoAmI;
+				this.belongsTo = whoAmI;
 			}
 		}
-		if (belongsTo == Master.None)
+		if (this.belongsTo == Master.None)
 		{
 			// If no one currently capping the asteroid.
-			if (capping == Master.None)
+			if (this.capping == Master.None)
 			{
-				capping = whoAmI;
-				timeCapped += Time.deltaTime;
+				this.capping = whoAmI;
+				this.timeCapped += Time.deltaTime;
 			}
 			else if (capping != whoAmI)
 			{
-				capping = Master.None;
-				timeCapped = 0.0f;
+				this.capping = Master.None;
+				this.timeCapped = 0.0f;
 			}
 			// Else do nothing because capping == whoAmI.
 			else
@@ -169,41 +165,41 @@ public class AsteroidController : MonoBehaviour
 			}
 			
 		}
-		else if (belongsTo != whoAmI)
+		else if (this.belongsTo != whoAmI)
 		{
 			if (whoAmI == Master.Player)
 			{
 				// No enemies, we can convert astero for us.
-				if (enemies.Count == 0)
+				if (this.enemies.Count == 0)
 				{
-					capping = whoAmI;
-					timeCapped += Time.deltaTime;
+					this.capping = whoAmI;
+					this.timeCapped += Time.deltaTime;
 				}
 				// else we must kill them. No cap.
 				else
 				{
-					capping = Master.None;
-					timeCapped = 0.0f;
+					this.capping = Master.None;
+					this.timeCapped = 0.0f;
 				}
 			}
 			else if (whoAmI == Master.Enemy)
 			{
 				// No enemies(units), we can convert for us.
-				if (units.Count == 0)
+				if (this.units.Count == 0)
 				{
-					capping = whoAmI;
-					timeCapped += Time.deltaTime;
+					this.capping = whoAmI;
+					this.timeCapped += Time.deltaTime;
 				}
 				// else we must kill them. No cap.
 				else
 				{
-					capping = Master.None;
-					timeCapped = 0.0f;
+					this.capping = Master.None;
+					this.timeCapped = 0.0f;
 				}
 			}
 		}
-		Debug.Log (capping);
-		Debug.Log(belongsTo);
+		//Debug.Log ("Capping:" + capping);
+		//Debug.Log("Belongs to:" + belongsTo);
 		// Else do nothing we already have it.
 	}
 
@@ -213,7 +209,7 @@ public class AsteroidController : MonoBehaviour
 		Debug.Log (other + "Leaving" + other.gameObject.tag);
 		if (other.gameObject.tag == "Enemy") 
 		{
-			enemies.Remove (other.gameObject);
+			this.enemies.Remove (other.gameObject);
 			/*if (enemies.Count == 0)
 			{
 				capping = Master.None;
@@ -222,7 +218,7 @@ public class AsteroidController : MonoBehaviour
 		} 
 		else if (other.gameObject.tag == "Player") 
 		{
-			units.Remove (other.gameObject);
+			this.units.Remove (other.gameObject);
 			/*if (units.Count == 0)
 			{
 				capping = Master.None;
@@ -258,10 +254,10 @@ public class AsteroidController : MonoBehaviour
 	public bool attackBuilding(GameObject unit)
 	{
 		// If there is building to attack.
-		if (building != null)
+		if (this.building != null)
 		{
 			// If it belongs to our enemy.
-			if (getPlayer(unit) != building.whoControlls())
+			if (this.getPlayer(unit) != this.building.whoControlls())
 			{
 				unit.GetComponent<UnitController> ().setTarget(building.getBuilding());
 				return true;
@@ -275,14 +271,14 @@ public class AsteroidController : MonoBehaviour
 	public bool attackBuilding(List<GameObject> units)
 	{
 		// If there is building to attack.
-		if (building != null)
+		if (this.building != null)
 		{
 				
 			foreach(GameObject unit in units)
 			{
-				if (this.getPlayer(unit) != building.whoControlls())
+				if (this.getPlayer(unit) != this.building.whoControlls())
 				{
-				unit.GetComponent<UnitController> ().setTarget(building.getBuilding());
+					unit.GetComponent<UnitController> ().setTarget(this.building.getBuilding());
 				}
 			
 			}
@@ -294,10 +290,10 @@ public class AsteroidController : MonoBehaviour
 	// On building destruction.
 	public bool destroyBuilding()
 	{
-		if (building != null)
+		if (this.building != null)
 		{
-			building.destroyBuilding();
-			building = null;
+			this.building.destroyBuilding();
+			this.building = null;
 			return true;
 		}
 		return false;
@@ -306,10 +302,10 @@ public class AsteroidController : MonoBehaviour
 	// In this function we check the status of the building.
 	private void handleBuilding()
 	{
-		if (building != null)
+		if (this.building != null)
 		{
 			// If no life left.
-			if (building.getHP() < 0.0f)
+			if (this.building.getHP() < 0.0f)
 			{
 				this.destroyBuilding();
 			}
