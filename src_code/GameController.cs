@@ -239,6 +239,8 @@ public class GameController : MonoBehaviour
 			List<GameObject> lista = new List<GameObject>();
 			lista.Add(GameObject.FindGameObjectWithTag ("Player"));
 
+			this.buildUnit(Who.Player, UnitType.Mothership, new Vector3(Random.Range(0.0f, 500.0f), 0.0f, Random.Range(0.0f, 500.0f)));
+
 			this.attackUnit(lista[0], GameObject.FindGameObjectWithTag("Cube"));
 			first = true;
 		}

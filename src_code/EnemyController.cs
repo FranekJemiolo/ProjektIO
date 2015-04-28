@@ -13,11 +13,11 @@ public class EnemyController : MonoBehaviour
 	{
 		// Some variables for movement.
 		// This is the size of map.
-		private float rangeSqr = 25.0f;
+		private float rangeSqr = 49.0f;
 		private float minX = 0.0f;
-		private float maxX = 500.0f;
+		private float maxX = 400.0f;
 		private float minZ = 0.0f;
-		private float maxZ = 500.0f;
+		private float maxZ = 400.0f;
 
 
 		private Transform myTransform;
@@ -170,13 +170,20 @@ public class EnemyController : MonoBehaviour
 		{
 			if (enemies.Count > 0)
 			{
+				Debug.Log("Flee! I Am coward! " + this.myTransform.parent.gameObject);
 				this.setTarget(null);
 				Transform enemyPosition = enemies.First().transform;
-				Vector3 runVector = this.myTransform.parent.position - enemyPosition.position;
+				/*Vector3 runVector = new Vector3(this.myTransform.parent.position.x + Random.Range(-100.0f, 100.0f),
+				                                this.myTransform.parent.position.y,
+				                                this.myTransform.parent.position.z + Random.Range(-100.0f, 100.0f));*/
+				Vector3 runVector = -((enemyPosition.position - this.myTransform.parent.position) * 2);
+				Debug.Log("Running to " + runVector);
 				this.myTransform.parent.GetComponent<UnitController>().moveTo(runVector);
+				this.destination = runVector;
 			}
 			else
 			{
+				Debug.Log("I like scouting");
 				this.scout();
 			}
 		}
@@ -242,8 +249,9 @@ public class EnemyController : MonoBehaviour
 		public void think ()
 		{
 			this.capping = this.defensivness - this.aggresivness + 10.0f;
-			Debug.Log ("Aggresivnes is " + this.aggresivness);
-			Debug.Log ("Defenisvness is " + this.defensivness);
+			//Debug.Log ("Aggresivnes is " + this.aggresivness);
+			//Debug.Log ("Defenisvness is " + this.defensivness);
+			// Check if enemy has decisive superiority.
 			if (this.enemiesStrength > ((1.0f + this.aggresivness) * this.groupStrength))
 			{
 				// Flee!!!
@@ -252,28 +260,38 @@ public class EnemyController : MonoBehaviour
 			else
 			{
 				bool backup = true;
+				// Check if we have enough unit's to take enemy down.
 				if (this.enemiesStrength > this.groupStrength)
 				{
 					backup = this.callForBackup();
 				}
 				if (backup)
 				{
+					// If we have...
+
 					if (this.target == null)
 					{
 						if (enemies.Count > 0)
 						{
+							// Set the target to first enemy.
 							this.target = enemies.First();
 							this.myTransform.parent.GetComponent<UnitController>().setTarget(target);
 						}
 					}
-					if (target != null)
+					if (this.target != null)
 					{
+						Debug.Log("I must attack!");
 						this.myTransform.parent.GetComponent<UnitController>().setTarget(target);
 					}
+					// If no one in sight we can do other things than fight.
 					else
 					{
+						// Check if we spotted an asteroid nearby?
 						if (this.asteroid != null)
 						{
+							this.destination = asteroid.transform.position;
+							// Ok we need to cap it.
+							Debug.Log("I need asteroids to live");
 							if (this.asteroid.GetComponent<AsteroidController>().belongsTo != 
 							    AsteroidController.getPlayer(myTransform.parent.gameObject))
 							{
@@ -281,21 +299,24 @@ public class EnemyController : MonoBehaviour
 							}
 							else
 							{
-								// We are leaving anyway.
+								// We are leaving anyway when enough time has passed.
 								if (this.timePassed > this.capping)
 								{
 									this.timePassed = 0.0f;
 									this.asteroid = null;
 									this.scout();
 								}
-								else
-								{
-									this.destination = this.myTransform.parent.position;
-								}
+								//else
+								//{
+									// Do nothing
+									//this.destination = this.myTransform.parent.position;
+								//}
 							}
 						}
+						// Ok we almost reach our normal target so we can scout another area.
 						else if (((this.myTransform.position - this.destination).sqrMagnitude) < rangeSqr)
 						{
+							Debug.Log("I like scouting");
 							this.scout();
 						}
 
@@ -318,7 +339,7 @@ public class EnemyController : MonoBehaviour
 	public Agent agent;
 
 	// How often agents think.
-	private float thinkRate = 2.0f;
+	private float thinkRate = 0.5f;
 	private float timePassed = 0.0f;
 
 	

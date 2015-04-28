@@ -97,7 +97,7 @@ public class AIController : MonoBehaviour
 	// The number of asteroids we control.
 	private int asteroids;
 	// Our command center - mothership.
-	private GameObject mothership;
+	public GameObject mothership;
 	// The rate of updating values.
 	private float valueRate = 1.0f;
 	private float lastValuesCheck = 0.0f;
@@ -106,7 +106,7 @@ public class AIController : MonoBehaviour
 	// How many time passed from last update.
 	private float timePassed = 0.0f;
 	// The rate for updating parameters.
-	private float updateRate = 10.0f;
+	private float updateRate = 5.0f;
 	// How many time passed since last update.
 	private float timeFromUpdate = 0.0f;
 
@@ -120,11 +120,14 @@ public class AIController : MonoBehaviour
 		int backup = 0;
 		foreach (GameObject unit in units)
 		{
-			EnemyController uc = unit.GetComponentInChildren<EnemyController>();
-			if (uc.agent.getTarget() == null)
+			if (unit != null)
 			{
-				uc.agent.setTarget(go);
-				backup++;
+				EnemyController uc = unit.GetComponentInChildren<EnemyController>();
+				if (uc.agent.getTarget() == null)
+				{
+					uc.agent.setTarget(go);
+					backup++;
+				}
 			}
 		}
 		if (backup == 0)
@@ -174,6 +177,7 @@ public class AIController : MonoBehaviour
 	// It will go through game states and rethink it's actions.
 	public void rethinkMyActions ()
 	{
+		Debug.Log("I am thinking");
 		AIState bestState = null;
 		float current = this.knowledgeBase.Last().calculateState();
 		float max = current;
@@ -193,12 +197,13 @@ public class AIController : MonoBehaviour
 		}
 		Debug.Log ("Aggresivnes is " + this.aggresivness);
 		Debug.Log ("Defenisvness is " + this.defensivness);
+		this.buildUnit();
 	}
 
 
 	void Start () 
 	{
-		gameController = GetComponent<GameController>();
+		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		units = new HashSet<GameObject>();
 		enemies = new HashSet<GameObject>();
 		asteroids = 0;
@@ -313,7 +318,7 @@ public class AIController : MonoBehaviour
 			enemyIndex = 0;
 		}
 		GameController.UnitType t = GameController.UnitType.Mothership;
-		for (int i = 0; i < GameController.typeOfUnits; i++)
+		for (int i = 0; i < GameController.typeOfUnits-1; i++)
 		{
 			enemyUnits[i] = this.gameController.players[enemyIndex].getUnitCount(t);
 			myUnits[i] = this.gameController.players[myIndex].getUnitCount(t);
@@ -323,5 +328,8 @@ public class AIController : MonoBehaviour
 		t = GameController.UnitType.Mothership;
 		t++;
 		// To be continued.
+		this.gameController.buildUnit(GameController.Who.Enemy, 
+		                         GameController.UnitType.Mothership, 
+		                         new Vector3(Random.Range(0.0f, 400.0f), 0.0f, Random.Range(0.0f, 400.0f)));
 	}
 }
