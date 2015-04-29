@@ -329,7 +329,6 @@ public class AIController : MonoBehaviour
 		t++;
 		// To be continued.
 		this.gameController.buildUnit(GameController.Who.Enemy, 
-		                         GameController.UnitType.Mothership, 
-		                         new Vector3(Random.Range(0.0f, 400.0f), 0.0f, Random.Range(0.0f, 400.0f)));
+		                         GameController.UnitType.Mothership);
 	}
 }

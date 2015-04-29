@@ -295,17 +295,23 @@ public class EnemyController : MonoBehaviour
 							if (this.asteroid.GetComponent<AsteroidController>().belongsTo != 
 							    AsteroidController.getPlayer(myTransform.parent.gameObject))
 							{
-								this.timePassed = 0.0f;
-							}
-							else
-							{
-								// We are leaving anyway when enough time has passed.
+								// We don't want to wait too much!
 								if (this.timePassed > this.capping)
 								{
 									this.timePassed = 0.0f;
 									this.asteroid = null;
 									this.scout();
 								}
+							}
+							else
+							{
+								// We are leaving anyway when enough time has passed.
+								//if (this.timePassed > this.capping)
+								//{
+								//	this.timePassed = 0.0f;
+									this.asteroid = null;
+									this.scout();
+								//}
 								//else
 								//{
 									// Do nothing

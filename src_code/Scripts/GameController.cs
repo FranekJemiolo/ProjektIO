@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
 	
 	public enum GameState {NotStarted, Playing, Paused, PlayerWon, EnemyWon, Draw};
 
-	public enum Who {Player, Enemy};
+	public enum Who {Player = 0, Enemy};
 
 	// Unit type translation.
 	public static UnitType getUnitType (GameObject ob)
@@ -195,6 +195,7 @@ public class GameController : MonoBehaviour
 	// Array of unit prefabs - gameObject to instantiate.
 	public const int typeOfUnits = 7;
 	public float[] unitCosts = new float[typeOfUnits];
+	public float[] buildTime = new float[typeOfUnits];
 	public GameObject[] unitPrefabs = new GameObject[typeOfUnits];
 	public GameObject[] enemyPrefabs = new GameObject[typeOfUnits];
 
@@ -204,6 +205,20 @@ public class GameController : MonoBehaviour
 	public enum Selected {None, Single, Group}
 	private List<GameObject> selectedUnits;
 	private Selected selected;
+
+	// This variables are the spawn points for the players.
+	public GameObject[] massRelays = new GameObject[numberOfPlayers];
+	// How much time is used for building?
+	private float[] timeToSpawn = new float[numberOfPlayers];
+	// This will help the gui, are the player building a unit?
+	private bool[] isBuilded = new bool[numberOfPlayers];
+	// What units are builded?
+	private UnitType[] builded = new UnitType[numberOfPlayers];
+	// The constraints of map.
+	private float minX = 0.0f;
+	private float maxX = 400.0f;
+	private float minZ = 0.0f;
+	private float maxZ = 400.0f;
 
 
 	// End of game variables.
@@ -220,6 +235,10 @@ public class GameController : MonoBehaviour
 	void Start () 
 	{
 		players = new Player[numberOfPlayers];
+		timeToSpawn[0] = 0.0f;
+		timeToSpawn[1] = 0.0f;
+		isBuilded[0] = false;
+		isBuilded[1] = false;
 		// Initialize players variables.
 		players[0] = new Player();
 		players[1] = new Player();
@@ -239,8 +258,8 @@ public class GameController : MonoBehaviour
 		timePassed += Time.deltaTime;
 		if (this.timePassed > this.updateRate)
 		{
-			this.timePassed = 0.0f;
 			this.handleGame();
+			this.timePassed = 0.0f;
 			Debug.Log ("Player points is :" + players[0].getPoints());
 			Debug.Log ("Enemy points is :" + players[1].getPoints());
 		}
@@ -254,7 +273,7 @@ public class GameController : MonoBehaviour
 			List<GameObject> lista = new List<GameObject>();
 			lista.Add(GameObject.FindGameObjectWithTag ("Player"));
 
-			this.buildUnit(Who.Player, UnitType.Mothership, new Vector3(Random.Range(0.0f, 500.0f), 0.0f, Random.Range(0.0f, 500.0f)));
+			this.buildUnit(Who.Player, UnitType.Mothership);
 
 			this.attackUnit(lista[0], GameObject.FindGameObjectWithTag("Cube"));
 			first = true;
@@ -320,11 +339,11 @@ public class GameController : MonoBehaviour
 		{
 			if (bld.whoControlls() == AsteroidController.Master.Player)
 			{
-				players[0].setCredits(players[0].getCredits() + creditsPerBuilding);
+				players[0].setCredits(players[0].getCredits() + (creditsPerBuilding * this.timePassed));
 			}
 			else if (bld.whoControlls() == AsteroidController.Master.Enemy)
 			{
-				players[1].setCredits(players[1].getCredits() + creditsPerBuilding);
+				players[1].setCredits(players[1].getCredits() + (creditsPerBuilding * this.timePassed));
 			}
 		}
 	}
@@ -334,7 +353,7 @@ public class GameController : MonoBehaviour
 	{
 		AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
 		// Handle points for holding the asteroid.
-		float morePoints = pointsForAsteroid;
+		float morePoints = pointsForAsteroid * this.timePassed;
 		if (asteroidController.belongsTo == AsteroidController.Master.Player)
 		{
 			//Debug.Log ("Here");
@@ -358,7 +377,10 @@ public class GameController : MonoBehaviour
 			{
 				this.handleAsteroid(Asteroid);
 			}
-			
+
+			// Handle builded unit.
+			this.handleBuildedUnits();
+
 			// Check if player has won the game.
 			if ((players[0].getPoints() >= winPoints) && (players[1].getPoints() < players[0].getPoints()))
 			{
@@ -425,34 +447,84 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-
-	// Builds a unit in desired position and of desired type of unit.
-	public bool buildUnit (Who who, UnitType typeOfUnit, Vector3 position)
+	// Returns vector around some vector.
+	private Vector3 getVectorAround (Vector3 vec)
 	{
-		GameObject unit;
-		if (who == Who.Player)
+		Vector3 ret = new Vector3 (vec.x + Random.Range(-50.0f, 50.0f), vec.y, vec.z + Random.Range(-50.0f, 50.0f));
+		if (ret.x < this.minX)
 		{
-			if (players[0].getCredits() > unitCosts[(int) typeOfUnit])
+			ret.x = minX;
+		}
+		else if (ret.x > this.maxX)
+		{
+			ret.x = maxX;
+		}
+
+		if (ret.z < this.minZ)
+		{
+			ret.z = minZ;
+		}
+		else if (ret.z > this.maxZ)
+		{
+			ret.z = maxZ;
+		}
+		return ret;
+	}
+
+	// Spawn units near it's mass relay.
+	private void spawnUnit (int i)
+	{
+		timeToSpawn[i] = 0.0f;
+		isBuilded[i] = false;
+		GameObject unit;
+		// If a player?
+		if (i == 0)
+		{
+			unit = Instantiate (unitPrefabs[(int) builded[i]], 
+			                    this.getVectorAround(massRelays[i].transform.position),
+			                    Quaternion.identity) as GameObject;
+			players[i].addUnit(unit);
+		}
+		// If an enemy?
+		else if (i == 1)
+		{
+			unit = Instantiate (enemyPrefabs[(int) builded[i]], 
+			                    this.getVectorAround(massRelays[i].transform.position),
+			                    Quaternion.identity) as GameObject;
+			players[i].addUnit(unit);
+			GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().units.Add(unit);
+		}
+	}
+
+	// We are handling here the updates on building units.
+	private void handleBuildedUnits ()
+	{
+		for (int i = 0; i < numberOfPlayers; i++)
+		{
+			// Check if a player is building?
+			if (isBuilded[i])
 			{
-				players[0].setCredits(players[0].getCredits() - unitCosts[(int) typeOfUnit]);
-				unit = Instantiate (unitPrefabs[(int) typeOfUnit], position, Quaternion.identity) as GameObject;
-				players[0].addUnit(unit);
-				GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().enemies.Add(unit);
-				return true;
-			}
-			else
-			{
-				return false;
+				timeToSpawn[i] += this.timePassed;
+				if (timeToSpawn[i] > buildTime[(int) builded[i]])
+				{
+					this.spawnUnit(i);
+				}
 			}
 		}
-		else if (who == Who.Enemy)
+	}
+
+	// Builds a unit in desired position and of desired type of unit.
+	public bool buildUnit (Who who, UnitType typeOfUnit)
+	{
+		if ((who == Who.Player) || (who == Who.Enemy))
 		{
-			if (players[1].getCredits() > unitCosts[(int) typeOfUnit])
+			if ((!isBuilded[(int) who]) && (players[(int) who].getCredits() > unitCosts[(int) typeOfUnit]))
 			{
-				players[1].setCredits(players[1].getCredits() - unitCosts[(int) typeOfUnit]);
-				unit = Instantiate (enemyPrefabs[(int) typeOfUnit], position, Quaternion.identity) as GameObject;
-				players[1].addUnit(unit);
-				GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().units.Add(unit);
+				players[(int) who].setCredits(players[(int) who].getCredits() - unitCosts[(int) typeOfUnit]);
+				// Set building to wanted unit and start counting down.
+				timeToSpawn[(int) who] = 0.0f;
+				isBuilded[(int) who] = true;
+				builded[(int) who] = typeOfUnit;
 				return true;
 			}
 			else
