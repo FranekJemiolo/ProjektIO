@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 
 
@@ -511,5 +512,31 @@ public class GameController : MonoBehaviour
 		}
 	}
 
+
+	// Returns selected unit, if only one unit is selected.
+	// Else it returns null.
+	public GameObject getSelectedUnit ()
+	{
+		if (this.selected == Selected.None)
+		{
+			return null;
+		}
+		else if (this.selected == Selected.Single)
+		{
+			return this.selectedUnits.First();
+		}
+		else
+		{
+			// This is not included in Selected.None because maybe
+			// in future we would want the first unit to get Selected.
+			return null;
+		}
+	}
+
+	// Returns list of all selected units.
+	public List<GameObject> getSelectedGroup ()
+	{
+		return this.selectedUnits;
+	}
 
 }
