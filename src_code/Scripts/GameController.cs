@@ -611,4 +611,21 @@ public class GameController : MonoBehaviour
 		return this.selectedUnits;
 	}
 
+	// You can ask if a player is building a unit
+	public bool isPlayerBuilding (Who who)
+	{
+		return isBuilded[(int) who];
+	}
+
+	// You can get the unit he is building.
+	public UnitType whatPlayerBuilds (Who who)
+	{
+		return builded[(int) who];
+	}
+
+	// You can get his time left to build.
+	public float playerTimeLeftToBuild (Who who)
+	{
+		return buildTime[(int) builded[(int) who]] - timeToSpawn[(int) who];
+	}
 }
