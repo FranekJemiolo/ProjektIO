@@ -628,4 +628,23 @@ public class GameController : MonoBehaviour
 	{
 		return buildTime[(int) builded[(int) who]] - timeToSpawn[(int) who];
 	}
+
+	// This functions returns player's points
+	public float getPlayerPoints (Who who)
+	{
+		return this.players[(int) who].getPoints();
+	}
+
+	// This functions returns player's credits
+	public float getPlayerCredits (Who who)
+	{
+		return this.players[(int) who].getCredits();
+	}
+
+	// Returns the points for victory.
+	public float getWinPoints ()
+	{
+		return winPoints;
+	}
+
 }

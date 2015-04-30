@@ -36,26 +36,53 @@ public class AsteroidController : MonoBehaviour
 		
 		// Who controlls our building.
 		private Master who;
+
+		// How long it takes to build it.
+		private float buildTime = 10.0f;
+
+		// Timer
+		private float timePassed;
+
+		// Is actively builded?
+		private bool isBuilded;
+
+		// If built set to true. Can destroy after.
+		private bool built;
+
 		
 		// Creates the building we want to build.
-		Building (Master who, GameObject b)
+		public Building (Master who, GameObject b)
 		{
 			this.building = b;
 			this.who = who;
 			this.hitPoints = 100.0f;
+			this.timePassed = 0.0f;
+		}
+
+
+		// Called after building was created - for the model to be build.
+		public void updateOnCreation (float t)
+		{
+			this.timePassed += t;
+			// Now instantiate.
+			if (this.timePassed > this.buildTime)
+			{
+				this.isBuilded = false;
+				this.built = true;
+			}
 		}
 		
-		public void destroyBuilding()
+		public void destroyBuilding ()
 		{
 			// Calls destructor and create some form of explosion.
 		}
 		
-		public GameObject getBuilding()
+		public GameObject getBuilding ()
 		{
 			return this.building;
 		}
 		
-		public Master whoControlls()
+		public Master whoControlls ()
 		{
 			return this.who;
 		}
@@ -76,8 +103,13 @@ public class AsteroidController : MonoBehaviour
 	// The range from which we can capture an asteroid, square size.
 	public float captureRangeSqr = 4900.0f;
 
+	// The class used to represent building data.
 	private Building building;
+	// Insert prefab model here for building.
+	public GameObject prefabBuildingModel;
 
+
+	// List to represent gameobject in vicinity.
 	private List<GameObject> units;
 	private List<GameObject> enemies;
 
@@ -236,6 +268,7 @@ public class AsteroidController : MonoBehaviour
 			if (belongsTo == player)
 			{
 				//building = Building(player, GameObject someModel);
+				this.building = new Building(player, this.prefabBuildingModel);
 				return true;
 			}
 			else
