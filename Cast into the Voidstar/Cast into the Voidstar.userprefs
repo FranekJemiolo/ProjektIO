@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Cast into the Voidstar\Assets\Scripts\EnemyController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GUI.cs">
     <Files>
-      <File FileName="..\..\..\Cast into the Voidstar\Assets\Scripts\AIController.cs" Line="1" Column="1" />
-      <File FileName="..\..\..\Cast into the Voidstar\Assets\Scripts\UnitController.cs" Line="1" Column="1" />
-      <File FileName="..\..\..\Cast into the Voidstar\Assets\Scripts\GameController.cs" Line="20" Column="38" />
-      <File FileName="..\..\..\Cast into the Voidstar\Assets\Scripts\EnemyController.cs" Line="1" Column="1" />
-      <File FileName="..\..\..\Cast into the Voidstar\Assets\Scripts\AsteroidController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Android.cs" Line="12" Column="16" />
+      <File FileName="Assets\GUI.cs" Line="65" Column="34" />
+      <File FileName="Assets\CNControls\NotImportant\Controller Examples\CameraFollowExample.cs" Line="16" Column="43" />
+      <File FileName="Assets\ProgressBar\Script\ProgressRadialBehaviour.cs" Line="19" Column="26" />
+      <File FileName="Assets\GameController.cs" Line="163" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
