@@ -220,6 +220,9 @@ public class GameController : MonoBehaviour
 	private float minZ = 0.0f;
 	private float maxZ = 400.0f;
 
+	// Just for getting the mothership of a player.
+	public GameObject mothership;
+
 
 	// End of game variables.
 
