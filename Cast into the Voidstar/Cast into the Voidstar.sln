@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{22A27DA8-BB0B-38A7-750D-39CA3FEEF9EB}") = "Cast into the Voidstar", "Assembly-CSharp.csproj", "{24F45809-5D29-161A-8292-2764575DA871}"
 EndProject
+Project("{22A27DA8-BB0B-38A7-750D-39CA3FEEF9EB}") = "Cast into the Voidstar", "Assembly-CSharp-Editor.csproj", "{F1FFE179-0128-7F4B-5911-4C09AB87F2A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{24F45809-5D29-161A-8292-2764575DA871}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24F45809-5D29-161A-8292-2764575DA871}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24F45809-5D29-161A-8292-2764575DA871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1FFE179-0128-7F4B-5911-4C09AB87F2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1FFE179-0128-7F4B-5911-4C09AB87F2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1FFE179-0128-7F4B-5911-4C09AB87F2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1FFE179-0128-7F4B-5911-4C09AB87F2A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																			GlobalSection(MonoDevelopProperties) = preSolution
+																																					GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
