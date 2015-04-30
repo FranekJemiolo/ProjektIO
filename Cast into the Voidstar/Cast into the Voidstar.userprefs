@@ -1,13 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MothershipController.cs">
     <Files>
-      <File FileName="Assets\Menu.cs" Line="1" Column="1" />
-      <File FileName="Assets\Android.cs" Line="12" Column="16" />
-      <File FileName="Assets\GUI.cs" Line="65" Column="34" />
-      <File FileName="Assets\CNControls\NotImportant\Controller Examples\CameraFollowExample.cs" Line="16" Column="43" />
-      <File FileName="Assets\ProgressBar\Script\ProgressRadialBehaviour.cs" Line="19" Column="26" />
-      <File FileName="Assets\GameController.cs" Line="163" Column="3" />
+      <File FileName="Assets\Scripts\MothershipController.cs" Line="35" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
