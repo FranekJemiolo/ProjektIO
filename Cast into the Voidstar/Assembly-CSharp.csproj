@@ -46,21 +46,21 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Android.cs" />
      <Compile Include="Assets\CNControls\NotImportant\Controller Examples\CameraFollowExample.cs" />
      <Compile Include="Assets\CNControls\NotImportant\Controller Examples\Controller3DExample.cs" />
      <Compile Include="Assets\CNControls\Scripts\CNAbstractController.cs" />
      <Compile Include="Assets\CNControls\Scripts\CNJoystick.cs" />
      <Compile Include="Assets\CNControls\Scripts\CNThrowableTouchpad.cs" />
      <Compile Include="Assets\CNControls\Scripts\CNTouchpad.cs" />
-     <Compile Include="Assets\GUI.cs" />
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\ProgressBar\Script\ProgressBarBehaviour.cs" />
      <Compile Include="Assets\ProgressBar\Script\ProgressRadialBehaviour.cs" />
      <Compile Include="Assets\ProgressBar\Script\Utils.cs" />
      <Compile Include="Assets\Scripts\AIController.cs" />
+     <Compile Include="Assets\Scripts\Android.cs" />
      <Compile Include="Assets\Scripts\AsteroidController.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Scripts\GUI.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\MothershipController.cs" />
      <Compile Include="Assets\Scripts\Shot.cs" />

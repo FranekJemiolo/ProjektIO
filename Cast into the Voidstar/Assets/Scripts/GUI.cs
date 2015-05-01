@@ -6,14 +6,21 @@ using ProgressBar;
 public class GUI : MonoBehaviour {
 
 	private GameController gameController;
+	private MothershipController mothershipController;
+
 	public CNAbstractController MovementJoystick;
 
-	bool isCommandModeON;
+	public bool isCommandModeON;
+	public bool hasGameEnded;
 
 	public GameObject GUIPanel;
 	public GameObject CommandPanel;
 	public GameObject InfoPanel;
 	public GameObject Joystick;
+	public GameObject GameOver;
+
+	public Text WhoWon;
+	public Text HP;
 
 	public Button switcher;
 	public Button fire;
@@ -30,42 +37,61 @@ public class GUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		switchToGui ();
-		InfoPanel.SetActive (false);
+		InfoPanel.SetActive(false);
+		GameOver.SetActive(false);
 		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		mothershipController = gameController.getMothership().GetComponent<MothershipController>();
+		hasGameEnded = false;
     }
-    
+
 	public void FocusCameraOnMothership() {
+		this.gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		if (this.gameController != null)
+		{
+			if (this.gameController.getMothership() != null)
+			{
+				this.gameController.moveCamera(
+					gameController.getMothership().transform.position
+					+
+					new Vector3(0,120,0)
+				);
+			} 
+		}
 	}
 
 	public void Fire() {
-		FocusCameraOnMothership();
+		//FocusCameraOnMothership();
+		mothershipController.fire(1); //TODO change attack nr
 	}
 	
 	public void RotateLeft() {
 		FocusCameraOnMothership();
+		mothershipController.rotateLeft(Time.deltaTime);
 	}
 
 	public void RotateRight() {
 		FocusCameraOnMothership();
+		mothershipController.rotateRight(Time.deltaTime);
 	}
 
 	public void MoveForward() {
 		FocusCameraOnMothership();
+		Debug.LogError("FORWARD");
+		mothershipController.moveForward(Time.deltaTime);
 	}
 
 	public void MoveBackward() {
 		FocusCameraOnMothership();
+		mothershipController.moveBackward(Time.deltaTime);
 	}
 
 	private void DrawPlayerHP() {
-		FocusCameraOnMothership();
 		
 	}
 	
 	private void DrawScore() {
-		PlayerProgress.Value = 0.0f; //gameController.getPlayerCredits(1) / gameController.getWiningPoints
-		EnemyProgress.Value = 0.0f;
-		
+		PlayerProgress.Value = (gameController.getPlayerPoints(GameController.Who.Player) / gameController.getWinPoints()) * 100.0f;
+		EnemyProgress.Value = (gameController.getPlayerPoints(GameController.Who.Enemy) / gameController.getWinPoints()) * 100.0f;	
 	}
 
 	void switchToGui() {
@@ -124,12 +150,28 @@ public class GUI : MonoBehaviour {
 		}
 	}
 
+	private void checkIfGameOver() {
+
+		if (!hasGameEnded) {
+		/* Assuming that There won't be any Gamestate.Paused since I'm just slowing down time to 0 */
+			if (gameController.getGameState() != GameController.GameState.Playing) {
+				GameOver.SetActive(true);
+				hasGameEnded = true;
+				if (gameController.getGameState() == GameController.GameState.PlayerWon) {
+					WhoWon.text = "You have won!";
+				} else if (gameController.getGameState() == GameController.GameState.EnemyWon) {
+					WhoWon.text = "Enemy has won!";
+				}
+			}
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {
 		HandleJoystick();
 		DrawPlayerHP();
 		DrawScore();
+		checkIfGameOver();
 	
 	}
 }

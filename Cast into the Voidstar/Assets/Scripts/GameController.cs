@@ -220,9 +220,17 @@ public class GameController : MonoBehaviour
 	private float minZ = 0.0f;
 	private float maxZ = 400.0f;
 
-
+	// Just for getting the mothership of a player.
+	public GameObject mothership;
 	// End of game variables.
 
+	public GameObject getMothership() {
+		return mothership;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
 
     // DEBUG VARS
 
@@ -250,6 +258,14 @@ public class GameController : MonoBehaviour
 		asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 		// Set the game state to playing.
 		gameState = GameState.Playing;
+		mothership = GameObject.Find("Mothership");
+/*
+		if (object.ReferenceEquals(null, mothership)) 
+			Debug.LogError("MS not found!");
+*/
+		//this.mothership = GameObject.FindWithTag("Mothership");
+		//if (GameObject.FindWithTag("Mothership") == null)
+		//    
 	}
 	
 	// Update is called once per frame
@@ -316,7 +332,7 @@ public class GameController : MonoBehaviour
 	// Moves main camera into desired position.
 	public void moveCamera(Vector3 pos)
 	{
-		this.transform.position = pos;
+		GameObject.FindGameObjectWithTag("MainCamera").transform.position = pos;
 	}
 
 	// Should be called before the destruction of enemy unit.
