@@ -33,6 +33,7 @@ public class MothershipController : MonoBehaviour {
 
 	// The rigidbody attached to the unit.
 	private Rigidbody myRigidbody;
+	
 
 	void Start () 
 	{
@@ -80,7 +81,11 @@ public class MothershipController : MonoBehaviour {
 		//if (this.myRigidbody.velocity.sqrMagnitude < sqrSpeed)
 		//{
 			Debug.Log(this.transform.forward);
-			this.myRigidbody.AddForce(this.transform.forward * this.acceleration * timeDelta);
+			//Vector3 res = this.transform.position - this.engines.transform.position;
+			//this.myRigidbody.AddForceAtPosition(this.transform.forward * this.acceleration * timeDelta, this.engines.transform.position);
+		Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
+		this.myRigidbody.AddRelativeForce(relativeVector * this.acceleration * timeDelta);
+		//this.myRigidbody.AddForce(this.transform.forward * this.acceleration * timeDelta);
 		//}
 		// else we already reached max speed.
 	}
@@ -90,7 +95,8 @@ public class MothershipController : MonoBehaviour {
 	{
 		//if (this.myRigidbody.velocity.sqrMagnitude < sqrSpeed)
 		//{
-			this.myRigidbody.AddForce(-(this.transform.forward * this.acceleration * timeDelta));
+		Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
+		this.myRigidbody.AddRelativeForce(-(relativeVector * this.acceleration * timeDelta));
 		//}
 		// else we reached max speed.
 	}

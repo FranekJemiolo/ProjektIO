@@ -6,6 +6,8 @@ using ProgressBar;
 public class GUI : MonoBehaviour {
 
 	private GameController gameController;
+	private MothershipController mothershipController;
+
 	public CNAbstractController MovementJoystick;
 
 	bool isCommandModeON;
@@ -31,10 +33,22 @@ public class GUI : MonoBehaviour {
 	void Start () {
 		switchToGui ();
 		InfoPanel.SetActive (false);
-		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		this.gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		this.mothershipController = gameController.getMothership().GetComponent<MothershipController>();
     }
     
 	public void FocusCameraOnMothership() {
+		this.gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		//if (this.gameController != null)
+		//{
+			///if (this.gameController.getMothership() != null)
+			//{
+				this.gameController.moveCamera(gameController.getMothership().transform.position);
+			//}
+		//}
+
+
+		//GameObject.FindGameObjectWithTag("MainCamera").transform.position = gameController.mothership.transform.position;
 	}
 
 	public void Fire() {
@@ -43,18 +57,22 @@ public class GUI : MonoBehaviour {
 	
 	public void RotateLeft() {
 		FocusCameraOnMothership();
+		mothershipController.rotateLeft(Time.deltaTime);
 	}
 
 	public void RotateRight() {
 		FocusCameraOnMothership();
+		mothershipController.rotateRight(Time.deltaTime);
 	}
 
 	public void MoveForward() {
 		FocusCameraOnMothership();
+		mothershipController.moveForward(Time.deltaTime);
 	}
 
 	public void MoveBackward() {
 		FocusCameraOnMothership();
+		mothershipController.moveBackward(Time.deltaTime);
 	}
 
 	private void DrawPlayerHP() {
@@ -63,9 +81,8 @@ public class GUI : MonoBehaviour {
 	}
 	
 	private void DrawScore() {
-		PlayerProgress.Value = 0.0f; //gameController.getPlayerCredits(1) / gameController.getWiningPoints
-		EnemyProgress.Value = 0.0f;
-		
+		PlayerProgress.Value = gameController.getPlayerPoints(GameController.Who.Player) / gameController.getWinPoints();
+		EnemyProgress.Value = gameController.getPlayerPoints(GameController.Who.Enemy) / gameController.getWinPoints();	
 	}
 
 	void switchToGui() {

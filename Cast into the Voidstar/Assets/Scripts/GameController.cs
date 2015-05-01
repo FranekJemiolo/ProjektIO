@@ -281,8 +281,8 @@ public class GameController : MonoBehaviour
 			//this.attackUnit(lista[0], GameObject.FindGameObjectWithTag("Cube"));
 			//first = true;
 		//}
-		//ten++;
-		//this.moveCamera(new Vector3(this.transform.position.x+(ten/10),this.transform.position.y,this.transform.position.z+(ten/10)));
+		ten++;
+		this.moveCamera(new Vector3(this.transform.position.x+(ten/10),50.0f,this.transform.position.z+(ten/10)));
 		// End of debug test.
 	}
 
@@ -319,7 +319,7 @@ public class GameController : MonoBehaviour
 	// Moves main camera into desired position.
 	public void moveCamera(Vector3 pos)
 	{
-		this.transform.position = pos;
+		GameObject.FindGameObjectWithTag("MainCamera").transform.position = pos;
 	}
 
 	// Should be called before the destruction of enemy unit.
@@ -666,6 +666,11 @@ public class GameController : MonoBehaviour
 		{
 			this.gameState = GameState.EnemyWon;
 		}
+	}
+
+	public GameObject getMothership()
+	{
+		return this.mothership;
 	}
 
 }
