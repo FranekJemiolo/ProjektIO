@@ -20,7 +20,7 @@ public class GUI : MonoBehaviour {
 	public GameObject GameOver;
 
 	public Text WhoWon;
-	public Text HP;
+	public Text PlayerHPACCStatus;
 
 	public Button switcher;
 	public Button fire;
@@ -76,7 +76,7 @@ public class GUI : MonoBehaviour {
 
 	public void MoveForward() {
 		FocusCameraOnMothership();
-		Debug.LogError("FORWARD");
+		Debug.LogError("NAPRZOD ARMIOOO");
 		mothershipController.moveForward(Time.deltaTime);
 	}
 
@@ -86,6 +86,8 @@ public class GUI : MonoBehaviour {
 	}
 
 	private void DrawPlayerHP() {
+		PlayerHPACCStatus.text = "HP: " + mothershipController.getHitPoints().ToString() +
+			" ACC: ";
 		
 	}
 	
