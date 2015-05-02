@@ -222,12 +222,20 @@ public class GameController : MonoBehaviour
 
 	// Just for getting the mothership of a player.
 	public GameObject mothership;
-
-
 	// End of game variables.
 
+	public GameObject getMothership() {
+		return mothership;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
 
     // DEBUG VARS
+	public float[] TimeToSpawn {
+		get { return timeToSpawn; }
+	}
 
 	private bool first = false;
 	private float ten = 0.0f;
@@ -253,6 +261,14 @@ public class GameController : MonoBehaviour
 		asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 		// Set the game state to playing.
 		gameState = GameState.Playing;
+		mothership = GameObject.Find("Mothership");
+/*
+		if (object.ReferenceEquals(null, mothership)) 
+			Debug.LogError("MS not found!");
+*/
+		//this.mothership = GameObject.FindWithTag("Mothership");
+		//if (GameObject.FindWithTag("Mothership") == null)
+		//    
 	}
 	
 	// Update is called once per frame
@@ -281,8 +297,8 @@ public class GameController : MonoBehaviour
 			//this.attackUnit(lista[0], GameObject.FindGameObjectWithTag("Cube"));
 			//first = true;
 		//}
-		ten++;
-		this.moveCamera(new Vector3(this.transform.position.x+(ten/10),50.0f,this.transform.position.z+(ten/10)));
+		//ten++;
+		//this.moveCamera(new Vector3(this.transform.position.x+(ten/10),this.transform.position.y,this.transform.position.z+(ten/10)));
 		// End of debug test.
 	}
 
@@ -666,11 +682,6 @@ public class GameController : MonoBehaviour
 		{
 			this.gameState = GameState.EnemyWon;
 		}
-	}
-
-	public GameObject getMothership()
-	{
-		return this.mothership;
 	}
 
 }
