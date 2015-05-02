@@ -43,17 +43,6 @@ public class MothershipController : MonoBehaviour {
 
 	void Update () 
 	{
-		for (int i = 0; i < numberOfProjectiles; i++)
-		{
-			timePassed[i] += Time.deltaTime;
-		}
-		//if (j == 10)
-		//{
-			rotateRight(Time.deltaTime);
-		//	j = 0;
-		//}
-		//j++;
-		moveForward(Time.deltaTime);
 		
 	}
 	

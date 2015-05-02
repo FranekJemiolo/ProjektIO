@@ -223,6 +223,14 @@ public class GameController : MonoBehaviour
 	// Just for getting the mothership of a player.
 	public GameObject mothership;
 
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public float[] TimeToSpawn {
+		get { return timeToSpawn; }
+	}
+
 
 	// End of game variables.
 
@@ -281,8 +289,8 @@ public class GameController : MonoBehaviour
 			//this.attackUnit(lista[0], GameObject.FindGameObjectWithTag("Cube"));
 			//first = true;
 		//}
-		ten++;
-		this.moveCamera(new Vector3(this.transform.position.x+(ten/10),50.0f,this.transform.position.z+(ten/10)));
+		//ten++;
+		//this.moveCamera(new Vector3(this.transform.position.x+(ten/10),50.0f,this.transform.position.z+(ten/10)));
 		// End of debug test.
 	}
 
