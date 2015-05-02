@@ -17,8 +17,12 @@ public class TouchScript : MonoBehaviour {
 	private float sumXaxis = 0;
 	private float sumYaxis = 0;
 	
+	GameController gameController;
+	
 	RaycastHit hit;
-
+	
+	
+	
 	Camera cam;
 	public float camSpeed = 0.4f;
 	
@@ -88,6 +92,9 @@ public class TouchScript : MonoBehaviour {
 	void Start () 
 	{
 		cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+		gameController = GameObject.Find("GameController").GetComponent<GameController>();
+		Vector3 movePos = new Vector3 (10, 0, 10);
+		gameController.moveCamera ( movePos );
 	}
 	
 	// Update is called once per frame
@@ -120,9 +127,8 @@ public class TouchScript : MonoBehaviour {
 				}
 				if(swipeOn){
 					//SendMessage("moveCamera", Vector3(sumXaxis,0,sumYaxis), SendMessageOptions.DontRequireReceiver);
-					Vector2 movement = new Vector2(sumXaxis, sumYaxis);
-					Vector2 touchDeltaPosition = touch.deltaPosition;
-					transform.Translate(-sumXaxis * camSpeed, -sumYaxis * camSpeed, 0);
+					//Vector3 camPos = Camera.main.ScreenToViewportPoint();
+					//gameController.moveCamera( camPos );
 					sumXaxis = 0;
 					sumYaxis = 0;
 				}
@@ -134,17 +140,24 @@ public class TouchScript : MonoBehaviour {
 						//gotta use tags, temp solution - type
 						if( hit.collider.tag == "Terrain" ){
 							Debug.Log("is selected, move to");
+							Vector3 pos = hit.point;
+							gameController.navigateTo(selected, pos);
 						}
 						else if( hit.collider.tag == "Player" ){
 							Debug.Log("is selected, move to");
+							//SendMessage( "navigateTo", selected );
+							Vector3 pos = hit.point;
+							gameController.navigateTo(selected, pos);
 						}
 						else if( hit.collider.tag == "Enemy" ){
 							Debug.Log("is selected, attack");
+							gameController.attackUnit( selected, hit.transform.gameObject );
 						}
 					}
 					else{
 						if( hit.collider.tag== "Player" ){
 							Debug.Log("is not selected, select friendly unit");
+							Select( hit.transform.gameObject );
 						}
 					}
 				}
