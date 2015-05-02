@@ -1,11 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Android.cs">
     <Files>
-      <File FileName="Assets\Scripts\GUI.cs" Line="77" Column="14" />
+      <File FileName="Assets\Scripts\Android.cs" Line="6" Column="32" />
+      <File FileName="Assets\Scripts\GUI.cs" Line="218" Column="1" />
       <File FileName="Assets\Scripts\MothershipController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="197" Column="26" />
-      <File FileName="Assets\Scripts\Android.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="215" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

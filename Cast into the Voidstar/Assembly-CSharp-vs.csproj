@@ -52,6 +52,7 @@
      <Compile Include="Assets\CNControls\Scripts\CNJoystick.cs" />
      <Compile Include="Assets\CNControls\Scripts\CNThrowableTouchpad.cs" />
      <Compile Include="Assets\CNControls\Scripts\CNTouchpad.cs" />
+     <Compile Include="Assets\GUI.cs" />
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\ProgressBar\Script\ProgressBarBehaviour.cs" />
      <Compile Include="Assets\ProgressBar\Script\ProgressRadialBehaviour.cs" />
@@ -64,6 +65,7 @@
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\MothershipController.cs" />
      <Compile Include="Assets\Scripts\Shot.cs" />
+     <Compile Include="Assets\Scripts\TouchScript.cs" />
      <Compile Include="Assets\Scripts\UnitController.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
