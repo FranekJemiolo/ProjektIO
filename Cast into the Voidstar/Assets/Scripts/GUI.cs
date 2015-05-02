@@ -8,6 +8,7 @@ public class GUI : MonoBehaviour {
 
 	private GameController gameController;
 	private MothershipController mothershipController;
+	private TouchScript touchScript;
 
 	public CNAbstractController MovementJoystick;
 
@@ -21,6 +22,7 @@ public class GUI : MonoBehaviour {
 	public GameObject InfoPanel;
 	public GameObject Joystick;
 	public GameObject GameOver;
+	public GameObject deselect;
 
 	public Text WhoWon;
 	public Text PlayerHPACCStatus;
@@ -32,6 +34,7 @@ public class GUI : MonoBehaviour {
 	public Button up;
 	public Button back;
 	public Button menu;
+	//public Button deselect;
 
 	public Button exit;
 	public Button resume;
@@ -46,6 +49,7 @@ public class GUI : MonoBehaviour {
 		GameOver.SetActive(false);
 		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		mothershipController = gameController.getMothership().GetComponent<MothershipController>();
+		touchScript = GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>();
 		hasGameEnded = false;
 		MoveUp = false;
     }
@@ -177,6 +181,10 @@ public class GUI : MonoBehaviour {
 		gameController.buildUnit(GameController.Who.Player, (GameController.UnitType) i);
 	}
 
+	public void Deselect() {
+		touchScript.Deselect();
+	}
+
 	private void checkIfGameOver() {
 
 		if (!hasGameEnded) {
@@ -194,15 +202,23 @@ public class GUI : MonoBehaviour {
 	}
 
 	private void HandleMovement() {
-		if (MoveUp) {
-			FocusCameraOnMothership();
-			mothershipController.moveForward(Time.deltaTime);
-        }
 		if (MoveDown) {
 			FocusCameraOnMothership();
 			mothershipController.moveBackward(Time.deltaTime);
 		}
+		if (MoveUp) {
+			FocusCameraOnMothership();
+			mothershipController.moveForward(Time.deltaTime);
+        }
     }
+
+	private void DrawDeselection() {
+		if (!touchScript.isSelectionEmpty()) {
+			deselect.SetActive(true);
+		} else {
+			deselect.SetActive(false);
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -211,7 +227,6 @@ public class GUI : MonoBehaviour {
 		DrawScore();
 		checkIfGameOver();
 		HandleMovement();
-
-	
+		DrawDeselection();
 	}
 }

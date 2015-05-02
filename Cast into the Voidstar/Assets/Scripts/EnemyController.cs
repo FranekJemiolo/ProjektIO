@@ -351,7 +351,7 @@ public class EnemyController : MonoBehaviour
 	public Agent agent;
 
 	// How often agents think.
-	private float thinkRate = 0.5f;
+	private float thinkRate = 1.0f;
 	private float timePassed = 0.0f;
 
 	

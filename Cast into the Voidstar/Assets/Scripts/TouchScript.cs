@@ -49,7 +49,7 @@ public class TouchScript : MonoBehaviour {
 	/// This method will be ONLY available from GUI (as button click);
 	/// Unlike in any other RTS, we can't distinct between LMB and RMB
 	/// </summary>
-	void Deselect() {
+	public void Deselect() {
 		foreach (GameObject unit in selected) {
 			Debug.Log ("Deselecting" +  unit.name );
 			// TODO: graphical behaviour

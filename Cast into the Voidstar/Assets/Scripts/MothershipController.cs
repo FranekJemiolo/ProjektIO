@@ -85,7 +85,7 @@ public class MothershipController : MonoBehaviour {
 		//if (this.myRigidbody.velocity.sqrMagnitude < sqrSpeed)
 		//{
 		Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
-		this.myRigidbody.AddRelativeForce(-(relativeVector * this.acceleration * timeDelta));
+		this.myRigidbody.AddRelativeForce((relativeVector * this.acceleration * timeDelta * (-1)));
 		//}
 		// else we reached max speed.
 	}
