@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using ProgressBar;
+using System.Threading;
 
 public class GUI : MonoBehaviour {
 
@@ -10,8 +11,10 @@ public class GUI : MonoBehaviour {
 
 	public CNAbstractController MovementJoystick;
 
-	public bool isCommandModeON;
-	public bool hasGameEnded;
+	private bool isCommandModeON;
+	private bool hasGameEnded;
+	private bool MoveUp;
+	private bool MoveDown;
 
 	public GameObject GUIPanel;
 	public GameObject CommandPanel;
@@ -44,6 +47,7 @@ public class GUI : MonoBehaviour {
 		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		mothershipController = gameController.getMothership().GetComponent<MothershipController>();
 		hasGameEnded = false;
+		MoveUp = false;
     }
 
 	public void FocusCameraOnMothership() {
@@ -76,14 +80,28 @@ public class GUI : MonoBehaviour {
 		mothershipController.rotateRight(Time.deltaTime);
 	}
 
+	public void MoveThread() {
+		while (MoveUp) {
+			FocusCameraOnMothership();
+			Debug.LogError("WHILED");
+			mothershipController.moveForward(Time.deltaTime);
+            break;
+        }
+	}
 	public void MoveForward() {
-		FocusCameraOnMothership();
-		mothershipController.moveForward(Time.deltaTime);
+		MoveUp = true;
+    }
+
+	public void RelaseMoveForward() {
+		MoveUp = false;
 	}
 
 	public void MoveBackward() {
-		FocusCameraOnMothership();
-		mothershipController.moveBackward(Time.deltaTime);
+		MoveDown = true;
+	}
+
+	public void RelaseMoveBackward() {
+		MoveDown = false;
 	}
 
 	private void DrawPlayerStats() {
@@ -175,12 +193,25 @@ public class GUI : MonoBehaviour {
 		}
 	}
 
+	private void HandleMovement() {
+		if (MoveUp) {
+			FocusCameraOnMothership();
+			mothershipController.moveForward(Time.deltaTime);
+        }
+		if (MoveDown) {
+			FocusCameraOnMothership();
+			mothershipController.moveBackward(Time.deltaTime);
+		}
+    }
+
 	// Update is called once per frame
 	void Update () {
 		HandleJoystick();
 		DrawPlayerStats();
 		DrawScore();
 		checkIfGameOver();
+		HandleMovement();
+
 	
 	}
 }
