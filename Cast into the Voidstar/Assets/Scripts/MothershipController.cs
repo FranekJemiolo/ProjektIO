@@ -7,9 +7,9 @@ public class MothershipController : MonoBehaviour {
 	private float rotateSpeed = 10.0f;
 
 	// The speed and acceleration
-	private float speed = 10.0f;
+	private float speed = 0.5f;
 	private float sqrSpeed = 100.0f;
-	private float acceleration = 100.0f;
+	private float acceleration = 500.0f;
 	
 	// The life points of the unit.
 	private float hitPoints = 100.0f;
@@ -72,9 +72,10 @@ public class MothershipController : MonoBehaviour {
 			Debug.Log(this.transform.forward);
 			//Vector3 res = this.transform.position - this.engines.transform.position;
 			//this.myRigidbody.AddForceAtPosition(this.transform.forward * this.acceleration * timeDelta, this.engines.transform.position);
-		Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
-		this.myRigidbody.AddRelativeForce(relativeVector * this.acceleration * timeDelta);
+		//Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
+		//this.myRigidbody.AddRelativeForce(relativeVector * this.acceleration * timeDelta);
 		//this.myRigidbody.AddForce(this.transform.forward * this.acceleration * timeDelta);
+		this.transform.position += this.transform.forward * this.speed;
 		//}
 		// else we already reached max speed.
 	}
@@ -84,8 +85,9 @@ public class MothershipController : MonoBehaviour {
 	{
 		//if (this.myRigidbody.velocity.sqrMagnitude < sqrSpeed)
 		//{
-		Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
-		this.myRigidbody.AddRelativeForce((relativeVector * this.acceleration * timeDelta * (-1)));
+		//Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
+		//this.myRigidbody.AddRelativeForce((relativeVector * this.acceleration * timeDelta * (-1)));
+		this.transform.position -= this.transform.forward * this.speed;
 		//}
 		// else we reached max speed.
 	}

@@ -53,6 +53,7 @@ public class TouchScript : MonoBehaviour {
 		foreach (GameObject unit in selected) {
 			Debug.Log ("Deselecting" +  unit.name );
 			// TODO: graphical behaviour
+			unit.GetComponentInChildren<Projector>().enabled = false;
 		}
 		selected.Clear();
 	}
@@ -71,6 +72,7 @@ public class TouchScript : MonoBehaviour {
 		Debug.Log ("Selecting" + unit.name);
 		
 		selected.Add (unit);
+		unit.GetComponentInChildren<Projector>().enabled = true;
 		
 		// TODO:
 		// change graphical behaviour of unit i.e. highlighted.

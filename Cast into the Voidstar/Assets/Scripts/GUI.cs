@@ -112,7 +112,7 @@ public class GUI : MonoBehaviour {
 		PlayerHPACCStatus.text = "HP: " + mothershipController.getHitPoints().ToString() +
 			" ACC: ";
 		Credits.text = "Credits: " + gameController.getPlayerCredits(GameController.Who.Player).ToString();
-		TimeToSpawn.text = "Time to spawn: " + gameController.TimeToSpawn[(int) GameController.Who.Player].ToString();
+		TimeToSpawn.text = "Time to spawn: " + gameController.playerTimeLeftToBuild(GameController.Who.Player).ToString();
 		
 	}
 	

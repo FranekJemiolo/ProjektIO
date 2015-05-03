@@ -54,6 +54,9 @@
      <Compile Include="Assets\CNControls\Editor\CNThrowableTouchpadInspector.cs" />
      <Compile Include="Assets\CNControls\Editor\CNTouchpadCreatorMenu.cs" />
      <Compile Include="Assets\CNControls\Editor\CNTouchpadInspector.cs" />
+     <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
+     <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
+     <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
