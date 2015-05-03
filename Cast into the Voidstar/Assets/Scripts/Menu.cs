@@ -17,7 +17,7 @@ public class Menu : MonoBehaviour {
     }
     
     public void startDebugLevel() {
-		Application.LoadLevel("joystick");
+		Application.LoadLevel("Battleground");
 	}
 
 
