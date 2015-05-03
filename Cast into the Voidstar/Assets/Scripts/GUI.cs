@@ -158,7 +158,7 @@ public class GUI : MonoBehaviour {
 
 	public void ExitToMenu() {
 		Time.timeScale = 1.0f;
-		Application.LoadLevel ("basic_menu");
+		Application.LoadLevel ("Menu");
 	}
 
 	void switchToCommand() {
