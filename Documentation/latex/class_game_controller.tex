@@ -1,0 +1,178 @@
+\hypertarget{class_game_controller}{}\section{Game\+Controller Class Reference}
+\label{class_game_controller}\index{Game\+Controller@{Game\+Controller}}
+Inheritance diagram for Game\+Controller\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game_controller}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_game_controller_1_1_player}{Player}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_game_controller_ab937754651a2f755bd6ae099c7a43a10}{}enum {\bfseries Unit\+Type} \{ \\*
+{\bfseries Mothership} = 0, 
+{\bfseries Destroyer}, 
+{\bfseries Cruiser}, 
+{\bfseries Fighter}, 
+\\*
+{\bfseries Transporter}, 
+{\bfseries Shuttle}, 
+{\bfseries Unknown}
+ \}\label{class_game_controller_ab937754651a2f755bd6ae099c7a43a10}
+
+\item 
+\hypertarget{class_game_controller_a532443f5d4c5992fecce2943dc627a89}{}enum {\bfseries Game\+State} \{ \\*
+{\bfseries Not\+Started}, 
+{\bfseries Playing}, 
+{\bfseries Paused}, 
+{\bfseries Player\+Won}, 
+\\*
+{\bfseries Enemy\+Won}, 
+{\bfseries Draw}
+ \}\label{class_game_controller_a532443f5d4c5992fecce2943dc627a89}
+
+\item 
+\hypertarget{class_game_controller_a2c93703a2af5124f070ee30361edd812}{}enum {\bfseries Who} \{ {\bfseries Player} = 0, 
+{\bfseries Enemy}
+ \}\label{class_game_controller_a2c93703a2af5124f070ee30361edd812}
+
+\item 
+\hypertarget{class_game_controller_a3545f5a2e68f44c964b88e3cbb0fa6a9}{}enum {\bfseries Selected} \{ {\bfseries None}, 
+{\bfseries Single}, 
+{\bfseries Group}
+ \}\label{class_game_controller_a3545f5a2e68f44c964b88e3cbb0fa6a9}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_game_controller_a24f3fc5439aa25c87d7a22efa0ca4ff5}{}Game\+State {\bfseries get\+Game\+State} ()\label{class_game_controller_a24f3fc5439aa25c87d7a22efa0ca4ff5}
+
+\item 
+\hypertarget{class_game_controller_a7533fd7506ef2ef51f35050cbf109c20}{}void {\bfseries navigate\+To} (Game\+Object unit, Vector3 pos)\label{class_game_controller_a7533fd7506ef2ef51f35050cbf109c20}
+
+\item 
+\hypertarget{class_game_controller_a19eacaf7b7a58d12ef03508959eb44d5}{}void {\bfseries navigate\+To} (List$<$ Game\+Object $>$ units, Vector3 pos)\label{class_game_controller_a19eacaf7b7a58d12ef03508959eb44d5}
+
+\item 
+\hypertarget{class_game_controller_a28daa03c0d2d957778106d03c9519ccc}{}void {\bfseries attack\+Unit} (Game\+Object unit, Game\+Object enemy)\label{class_game_controller_a28daa03c0d2d957778106d03c9519ccc}
+
+\item 
+\hypertarget{class_game_controller_a30a6c11927455a2680e61439844ea9d6}{}void {\bfseries attack\+Unit} (List$<$ Game\+Object $>$ units, Game\+Object enemy)\label{class_game_controller_a30a6c11927455a2680e61439844ea9d6}
+
+\item 
+\hypertarget{class_game_controller_ac24bfe50e36d1f80f2bb713b35950da4}{}void {\bfseries move\+Camera} (Vector3 pos)\label{class_game_controller_ac24bfe50e36d1f80f2bb713b35950da4}
+
+\item 
+\hypertarget{class_game_controller_a0a08dc740a2404be333418899e702fb9}{}void {\bfseries give\+Points\+For\+Killing} (Game\+Object unit)\label{class_game_controller_a0a08dc740a2404be333418899e702fb9}
+
+\item 
+\hypertarget{class_game_controller_af3c1116017242ec65bb53045f32447f6}{}void {\bfseries handle\+Building} (\hyperlink{class_asteroid_controller}{Asteroid\+Controller} ac)\label{class_game_controller_af3c1116017242ec65bb53045f32447f6}
+
+\item 
+\hypertarget{class_game_controller_a81d580922a9967dadf5c777c2a9a004f}{}void {\bfseries handle\+Asteroid} (Game\+Object asteroid)\label{class_game_controller_a81d580922a9967dadf5c777c2a9a004f}
+
+\item 
+\hypertarget{class_game_controller_ae1cb09c065288c83179440a8c7132672}{}void {\bfseries handle\+Game} ()\label{class_game_controller_ae1cb09c065288c83179440a8c7132672}
+
+\item 
+\hypertarget{class_game_controller_a6beec252fc2cf4bbeb8cec79d5174374}{}void {\bfseries delete\+Unit} (Game\+Object unit)\label{class_game_controller_a6beec252fc2cf4bbeb8cec79d5174374}
+
+\item 
+\hypertarget{class_game_controller_a1e8ba934d3e234307f50a3710f9c641a}{}bool {\bfseries build\+Unit} (Who who, Unit\+Type type\+Of\+Unit)\label{class_game_controller_a1e8ba934d3e234307f50a3710f9c641a}
+
+\item 
+\hypertarget{class_game_controller_a6969a4feb3cbc18212954e0bb7e2e3cd}{}void {\bfseries deselect\+All\+Units} ()\label{class_game_controller_a6969a4feb3cbc18212954e0bb7e2e3cd}
+
+\item 
+\hypertarget{class_game_controller_ae3722a2af86bf28e6152de6f9ed802c8}{}void {\bfseries deselect\+Unit} (Game\+Object unit)\label{class_game_controller_ae3722a2af86bf28e6152de6f9ed802c8}
+
+\item 
+\hypertarget{class_game_controller_a9a5e2e7359a2d77423644c92678154d2}{}void {\bfseries select\+Unit} (Game\+Object unit)\label{class_game_controller_a9a5e2e7359a2d77423644c92678154d2}
+
+\item 
+\hypertarget{class_game_controller_a4fb46a1b2d3b5132ef792f81db466586}{}void {\bfseries add\+To\+Group} (Game\+Object unit)\label{class_game_controller_a4fb46a1b2d3b5132ef792f81db466586}
+
+\item 
+\hypertarget{class_game_controller_ab1219cdc405982b5e9947e004fef207b}{}Game\+Object {\bfseries get\+Selected\+Unit} ()\label{class_game_controller_ab1219cdc405982b5e9947e004fef207b}
+
+\item 
+\hypertarget{class_game_controller_ab9fb961e72e2bd99bb3da82988143a23}{}List$<$ Game\+Object $>$ {\bfseries get\+Selected\+Group} ()\label{class_game_controller_ab9fb961e72e2bd99bb3da82988143a23}
+
+\item 
+\hypertarget{class_game_controller_afb78c694d4bb9eae40179cbaafee0da1}{}bool {\bfseries is\+Player\+Building} (Who who)\label{class_game_controller_afb78c694d4bb9eae40179cbaafee0da1}
+
+\item 
+\hypertarget{class_game_controller_ac495e4efd53d19999dcb5d6c14acceb8}{}Unit\+Type {\bfseries what\+Player\+Builds} (Who who)\label{class_game_controller_ac495e4efd53d19999dcb5d6c14acceb8}
+
+\item 
+\hypertarget{class_game_controller_a363d3a30e9b342193fd4f27287d4daf1}{}float {\bfseries player\+Time\+Left\+To\+Build} (Who who)\label{class_game_controller_a363d3a30e9b342193fd4f27287d4daf1}
+
+\item 
+\hypertarget{class_game_controller_a72e4937c7dcadf16ae55bd2316d4c701}{}float {\bfseries get\+Player\+Points} (Who who)\label{class_game_controller_a72e4937c7dcadf16ae55bd2316d4c701}
+
+\item 
+\hypertarget{class_game_controller_a1fd920b0ec40173da587192a724960fd}{}float {\bfseries get\+Player\+Credits} (Who who)\label{class_game_controller_a1fd920b0ec40173da587192a724960fd}
+
+\item 
+\hypertarget{class_game_controller_a102d9ddd5f0d8951264a34ec995a6137}{}float {\bfseries get\+Win\+Points} ()\label{class_game_controller_a102d9ddd5f0d8951264a34ec995a6137}
+
+\item 
+\hypertarget{class_game_controller_a7355dd4edaaac2850e198badb10f05e2}{}void {\bfseries mothership\+Killed} (Who who)\label{class_game_controller_a7355dd4edaaac2850e198badb10f05e2}
+
+\item 
+\hypertarget{class_game_controller_a60197a1686c4b7ead8b4def6c2346313}{}Game\+Object {\bfseries get\+Mothership} ()\label{class_game_controller_a60197a1686c4b7ead8b4def6c2346313}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_game_controller_ae3f5a83f04b65f5a56538bcf4e04f0b6}{}static Unit\+Type {\bfseries get\+Unit\+Type} (Game\+Object ob)\label{class_game_controller_ae3f5a83f04b65f5a56538bcf4e04f0b6}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_game_controller_a674085d39c0f50688fe9af5f9596d806}{}\hyperlink{class_game_controller_1_1_player}{Player}\mbox{[}$\,$\mbox{]} {\bfseries players}\label{class_game_controller_a674085d39c0f50688fe9af5f9596d806}
+
+\item 
+\hypertarget{class_game_controller_aa81cbf39eea608ee93dc76c572b42195}{}Game\+Object\mbox{[}$\,$\mbox{]} {\bfseries asteroids}\label{class_game_controller_aa81cbf39eea608ee93dc76c572b42195}
+
+\item 
+\hypertarget{class_game_controller_a129b256ff0d239cac52dbc5882f147b1}{}const int {\bfseries type\+Of\+Units} = 7\label{class_game_controller_a129b256ff0d239cac52dbc5882f147b1}
+
+\item 
+\hypertarget{class_game_controller_a7d09c64261bcee941e31fe9b1db7272c}{}float\mbox{[}$\,$\mbox{]} {\bfseries unit\+Costs} = new float\mbox{[}type\+Of\+Units\mbox{]}\label{class_game_controller_a7d09c64261bcee941e31fe9b1db7272c}
+
+\item 
+\hypertarget{class_game_controller_a756f424fd8c407efecee7b7873a5f041}{}float\mbox{[}$\,$\mbox{]} {\bfseries build\+Time} = new float\mbox{[}type\+Of\+Units\mbox{]}\label{class_game_controller_a756f424fd8c407efecee7b7873a5f041}
+
+\item 
+\hypertarget{class_game_controller_aeb780e3e7da55b2127fee53ee5ee3d81}{}Game\+Object\mbox{[}$\,$\mbox{]} {\bfseries unit\+Prefabs} = new Game\+Object\mbox{[}type\+Of\+Units\mbox{]}\label{class_game_controller_aeb780e3e7da55b2127fee53ee5ee3d81}
+
+\item 
+\hypertarget{class_game_controller_a994169e702283f71d719b2e6889153f1}{}Game\+Object\mbox{[}$\,$\mbox{]} {\bfseries enemy\+Prefabs} = new Game\+Object\mbox{[}type\+Of\+Units\mbox{]}\label{class_game_controller_a994169e702283f71d719b2e6889153f1}
+
+\item 
+\hypertarget{class_game_controller_a5d6e972d3a815631c2e7c2d95df9b5e7}{}Game\+Object\mbox{[}$\,$\mbox{]} {\bfseries mass\+Relays} = new Game\+Object\mbox{[}number\+Of\+Players\mbox{]}\label{class_game_controller_a5d6e972d3a815631c2e7c2d95df9b5e7}
+
+\item 
+\hypertarget{class_game_controller_a862b42641a1c37db9ae6d99ddd3f33c2}{}Game\+Object {\bfseries mothership}\label{class_game_controller_a862b42641a1c37db9ae6d99ddd3f33c2}
+
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_game_controller_a673c0662bae48eccd1b3b8e498e00ec6}{}float\mbox{[}$\,$\mbox{]} {\bfseries Time\+To\+Spawn}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}\label{class_game_controller_a673c0662bae48eccd1b3b8e498e00ec6}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Assets/\+Scripts/Game\+Controller.\+cs\end{DoxyCompactItemize}
