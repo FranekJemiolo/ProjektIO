@@ -30,6 +30,9 @@ public class AsteroidController : MonoBehaviour
 		// Reference to GameObject of the building.
 		private GameObject building;
 
+		// Where the building should be spawned?
+		private Transform where;
+
 
 		// Building's life points. Some size.
 		private float hitPoints;
@@ -44,7 +47,7 @@ public class AsteroidController : MonoBehaviour
 		private float timePassed;
 
 		// Is actively builded?
-		private bool isBuilded;
+		private bool builded;
 
 		// If built set to true. Can destroy after.
 		private bool built;
@@ -57,6 +60,8 @@ public class AsteroidController : MonoBehaviour
 			this.who = who;
 			this.hitPoints = 100.0f;
 			this.timePassed = 0.0f;
+			this.builded = false;
+			this.built = false;
 		}
 
 
@@ -67,7 +72,11 @@ public class AsteroidController : MonoBehaviour
 			// Now instantiate.
 			if (this.timePassed > this.buildTime)
 			{
-				this.isBuilded = false;
+				Debug.Log ("Building has been built");
+				this.building = Instantiate (this.building, where.position, Quaternion.identity) as GameObject;
+				this.building.transform.SetParent (where);
+				//this.building
+				this.builded = false;
 				this.built = true;
 			}
 		}
@@ -75,6 +84,7 @@ public class AsteroidController : MonoBehaviour
 		public void destroyBuilding ()
 		{
 			// Calls destructor and create some form of explosion.
+			Destroy(this.building);
 		}
 		
 		public GameObject getBuilding ()
@@ -96,6 +106,16 @@ public class AsteroidController : MonoBehaviour
 		{
 			this.hitPoints = hp;
 		}
+
+		public bool isBuilded ()
+		{
+			return this.builded;
+		}
+
+		public bool isBuilt ()
+		{
+			return this.built;
+		}
 	}
 
 
@@ -107,6 +127,8 @@ public class AsteroidController : MonoBehaviour
 	private Building building;
 	// Insert prefab model here for building.
 	public GameObject prefabBuildingModel;
+
+	public GameObject prefabEnemyBuildingModel;
 
 
 	// List to represent gameobject in vicinity.
@@ -231,7 +253,7 @@ public class AsteroidController : MonoBehaviour
 			}
 		}
 		//Debug.Log ("Capping:" + capping);
-		//Debug.Log("Belongs to:" + belongsTo);
+		Debug.Log("Belongs to:" + belongsTo);
 		// Else do nothing we already have it.
 	}
 
@@ -268,7 +290,18 @@ public class AsteroidController : MonoBehaviour
 			if (belongsTo == player)
 			{
 				//building = Building(player, GameObject someModel);
-				this.building = new Building(player, this.prefabBuildingModel);
+				if (player == Master.Player)
+				{
+					this.building = new Building(player, this.prefabBuildingModel);
+				}
+				else if (player == Master.Enemy)
+				{
+					this.building = new Building(player, this.prefabEnemyBuildingModel);
+				}
+				else 
+				{
+					return false;
+				}
 				return true;
 			}
 			else
@@ -337,10 +370,18 @@ public class AsteroidController : MonoBehaviour
 	{
 		if (this.building != null)
 		{
-			// If no life left.
-			if (this.building.getHP() < 0.0f)
+			// Check if building is being built?
+			if (this.building.isBuilded())
 			{
-				this.destroyBuilding();
+				this.building.updateOnCreation (Time.deltaTime);
+			}
+			else if (this.building.isBuilt())
+			{
+				// If no life left.
+				if (this.building.getHP() < 0.0f)
+				{
+					this.destroyBuilding();
+				}
 			}
 		}
 	}

@@ -87,6 +87,11 @@ public class Shot : MonoBehaviour
 
 			this.blowUp();
 		}
+		else if (other.gameObject.tag == "Building")
+		{
+			AsteroidController ac = other.gameObject.transform.parent.gameObject.GetComponent<AsteroidController>();
+			ac.getBuilding().setHP (ac.getBuilding().getHP() - this.damage);
+		}
 
 	}
 }
