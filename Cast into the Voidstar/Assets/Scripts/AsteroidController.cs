@@ -171,7 +171,7 @@ public class AsteroidController : MonoBehaviour
 	// When unit enters asteroid vicinity.	
 	void OnTriggerEnter (Collider other) 
 	{
-		Debug.Log (other + "Entering" + other.gameObject.tag);
+		//Debug.Log (other + "Entering" + other.gameObject.tag);
 		if (other.gameObject.tag == "Enemy") 
 		{
 			this.enemies.Add (other.gameObject);
@@ -253,14 +253,14 @@ public class AsteroidController : MonoBehaviour
 			}
 		}
 		//Debug.Log ("Capping:" + capping);
-		Debug.Log("Belongs to:" + belongsTo);
+		//Debug.Log("Belongs to:" + belongsTo);
 		// Else do nothing we already have it.
 	}
 
 	// When object leaves asteroid field.
 	void OnTriggerExit (Collider other) 
 	{
-		Debug.Log (other + "Leaving" + other.gameObject.tag);
+		//Debug.Log (other + "Leaving" + other.gameObject.tag);
 		if (other.gameObject.tag == "Enemy") 
 		{
 			this.enemies.Remove (other.gameObject);

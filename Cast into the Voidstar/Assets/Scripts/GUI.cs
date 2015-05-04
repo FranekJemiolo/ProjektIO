@@ -182,7 +182,8 @@ public class GUI : MonoBehaviour {
 	}
 
 	public void Deselect() {
-		touchScript.Deselect();
+		GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>().Deselect();
+		//touchScript.Deselect();
 	}
 
 	private void checkIfGameOver() {

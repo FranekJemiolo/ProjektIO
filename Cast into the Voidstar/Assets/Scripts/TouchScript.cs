@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public class TouchScript : MonoBehaviour {
 	
-	
-	private List<GameObject> selected = new List<GameObject> ();
+	//list of selected units
+    private List<GameObject> selected;
 	
 	private bool swipeOn = false;
 	
@@ -16,13 +16,13 @@ public class TouchScript : MonoBehaviour {
 	private float distanceMoved = 0;
 	private float sumXaxis = 0;
 	private float sumYaxis = 0;
-
+	
 	GameController gameController;
 	
 	RaycastHit hit;
-
-
-
+	
+	
+	
 	Camera cam;
 	public float camSpeed = 0.4f;
 	
@@ -39,7 +39,7 @@ public class TouchScript : MonoBehaviour {
 			dt = 1.0f;
 		return aTouch.deltaPosition * dt;
 	}*/
-	
+
 	public bool isSelectionEmpty(){
 		return selected.Count == 0;
 	}
@@ -53,7 +53,7 @@ public class TouchScript : MonoBehaviour {
 		foreach (GameObject unit in selected) {
 			Debug.Log ("Deselecting" +  unit.name );
 			// TODO: graphical behaviour
-			unit.GetComponentInChildren<Projector>().enabled = false;
+			//unit.GetComponentInChildren<Projector>().enabled = false;
 		}
 		selected.Clear();
 	}
@@ -79,22 +79,29 @@ public class TouchScript : MonoBehaviour {
 		// projector - additive shader (shadow material)
 		
 	}
-	
+
+	//selecting units (adding them on list)
 	void Select(List<GameObject> units){
 		foreach (GameObject unit in units) {
 			Select(unit);
 		}
 	}
-	
+
+	// selected getter
 	List<GameObject> GetSelectedUnits() {
 		return selected;
 	}
-	
+
+
 	// Use this for initialization
+	// find main camera and gamecontroller
 	void Start () 
 	{
 		cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        selected = new List<GameObject> ();
+		gameController = GameObject.Find("GameController").GetComponent<GameController>();
+		Vector3 movePos = new Vector3 (10, 0, 10);
+		gameController.moveCamera ( movePos );
 	}
 	
 	// Update is called once per frame
@@ -109,9 +116,11 @@ public class TouchScript : MonoBehaviour {
 			switch( touch.phase ) {
 			case TouchPhase.Began:
 				Ray ray1 = Camera.main.ScreenPointToRay(touch.position);
+
 				Debug.Log("touchphase began");
 				// we have to detect what we are hitting - it must be unit(s)
 				if(Physics.Raycast(ray1, out hit, 1000)){
+					//Debug.DrawRay (touch.position, hit.transform.position);
 					GameObject recipient = hit.transform.gameObject;
 					Debug.Log("hitted "+recipient.name);
 				}
@@ -127,37 +136,42 @@ public class TouchScript : MonoBehaviour {
 				}
 				if(swipeOn){
 					//SendMessage("moveCamera", Vector3(sumXaxis,0,sumYaxis), SendMessageOptions.DontRequireReceiver);
-					Vector2 movement = new Vector2(sumXaxis, sumYaxis);
-					Vector2 touchDeltaPosition = touch.deltaPosition;
-					transform.Translate(-sumXaxis * camSpeed, -sumYaxis * camSpeed, 0);
+					//Vector3 camPos = Camera.main.ScreenToViewportPoint();
+					//gameController.moveCamera( camPos );
 					sumXaxis = 0;
 					sumYaxis = 0;
 				}
 				break;
 			case TouchPhase.Ended:
 				if( !swipeOn ){
+
+                    Debug.Log("Heelo");
 					
 					if( !isSelectionEmpty() ){
 						//gotta use tags, temp solution - type
-						if( hit.collider.tag == "Terrain" ){
+						if( hit.collider.gameObject.tag == "Terrain" ){
 							Debug.Log("is selected, move to");
 							Vector3 pos = hit.point;
 							gameController.navigateTo(selected, pos);
 						}
-						else if( hit.collider.tag == "Player" ){
+						else if( hit.collider.gameObject.tag == "Player" ){
 							Debug.Log("is selected, move to");
 							//SendMessage( "navigateTo", selected );
 							Vector3 pos = hit.point;
 							gameController.navigateTo(selected, pos);
 						}
-						else if( hit.collider.tag == "Enemy" ){
+						else if( hit.collider.gameObject.tag == "Enemy" ){
 							Debug.Log("is selected, attack");
+							gameController.attackUnit( selected, hit.transform.gameObject );
 						}
 					}
 					else{
-						if( hit.collider.tag== "Player" ){
+						if( hit.collider.gameObject.tag == "Player" ){
 							Debug.Log("is not selected, select friendly unit");
-							Select( hit.collider.gameObject );
+							if (hit.collider.gameObject.name != "Mothership")
+							{
+								Select( hit.transform.gameObject );
+							}
 						}
 					}
 				}
@@ -201,13 +215,12 @@ public class TouchScript : MonoBehaviour {
 				cam.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
 				
 				// Clamp the field of view to make sure it's between 0 and 180.
-				cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 0.1f, 179.9f);
+				cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 10.0f, 90.0f);
 			}
 			break;
 			//selecting groups
 		case 3:
 			break;
 		}
-		isOverUI = false;
 	}
 }
