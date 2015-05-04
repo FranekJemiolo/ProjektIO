@@ -43,6 +43,10 @@ public class MothershipController : MonoBehaviour {
 
 	void Update () 
 	{
+		for (int i = 0; i < numberOfProjectiles; i++)
+		{
+			timePassed[i] += Time.deltaTime;
+		}
 		
 	}
 	
@@ -97,6 +101,7 @@ public class MothershipController : MonoBehaviour {
 	{
 		if (timePassed[whichAttack] > firingRate[whichAttack])
 		{
+			timePassed[whichAttack] = 0;
 			GameObject firedShot;
 			firedShot = Instantiate(projectiles[whichAttack], shotSpawn.position, this.transform.rotation) as GameObject;
 			firedShot.GetComponent<Shot>().setOwner(this.gameObject);
