@@ -69,9 +69,9 @@ public class GUI : MonoBehaviour {
 		}
 	}
 
-	public void Fire() {
+	public void Fire(int i) {
 		//FocusCameraOnMothership();
-		mothershipController.fire(1); //TODO change attack nr
+		mothershipController.fire(i); //TODO change attack nr
 	}
 	
 	public void RotateLeft() {

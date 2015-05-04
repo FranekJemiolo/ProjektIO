@@ -5,6 +5,7 @@ public class MothershipController : MonoBehaviour {
 
 	// Rotation speed in degrees.
 	private float rotateSpeed = 10.0f;
+	private float rotationConst = 10.0f;
 
 	// The speed and acceleration
 	private float speed = 0.5f;
@@ -58,13 +59,13 @@ public class MothershipController : MonoBehaviour {
 	// Rotates mothership to right.
 	public void rotateRight (float timeDelta)
 	{
-		this.transform.Rotate (0.0f, (this.rotateSpeed * timeDelta), 0.0f);
+		this.transform.Rotate (0.0f, (this.rotateSpeed * timeDelta * rotationConst), 0.0f);
 	}
 
 	// Rotates mothership to left.
 	public void rotateLeft (float timeDelta)
 	{
-		this.transform.Rotate (0.0f, -(this.rotateSpeed * timeDelta), 0.0f);
+		this.transform.Rotate (0.0f, -(this.rotateSpeed * timeDelta * rotationConst), 0.0f);
 	}
 
 	// Moves mothership forward.
