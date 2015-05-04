@@ -132,9 +132,7 @@ public class TouchScript : MonoBehaviour {
 					swipeOn = true;
 				}
 				if(swipeOn){
-					//SendMessage("moveCamera", Vector3(sumXaxis,0,sumYaxis), SendMessageOptions.DontRequireReceiver);
-					//Vector3 camPos = Camera.main.ScreenToViewportPoint();
-					//gameController.moveCamera( camPos );
+					gameController.moveCamera( cam.transform.position - new Vector3(sumXaxis * camSpeed, 0, sumYaxis * camSpeed) );
 					sumXaxis = 0;
 					sumYaxis = 0;
 				}
