@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 
 public class TouchScript : MonoBehaviour {
@@ -16,6 +17,8 @@ public class TouchScript : MonoBehaviour {
 	private float distanceMoved = 0;
 	private float sumXaxis = 0;
 	private float sumYaxis = 0;
+
+	private bool isOverUI = false;
 	
 	GameController gameController;
 	
@@ -72,7 +75,7 @@ public class TouchScript : MonoBehaviour {
 		Debug.Log ("Selecting" + unit.name);
 		
 		selected.Add (unit);
-		unit.GetComponentInChildren<Projector>().enabled = true;
+		//unit.GetComponentInChildren<Projector>().enabled = true;
 		
 		// TODO:
 		// change graphical behaviour of unit i.e. highlighted.
@@ -107,120 +110,129 @@ public class TouchScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		foreach( Touch checkTouch in Input.touches ){
+			if( EventSystem.current.IsPointerOverGameObject( checkTouch.fingerId ) ){
+				isOverUI = true;
+				break;
+			}
+		}
+		if ( !isOverUI ) {
 		//single touch - detect taps (select) and drags (move camera)
-		switch(Input.touchCount) {
-		case 1:
-			Touch touch = Input.GetTouch(0);
-			//checking if any unit is selected
-			
-			switch( touch.phase ) {
-			case TouchPhase.Began:
-				Ray ray1 = Camera.main.ScreenPointToRay(touch.position);
-
-				Debug.Log("touchphase began");
-				// we have to detect what we are hitting - it must be unit(s)
-				if(Physics.Raycast(ray1, out hit, 1000)){
-					//Debug.DrawRay (touch.position, hit.transform.position);
-					GameObject recipient = hit.transform.gameObject;
-					Debug.Log("hitted "+recipient.name);
-				}
-				break;
-			case TouchPhase.Moved:
-				distanceMoved += Mathf.Abs(touch.deltaPosition.x) + Mathf.Abs(touch.deltaPosition.y);
-				sumXaxis += touch.deltaPosition.x;
-				sumYaxis += touch.deltaPosition.y;
+			switch(Input.touchCount) {
+			case 1:
+				Touch touch = Input.GetTouch(0);
+				//checking if any unit is selected
 				
-				if( distanceMoved>10 ){
-					Debug.Log("swipe");
-					swipeOn = true;
-				}
-				if(swipeOn){
-					//SendMessage("moveCamera", Vector3(sumXaxis,0,sumYaxis), SendMessageOptions.DontRequireReceiver);
-					//Vector3 camPos = Camera.main.ScreenToViewportPoint();
-					//gameController.moveCamera( camPos );
-					sumXaxis = 0;
-					sumYaxis = 0;
-				}
-				break;
-			case TouchPhase.Ended:
-				if( !swipeOn ){
+				switch( touch.phase ) {
+				case TouchPhase.Began:
+					Ray ray1 = Camera.main.ScreenPointToRay(touch.position);
 
-                    Debug.Log("Heelo");
-					
-					if( !isSelectionEmpty() ){
-						//gotta use tags, temp solution - type
-						if( hit.collider.gameObject.tag == "Terrain" ){
-							Debug.Log("is selected, move to");
-							Vector3 pos = hit.point;
-							gameController.navigateTo(selected, pos);
-						}
-						else if( hit.collider.gameObject.tag == "Player" ){
-							Debug.Log("is selected, move to");
-							//SendMessage( "navigateTo", selected );
-							Vector3 pos = hit.point;
-							gameController.navigateTo(selected, pos);
-						}
-						else if( hit.collider.gameObject.tag == "Enemy" ){
-							Debug.Log("is selected, attack");
-							gameController.attackUnit( selected, hit.transform.gameObject );
-						}
+					Debug.Log("touchphase began");
+					// we have to detect what we are hitting - it must be unit(s)
+					if(Physics.Raycast(ray1, out hit, 1000)){
+						//Debug.DrawRay (touch.position, hit.transform.position);
+						GameObject recipient = hit.transform.gameObject;
+						Debug.Log("hitted "+recipient.name);
 					}
-					else{
-						if( hit.collider.gameObject.tag == "Player" ){
-							Debug.Log("is not selected, select friendly unit");
-							if (hit.collider.gameObject.name != "Mothership")
-							{
-								Select( hit.transform.gameObject );
+					break;
+				case TouchPhase.Moved:
+					distanceMoved += Mathf.Abs(touch.deltaPosition.x) + Mathf.Abs(touch.deltaPosition.y);
+					sumXaxis += touch.deltaPosition.x;
+					sumYaxis += touch.deltaPosition.y;
+					
+					if( distanceMoved>10 ){
+						Debug.Log("swipe");
+						swipeOn = true;
+					}
+					if(swipeOn){
+						//SendMessage("moveCamera", Vector3(sumXaxis,0,sumYaxis), SendMessageOptions.DontRequireReceiver);
+						//Vector3 camPos = Camera.main.ScreenToViewportPoint();
+						//gameController.moveCamera( camPos );
+						sumXaxis = 0;
+						sumYaxis = 0;
+					}
+					break;
+				case TouchPhase.Ended:
+					if( !swipeOn ){
+
+	                    Debug.Log("Heelo");
+						
+						if( !isSelectionEmpty() ){
+							//gotta use tags, temp solution - type
+							if( hit.collider.gameObject.tag == "Terrain" ){
+								Debug.Log("is selected, move to");
+								Vector3 pos = hit.point;
+								gameController.navigateTo(selected, pos);
+							}
+							else if( hit.collider.gameObject.tag == "Player" ){
+								Debug.Log("is selected, move to");
+								//SendMessage( "navigateTo", selected );
+								Vector3 pos = hit.point;
+								gameController.navigateTo(selected, pos);
+							}
+							else if( hit.collider.gameObject.tag == "Enemy" ){
+								Debug.Log("is selected, attack");
+								gameController.attackUnit( selected, hit.transform.gameObject );
+							}
+						}
+						else{
+							if( hit.collider.gameObject.tag == "Player" ){
+								Debug.Log("is not selected, select friendly unit");
+								if (hit.collider.gameObject.name != "Mothership")
+								{
+									Select( hit.transform.gameObject );
+								}
 							}
 						}
 					}
+					distanceMoved = 0;
+					swipeOn = false;
+					sumXaxis = 0;
+					sumYaxis = 0;
+					Debug.Log ("Touchphase ended");
+					break;
 				}
-				distanceMoved = 0;
-				swipeOn = false;
-				sumXaxis = 0;
-				sumYaxis = 0;
-				Debug.Log ("Touchphase ended");
+				break;
+				//resize camera (move by Y axis)
+			case 2:
+				// Store both touches.
+				Touch touchZero = Input.GetTouch(0);
+				Touch touchOne = Input.GetTouch(1);
+				
+				// Find the position in the previous frame of each touch.
+				Vector2 touchZeroPrevPos = touchZero.position  - touchZero.deltaPosition;
+				Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+				
+				// Find the magnitude of the vector (the distance) between the touches in each frame.
+				float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+				float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+				
+				// Find the difference in the distances between each frame.
+				float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+				
+				// If the camera is orthographic...
+				if ( cam.orthographic == true)
+				{
+					// ... change the orthographic size based on the change in distance between the touches.
+					cam.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
+					
+					// Make sure the orthographic size never drops below zero.
+					cam.orthographicSize = Mathf.Max(GetComponent<Camera>().orthographicSize, 0.1f);
+				}
+				else
+				{
+					// Otherwise change the field of view based on the change in distance between the touches.
+					cam.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
+					
+					// Clamp the field of view to make sure it's between 0 and 180.
+					cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 10.0f, 90.0f);
+				}
+				break;
+				//selecting groups
+			case 3:
 				break;
 			}
-			break;
-			//resize camera (move by Y axis)
-		case 2:
-			// Store both touches.
-			Touch touchZero = Input.GetTouch(0);
-			Touch touchOne = Input.GetTouch(1);
-			
-			// Find the position in the previous frame of each touch.
-			Vector2 touchZeroPrevPos = touchZero.position  - touchZero.deltaPosition;
-			Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-			
-			// Find the magnitude of the vector (the distance) between the touches in each frame.
-			float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-			float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-			
-			// Find the difference in the distances between each frame.
-			float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-			
-			// If the camera is orthographic...
-			if ( cam.orthographic == true)
-			{
-				// ... change the orthographic size based on the change in distance between the touches.
-				cam.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
-				
-				// Make sure the orthographic size never drops below zero.
-				cam.orthographicSize = Mathf.Max(GetComponent<Camera>().orthographicSize, 0.1f);
-			}
-			else
-			{
-				// Otherwise change the field of view based on the change in distance between the touches.
-				cam.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
-				
-				// Clamp the field of view to make sure it's between 0 and 180.
-				cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 10.0f, 90.0f);
-			}
-			break;
-			//selecting groups
-		case 3:
-			break;
 		}
+		isOverUI = false;
 	}
 }
