@@ -8,28 +8,38 @@ public class TouchScript : MonoBehaviour {
 	//list of selected units
 	private List<GameObject> selected = new List<GameObject> ();
 	
-
-
-
-
-	//private floats that serves as counters for swiping
+	private bool swipeOn = false;
+	
+	public float perspectiveZoomSpeed = 0.5f;        // The rate of change of the field of view in perspective mode.
+	public float orthoZoomSpeed = 0.5f;
+	
 	private float distanceMoved = 0;
 	private float sumXaxis = 0;
 	private float sumYaxis = 0;
-	private bool swipeOn = false;
-
-	//raycasthit 
-	RaycastHit hit;
-
-	// access to gameController and camera to manipulate main camera and units
+	
 	GameController gameController;
+	
+	RaycastHit hit;
+	
+	
+	
 	Camera cam;
-	public float camSpeed = 0.0002f;
+	public float camSpeed = 0.4f;
+	
+	public void moveCamera(Vector2 pos)
+	{
+		Vector3 mov = new Vector3(pos.x*camSpeed, cam.transform.position.y, pos.y*camSpeed);
+		cam.transform.position = mov;
+	}
+	
+	/*public static Vector2 FixedTouchDelta(this Touch aTouch)
+	{
+		float dt = Time.deltaTime / aTouch.deltaTime;
+		if (dt == 0 || float.IsNaN(dt) || float.IsInfinity(dt))
+			dt = 1.0f;
+		return aTouch.deltaPosition * dt;
+	}*/
 
-	public float perspectiveZoomSpeed = 0.02f;        // The rate of change of the field of view in perspective mode.
-	public float orthoZoomSpeed = 0.02f;
-
-	//function, which if any unit is selected
 	public bool isSelectionEmpty(){
 		return selected.Count == 0;
 	}
@@ -39,7 +49,7 @@ public class TouchScript : MonoBehaviour {
 	/// This method will be ONLY available from GUI (as button click);
 	/// Unlike in any other RTS, we can't distinct between LMB and RMB
 	/// </summary>
-	public void Deselect() {
+	void Deselect() {
 		foreach (GameObject unit in selected) {
 			Debug.Log ("Deselecting" +  unit.name );
 			// TODO: graphical behaviour
@@ -88,7 +98,9 @@ public class TouchScript : MonoBehaviour {
 	void Start () 
 	{
 		cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		gameController = GameObject.Find("GameController").GetComponent<GameController>();
+		Vector3 movePos = new Vector3 (10, 0, 10);
+		gameController.moveCamera ( movePos );
 	}
 	
 	// Update is called once per frame
@@ -104,6 +116,7 @@ public class TouchScript : MonoBehaviour {
 			case TouchPhase.Began:
 				Ray ray1 = Camera.main.ScreenPointToRay(touch.position);
 				Debug.Log("touchphase began");
+				// we have to detect what we are hitting - it must be unit(s)
 				if(Physics.Raycast(ray1, out hit, 1000)){
 					GameObject recipient = hit.transform.gameObject;
 					Debug.Log("hitted "+recipient.name);
@@ -120,14 +133,17 @@ public class TouchScript : MonoBehaviour {
 				}
 				if(swipeOn){
 					//SendMessage("moveCamera", Vector3(sumXaxis,0,sumYaxis), SendMessageOptions.DontRequireReceiver);
-					gameController.moveCamera(cam.transform.position - new Vector3(sumXaxis * camSpeed * distanceMoved , 0, sumYaxis * camSpeed * distanceMoved));
+					//Vector3 camPos = Camera.main.ScreenToViewportPoint();
+					//gameController.moveCamera( camPos );
 					sumXaxis = 0;
 					sumYaxis = 0;
 				}
 				break;
 			case TouchPhase.Ended:
 				if( !swipeOn ){
+					
 					if( !isSelectionEmpty() ){
+						//gotta use tags, temp solution - type
 						if( hit.collider.tag == "Terrain" ){
 							Debug.Log("is selected, move to");
 							Vector3 pos = hit.point;
@@ -135,18 +151,19 @@ public class TouchScript : MonoBehaviour {
 						}
 						else if( hit.collider.tag == "Player" ){
 							Debug.Log("is selected, move to");
+							//SendMessage( "navigateTo", selected );
 							Vector3 pos = hit.point;
 							gameController.navigateTo(selected, pos);
 						}
 						else if( hit.collider.tag == "Enemy" ){
 							Debug.Log("is selected, attack");
-							gameController.attackUnit(selected, hit.collider.gameObject);
+							gameController.attackUnit( selected, hit.transform.gameObject );
 						}
 					}
 					else{
 						if( hit.collider.tag== "Player" ){
 							Debug.Log("is not selected, select friendly unit");
-							Select( hit.collider.gameObject );
+							Select( hit.transform.gameObject );
 						}
 					}
 				}
@@ -158,7 +175,7 @@ public class TouchScript : MonoBehaviour {
 				break;
 			}
 			break;
-			//resize camera (move by Y axis or manipulate orthographic size/field of view)
+			//resize camera (move by Y axis)
 		case 2:
 			// Store both touches.
 			Touch touchZero = Input.GetTouch(0);
