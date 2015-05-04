@@ -207,5 +207,6 @@ public class TouchScript : MonoBehaviour {
 				break;
 			}
 		}
+		isOverUI = false;
 	}
 }
