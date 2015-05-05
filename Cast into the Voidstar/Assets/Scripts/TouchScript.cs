@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class TouchScript : MonoBehaviour {
 	
 	//list of selected units
-    private List<GameObject> selected;
+	private List<GameObject> selected;
 	
 	private bool swipeOn = false;
 	
@@ -17,14 +17,14 @@ public class TouchScript : MonoBehaviour {
 	private float distanceMoved = 0;
 	private float sumXaxis = 0;
 	private float sumYaxis = 0;
-
+	
 	private bool isOverUI = false;
 	
 	GameController gameController;
 	
 	RaycastHit hit;
 	
-	
+	GameObject asteroid;
 	
 	Camera cam;
 	public float camSpeed = 0.4f;
@@ -34,15 +34,18 @@ public class TouchScript : MonoBehaviour {
 		Vector3 mov = new Vector3(pos.x*camSpeed, cam.transform.position.y, pos.y*camSpeed);
 		cam.transform.position = mov;
 	}
+
+	private GUI gui;
+	private AsteroidController asteroidController;
 	
 	/*public static Vector2 FixedTouchDelta(this Touch aTouch)
-	{
-		float dt = Time.deltaTime / aTouch.deltaTime;
-		if (dt == 0 || float.IsNaN(dt) || float.IsInfinity(dt))
-			dt = 1.0f;
-		return aTouch.deltaPosition * dt;
-	}*/
-
+        {
+                float dt = Time.deltaTime / aTouch.deltaTime;
+                if (dt == 0 || float.IsNaN(dt) || float.IsInfinity(dt))
+                        dt = 1.0f;
+                return aTouch.deltaPosition * dt;
+        }*/
+	
 	public bool isSelectionEmpty(){
 		return selected.Count == 0;
 	}
@@ -65,9 +68,9 @@ public class TouchScript : MonoBehaviour {
 	/// Select the specified unit.
 	/// When selecting unit, we are not disposing previously selected ones,
 	/// since we don't have any distinction between order: Move To / Select.
-	/// 
+	///
 	/// This will be solved by TouchController
-	/// 
+	///
 	/// </summary>
 	/// <param name="unit">Unit.</param>
 	void Select(GameObject unit){
@@ -82,33 +85,64 @@ public class TouchScript : MonoBehaviour {
 		// projector - additive shader (shadow material)
 		
 	}
-
+	
 	//selecting units (adding them on list)
 	void Select(List<GameObject> units){
 		foreach (GameObject unit in units) {
 			Select(unit);
 		}
 	}
-
+	
 	// selected getter
 	List<GameObject> GetSelectedUnits() {
 		return selected;
 	}
-
-
-	// Use this for initialization
-	// find main camera and gamecontroller
-	void Start () 
-	{
-		cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        selected = new List<GameObject> ();
-		gameController = GameObject.Find("GameController").GetComponent<GameController>();
-		Vector3 movePos = new Vector3 (10, 0, 10);
-		gameController.moveCamera ( movePos );
+	
+	//get asteroid
+	public GameObject getAsteroid(){
+		return asteroid;
 	}
 	
+	
+	// Use this for initialization
+	// find main camera and gamecontroller
+	void Start ()
+	{
+		cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+		selected = new List<GameObject> ();
+		gameController = GameObject.Find("GameController").GetComponent<GameController>();
+		asteroid = null;
+		gui = GameObject.FindGameObjectWithTag("GUI").GetComponent<GUI>();
+	}
+
+	private void getAsteroidInfo() {
+			asteroidController = asteroid.GetComponent<AsteroidController>();
+			AsteroidController.Building b = asteroidController.getBuilding();
+			
+			if (b != null) {
+				if (b.isBuilded()) {
+					gui.DrawBuildMine("Being built", false);
+				} else if (b.isBuilt()) {
+					gui.DrawBuildMine("Already built", false);
+				} else {
+					gui.DrawBuildMine("Build Mine", true);
+                }
+            } else {
+				gui.DrawBuildMine("Build Mine", true);
+            }
+    }
+
+	private void deselectAsteroid() {
+		asteroid = null;
+		gui.DrawBuildMine("No asteroid", false);
+	}
+
+	public void createBuilding() {
+		asteroidController.createBuilding(AsteroidController.Master.Player);
+	}
+    
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
 		foreach( Touch checkTouch in Input.touches ){
 			if( EventSystem.current.IsPointerOverGameObject( checkTouch.fingerId ) ){
@@ -117,7 +151,7 @@ public class TouchScript : MonoBehaviour {
 			}
 		}
 		if ( !isOverUI ) {
-		//single touch - detect taps (select) and drags (move camera)
+			//single touch - detect taps (select) and drags (move camera)
 			switch(Input.touchCount) {
 			case 1:
 				Touch touch = Input.GetTouch(0);
@@ -126,7 +160,7 @@ public class TouchScript : MonoBehaviour {
 				switch( touch.phase ) {
 				case TouchPhase.Began:
 					Ray ray1 = Camera.main.ScreenPointToRay(touch.position);
-
+					
 					Debug.Log("touchphase began");
 					// we have to detect what we are hitting - it must be unit(s)
 					if(Physics.Raycast(ray1, out hit, 1000)){
@@ -152,8 +186,8 @@ public class TouchScript : MonoBehaviour {
 					break;
 				case TouchPhase.Ended:
 					if( !swipeOn ){
-
-	                    Debug.Log("Heelo");
+						
+						Debug.Log("Heelo");
 						
 						if( !isSelectionEmpty() ){
 							//gotta use tags, temp solution - type
@@ -161,16 +195,26 @@ public class TouchScript : MonoBehaviour {
 								Debug.Log("is selected, move to");
 								Vector3 pos = hit.point;
 								gameController.navigateTo(selected, pos);
+								deselectAsteroid();
 							}
 							else if( hit.collider.gameObject.tag == "Player" ){
 								Debug.Log("is selected, move to");
 								//SendMessage( "navigateTo", selected );
 								Vector3 pos = hit.point;
 								gameController.navigateTo(selected, pos);
+								deselectAsteroid();
 							}
 							else if( hit.collider.gameObject.tag == "Enemy" ){
 								Debug.Log("is selected, attack");
 								gameController.attackUnit( selected, hit.transform.gameObject );
+								deselectAsteroid();
+							}
+							else if( hit.collider.gameObject.tag == "AsteroidBody" ){
+								asteroid = hit.collider.gameObject.transform.parent.gameObject;
+								getAsteroidInfo();
+							}
+							else{
+								deselectAsteroid();
 							}
 						}
 						else{
@@ -180,6 +224,13 @@ public class TouchScript : MonoBehaviour {
 								{
 									Select( hit.transform.gameObject );
 								}
+								asteroid = null;
+							}
+							else if( hit.collider.gameObject.tag == "AsteroidBody" ){
+								asteroid = hit.collider.gameObject.transform.parent.gameObject;
+							}
+							else{
+								asteroid = null;
 							}
 						}
 					}

@@ -9,6 +9,8 @@ public class GUI : MonoBehaviour {
 	private GameController gameController;
 	private MothershipController mothershipController;
 	private TouchScript touchScript;
+	private AsteroidController asteroidController;
+	private GameObject asteroid;
 
 	public CNAbstractController MovementJoystick;
 
@@ -16,6 +18,7 @@ public class GUI : MonoBehaviour {
 	private bool hasGameEnded;
 	private bool MoveUp;
 	private bool MoveDown;
+	//private bool ableToBuildMine;
 
 	public GameObject GUIPanel;
 	public GameObject CommandPanel;
@@ -23,18 +26,19 @@ public class GUI : MonoBehaviour {
 	public GameObject Joystick;
 	public GameObject GameOver;
 	public GameObject deselect;
+	public GameObject buildMineOnAsteroid;
 
 	public Text WhoWon;
 	public Text PlayerHPACCStatus;
 	public Text Credits;
 	public Text TimeToSpawn;
+	public Text buildMineOnAsteroidText;
 
 	public Button switcher;
 	public Button fire;
 	public Button up;
 	public Button back;
 	public Button menu;
-	//public Button deselect;
 
 	public Button exit;
 	public Button resume;
@@ -42,14 +46,29 @@ public class GUI : MonoBehaviour {
 	public ProgressRadialBehaviour PlayerProgress;
 	public ProgressRadialBehaviour EnemyProgress;
 
-	// Use this for initialization
+
+	
+	public void AllowToBuild(string Info, bool Allow) {
+		buildMineOnAsteroid.SetActive(Allow);
+		buildMineOnAsteroidText.text = Info;
+	}
+    
+	public void ShowGameOverScreen(string Info) {
+		GameOver.SetActive(true);
+		WhoWon.text = Info;
+	}
+    // Use this for initialization
 	void Start () {
 		switchToGui ();
+
 		InfoPanel.SetActive(false);
 		GameOver.SetActive(false);
+		buildMineOnAsteroid.SetActive(false);
+
 		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		mothershipController = gameController.getMothership().GetComponent<MothershipController>();
 		touchScript = GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>();
+
 		hasGameEnded = false;
 		MoveUp = false;
     }
@@ -63,7 +82,10 @@ public class GUI : MonoBehaviour {
 				this.gameController.moveCamera(
 					gameController.getMothership().transform.position
 					+
-					new Vector3(0,120,0)
+					new Vector3(0,
+				    	GameObject.FindGameObjectWithTag("MainCamera").transform.position.y,
+				        0
+				    )
 				);
 			} 
 		}
@@ -109,8 +131,7 @@ public class GUI : MonoBehaviour {
 	}
 
 	private void DrawPlayerStats() {
-		PlayerHPACCStatus.text = "HP: " + mothershipController.getHitPoints().ToString() +
-			" ACC: ";
+        PlayerHPACCStatus.text = "HP: " + mothershipController.getHitPoints().ToString();
 		Credits.text = "Credits: " + gameController.getPlayerCredits(GameController.Who.Player).ToString();
 		TimeToSpawn.text = "Time to spawn: " + gameController.playerTimeLeftToBuild(GameController.Who.Player).ToString();
 		
@@ -221,12 +242,21 @@ public class GUI : MonoBehaviour {
 		}
 	}
 
+	public void DrawBuildMine(string Info, bool Active) {
+		buildMineOnAsteroid.SetActive(Active);
+		buildMineOnAsteroidText.text = Info;   
+    }
+
+	public void BuildOnAsteroid() {
+		touchScript.createBuilding();
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 		HandleJoystick();
 		DrawPlayerStats();
 		DrawScore();
-		checkIfGameOver();
 		HandleMovement();
 		DrawDeselection();
 	}

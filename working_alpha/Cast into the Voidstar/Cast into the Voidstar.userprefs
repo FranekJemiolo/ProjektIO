@@ -2,10 +2,12 @@
   <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Cast into the Voidstar\Assets\Scripts\GUI.cs">
     <Files>
-      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\GUI.cs" Line="78" Column="29" />
-      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\MothershipController.cs" Line="134" Column="27" />
-      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\GameController.cs" Line="233" Column="3" />
-      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\Android.cs" Line="14" Column="3" />
+      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\AsteroidController.cs" Line="22" Column="7" />
+      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\GUI.cs" Line="256" Column="37" />
+      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\GameController.cs" Line="515" Column="115" />
+      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\TouchScript.cs" Line="256" Column="2" />
+      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\Menu.cs" Line="1" Column="1" />
+      <File FileName="..\..\Cast into the Voidstar\Assets\Scripts\MothershipController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

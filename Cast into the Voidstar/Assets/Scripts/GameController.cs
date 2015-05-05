@@ -232,6 +232,8 @@ public class GameController : MonoBehaviour
 	}
 
 
+	private GUI gui;
+
 	// End of game variables.
 
 
@@ -261,6 +263,11 @@ public class GameController : MonoBehaviour
 		asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 		// Set the game state to playing.
 		gameState = GameState.Playing;
+
+		gui = GameObject.FindGameObjectWithTag("GUI").GetComponent<GUI>();
+		if (gui == null) {
+			Debug.LogError("NOGUI");
+		}
 	}
 	
 	// Update is called once per frame
@@ -274,6 +281,7 @@ public class GameController : MonoBehaviour
 			Debug.Log ("Player points is :" + players[0].getPoints());
 			Debug.Log ("Enemy points is :" + players[1].getPoints());
 		}
+
 		//Debug.Log (timePassed);
 		//Debug.Log ("Player points is :" + players[0].getPoints());
 		//Debug.Log ("Enemy points is :" + players[1].getPoints());
@@ -415,12 +423,15 @@ public class GameController : MonoBehaviour
 		// Stop game and show some screens.
 		else if (gameState == GameState.PlayerWon)
 		{
+			gui.ShowGameOverScreen("You have won!");
 		}
 		else if (gameState == GameState.EnemyWon)
 		{
+			gui.ShowGameOverScreen("Enemy has won!");
 		}
 		else if (gameState == GameState.Draw)
 		{
+			gui.ShowGameOverScreen("Draw!");
 		}
 		// The game is paused.
 		else
@@ -506,6 +517,16 @@ public class GameController : MonoBehaviour
 			GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().units.Add(unit);
 		}
 	}
+
+	/*
+	private void fallingDownTemporaryFix() {
+		if (mothership.transform.position.y != 0) {
+			Debug.LogError("Falling down");
+			mothership.transform.Translate(mothership.transform.position.x, 0, mothership.transform.position.z, Space.World);
+			mothership.transform.Rotate (0, mothership.transform.rotation.x, 0);
+		}
+	}
+	*/
 
 	// We are handling here the updates on building units.
 	private void handleBuildedUnits ()
