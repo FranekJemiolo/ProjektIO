@@ -49,13 +49,13 @@ public class AIController : MonoBehaviour
 		public float calculateState ()
 		{
 			float stateValue = 0.0f;
-			float unitCost = 100.0f;
+			float baseUnitCost = 100.0f;
 			float pointsToWin = 1000.0f;
 			// More aggresive = more units and more attacking.
 			stateValue += aggresivness * (numOfUnits - enemyUnits);
 			stateValue += aggresivness * (points - enemyPoints);
 			stateValue += defensivness * ((points - enemyPoints) / 2);
-			stateValue += (credits / unitCost);
+			stateValue += (credits / baseUnitCost);
 			stateValue += aggresivness * (numOfAsteroids);
 			stateValue += defensivness * ((numOfAsteroids / 2) + (points - enemyPoints)/2);
 			if (points > (pointsToWin / 2))
@@ -177,7 +177,7 @@ public class AIController : MonoBehaviour
 	// It will go through game states and rethink it's actions.
 	public void rethinkMyActions ()
 	{
-		Debug.Log("I am thinking");
+		//Debug.Log("I am thinking");
 		AIState bestState = null;
 		float current = this.knowledgeBase.Last().calculateState();
 		float max = current;
@@ -195,8 +195,9 @@ public class AIController : MonoBehaviour
 		{
 			this.loadParams (bestState);
 		}
-		Debug.Log ("Aggresivnes is " + this.aggresivness);
-		Debug.Log ("Defenisvness is " + this.defensivness);
+		//Debug.Log ("Aggresivnes is " + this.aggresivness);
+		//Debug.Log ("Defenisvness is " + this.defensivness);
+		this.buildOnAsteroid();
 		this.buildUnit();
 	}
 
@@ -297,17 +298,49 @@ public class AIController : MonoBehaviour
 			this.enemies.Remove(unit);
 		}
 	}
-	
+
+	// In this method we will check if there
+	// are available asteroids for buildings
+	// and then we will be creating one.
+	public void buildOnAsteroid()
+	{
+		//Debug.Log("Beginning build");
+		foreach (GameObject asteroid in this.gameController.asteroids)
+		{
+			AsteroidController ac = asteroid.GetComponent<AsteroidController>();
+			if (ac.belongsTo == AsteroidController.Master.Enemy)
+			{
+				//Debug.Log("I am here");
+				if (ac.getBuilding() == null)
+				{
+					//Debug.Log("Creating");
+					if (ac.createBuilding(AsteroidController.Master.Enemy) == false)
+						Debug.Log("Something is wrong with building");
+				}
+				else
+				{
+					if (ac.getBuilding().isBuilded() == true)
+					{
+						//Debug.Log("Builded");
+					}
+					else if (ac.getBuilding().isBuilt() == true)
+					{
+						//Debug.Log("Built");
+					}
+				}
+			}
+		}
+	}
+
 
 	// Here the ai will have to decide which unit it needs the most - and builds it.
-	// No time for it now :<
 	public void buildUnit ()
 	{
 		int[] enemyUnits = new int[GameController.typeOfUnits];
 		int[] myUnits = new int[GameController.typeOfUnits];
-		int myIndex = 0;
-		int enemyIndex = 1;
-		if (myTag == "Player")
+		int myIndex = 1;
+		int enemyIndex = 0;
+		/*if (myTag == "Player")
 		{
 			myIndex = 0;
 			enemyIndex = 1;
@@ -316,19 +349,33 @@ public class AIController : MonoBehaviour
 		{
 			myIndex = 1;
 			enemyIndex = 0;
-		}
+		}*/
 		GameController.UnitType t = GameController.UnitType.Mothership;
 		for (int i = 0; i < GameController.typeOfUnits-1; i++)
 		{
-			enemyUnits[i] = this.gameController.players[enemyIndex].getUnitCount(t);
-			myUnits[i] = this.gameController.players[myIndex].getUnitCount(t);
-			t++;
+			//Debug.Log("Got units " + this.gameController.players[myIndex].getUnitCount((GameController.UnitType) i));
+			enemyUnits[i] = this.gameController.players[enemyIndex].getUnitCount((GameController.UnitType) i);
+			myUnits[i] = this.gameController.players[myIndex].getUnitCount((GameController.UnitType) i);
+			//t++;
 		}
-		// Now decide what to build.
-		t = GameController.UnitType.Mothership;
-		t++;
-		// To be continued.
-		this.gameController.buildUnit(GameController.Who.Enemy, 
-		                         GameController.UnitType.Mothership);
+		// Now decide what to build. 
+		// We are choosing those units that we have fewer than enemy.
+		// Else we choose random.
+		t = (GameController.UnitType) Mathf.Floor(Random.Range (0.0f, GameController.typeOfUnits - 1));
+		for (int i = 0; i < GameController.typeOfUnits-1; i++)
+		{
+			if (enemyUnits[i] >= myUnits[i])
+			{
+				t = (GameController.UnitType) i;
+				//Debug.Log("Heelloooo");
+				break;
+			}
+			//Debug.Log("Enemy units: " + enemyUnits[i]);
+			//Debug.Log("My units: " + myUnits[i]);
+		}
+		//Debug.Log("I am producing " + t);
+		//t = GameController.UnitType.Mothership;
+		this.gameController.buildUnit(GameController.Who.Enemy, t); 
+		                         //GameController.UnitType.Mothership);
 	}
 }

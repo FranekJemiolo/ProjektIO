@@ -176,20 +176,20 @@ public class EnemyController : MonoBehaviour
 		{
 			if (enemies.Count > 0)
 			{
-				Debug.Log("Flee! I Am coward! " + this.myTransform.parent.gameObject);
+				//Debug.Log("Flee! I Am coward! " + this.myTransform.parent.gameObject);
 				this.setTarget(null);
 				Transform enemyPosition = enemies.First().transform;
 				/*Vector3 runVector = new Vector3(this.myTransform.parent.position.x + Random.Range(-100.0f, 100.0f),
 				                                this.myTransform.parent.position.y,
 				                                this.myTransform.parent.position.z + Random.Range(-100.0f, 100.0f));*/
 				Vector3 runVector = -((enemyPosition.position - this.myTransform.parent.position) * 2);
-				Debug.Log("Running to " + runVector);
+				//Debug.Log("Running to " + runVector);
 				this.myTransform.parent.GetComponent<UnitController>().moveTo(runVector);
 				this.destination = runVector;
 			}
 			else
 			{
-				Debug.Log("I like scouting");
+				//Debug.Log("I like scouting");
 				this.scout();
 			}
 		}
@@ -286,7 +286,7 @@ public class EnemyController : MonoBehaviour
 					}
 					if (this.target != null)
 					{
-						Debug.Log("I must attack!");
+						//Debug.Log("I must attack!");
 						this.myTransform.parent.GetComponent<UnitController>().setTarget(target);
 					}
 					// If no one in sight we can do other things than fight.
@@ -297,7 +297,7 @@ public class EnemyController : MonoBehaviour
 						{
 							this.destination = asteroid.transform.position;
 							// Ok we need to cap it.
-							Debug.Log("I need asteroids to live");
+							//Debug.Log("I need asteroids to live");
 							if (this.asteroid.GetComponent<AsteroidController>().belongsTo != 
 							    AsteroidController.getPlayer(myTransform.parent.gameObject))
 							{
@@ -328,7 +328,7 @@ public class EnemyController : MonoBehaviour
 						// Ok we almost reach our normal target so we can scout another area.
 						else if (((this.myTransform.position - this.destination).sqrMagnitude) < rangeSqr)
 						{
-							Debug.Log("I like scouting");
+							//Debug.Log("I like scouting");
 							this.scout();
 						}
 
@@ -338,8 +338,8 @@ public class EnemyController : MonoBehaviour
 				{
 					this.flee();
 				}
-				Debug.Log (asteroid);
-				Debug.Log (destination);
+				//Debug.Log (asteroid);
+				//Debug.Log (destination);
 			}
 		}
 
@@ -399,7 +399,7 @@ public class EnemyController : MonoBehaviour
 		else if (other.gameObject.tag == enemyTag)
 		{
 			this.agent.addEnemy(other.gameObject);
-			Debug.Log("Enemy enters " + other.gameObject);
+			//Debug.Log("Enemy enters " + other.gameObject);
 			this.reportEnemy(other.gameObject);
 		}
 		else if (other.gameObject.tag == "Asteroid")
@@ -427,7 +427,7 @@ public class EnemyController : MonoBehaviour
 		else if (other.gameObject.tag == enemyTag)
 		{
 			this.agent.removeEnemy(other.gameObject);
-			Debug.Log("Enemy leaves " + other.gameObject);
+			//Debug.Log("Enemy leaves " + other.gameObject);
 		}
 		else if (other.gameObject.tag == "Asteroid")
 		{

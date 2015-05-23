@@ -122,10 +122,13 @@ public class GameController : MonoBehaviour
 		// Should be called when creating new object for a player.
 		public void addUnit(GameObject ob)
 		{
+			//Debug.Log ("Adding object " + ob);
+			//Debug.Log (getUnitType(ob));
 			if (ob != null)
 			{
 				UnitType t = getUnitType(ob); 
 				this.units[(int)t].Add(ob);
+				//Debug.Log("After addition " + this.units[(int)t].Count);
 			}
 		}
 		
@@ -141,6 +144,8 @@ public class GameController : MonoBehaviour
 
 		public int getUnitCount (UnitType type)
 		{
+			//Debug.Log("Type is " + type);
+			//Debug.Log("Size is " + this.units[(int) type].Count);
 			return this.units[(int) type].Count;
 		}
 
@@ -169,7 +174,7 @@ public class GameController : MonoBehaviour
 	}
 	// Space for game variables.
 	// The amount of credits that every player gets on start.
-	private const float START_CREDITS = 1000.0f;
+	private const float START_CREDITS = 10000.0f;
 	// How many points player gets for holding an asteroid.
 	private const float pointsForAsteroid = 1.0f;
 	// How many points player gets for killing enemy units.
@@ -215,10 +220,10 @@ public class GameController : MonoBehaviour
 	// What units are builded?
 	private UnitType[] builded = new UnitType[numberOfPlayers];
 	// The constraints of map.
-	private float minX = 0.0f;
-	private float maxX = 400.0f;
-	private float minZ = 0.0f;
-	private float maxZ = 400.0f;
+	public float minX = 0.0f;
+	public float maxX = 1000.0f;
+	public float minZ = 0.0f;
+	public float maxZ = 1000.0f;
 
 	// Just for getting the mothership of a player.
 	public GameObject mothership;
@@ -278,8 +283,8 @@ public class GameController : MonoBehaviour
 		{
 			this.handleGame();
 			this.timePassed = 0.0f;
-			Debug.Log ("Player points is :" + players[0].getPoints());
-			Debug.Log ("Enemy points is :" + players[1].getPoints());
+			//Debug.Log ("Player points is :" + players[0].getPoints());
+			//Debug.Log ("Enemy points is :" + players[1].getPoints());
 		}
 
 		//Debug.Log (timePassed);
@@ -505,7 +510,9 @@ public class GameController : MonoBehaviour
 			unit = Instantiate (unitPrefabs[(int) builded[i]], 
 			                    this.getVectorAround(massRelays[i].transform.position),
 			                    Quaternion.identity) as GameObject;
+			unit.name = unit.name.Replace("(Clone)", ""); 
 			players[i].addUnit(unit);
+			//Debug.Log (players[i].getUnitCount(getUnitType(unit)));
 		}
 		// If an enemy?
 		else if (i == 1)
@@ -513,7 +520,9 @@ public class GameController : MonoBehaviour
 			unit = Instantiate (enemyPrefabs[(int) builded[i]], 
 			                    this.getVectorAround(massRelays[i].transform.position),
 			                    Quaternion.identity) as GameObject;
+			unit.name = unit.name.Replace("(Clone)", ""); 
 			players[i].addUnit(unit);
+			//Debug.Log (players[i].getUnitCount(getUnitType(unit)));
 			GameObject.FindGameObjectWithTag("AICore").GetComponent<AIController>().units.Add(unit);
 		}
 	}

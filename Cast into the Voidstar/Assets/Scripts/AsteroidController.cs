@@ -41,7 +41,7 @@ public class AsteroidController : MonoBehaviour
 		private Master who;
 
 		// How long it takes to build it.
-		private float buildTime = 10.0f;
+		private float buildTime = 5.0f;
 
 		// Timer
 		private float timePassed;
@@ -54,13 +54,14 @@ public class AsteroidController : MonoBehaviour
 
 		
 		// Creates the building we want to build.
-		public Building (Master who, GameObject b)
+		public Building (Master who, GameObject b, Transform w)
 		{
 			this.building = b;
 			this.who = who;
+			this.where = w;
 			this.hitPoints = 100.0f;
 			this.timePassed = 0.0f;
-			this.builded = false;
+			this.builded = true;
 			this.built = false;
 		}
 
@@ -69,15 +70,22 @@ public class AsteroidController : MonoBehaviour
 		public void updateOnCreation (float t)
 		{
 			this.timePassed += t;
+			float offsetx = 0.75f;
+			float offsety = 7.65f;
+			float offsetz = 1.4f;
 			// Now instantiate.
+			//Debug.Log("Still waiting");
 			if (this.timePassed > this.buildTime)
 			{
-				Debug.Log ("Building has been built");
+				//Debug.Log ("Building has been built");
+				Vector3 pos = new Vector3 (where.position.x + offsetx, where.position.y + offsety, where.position.z + offsetz);
 				this.building = Instantiate (this.building, where.position, Quaternion.identity) as GameObject;
 				this.building.transform.SetParent (where);
+				this.building.transform.position = pos;
 				//this.building
 				this.builded = false;
 				this.built = true;
+				this.timePassed = 0;
 			}
 		}
 		
@@ -115,6 +123,11 @@ public class AsteroidController : MonoBehaviour
 		public bool isBuilt ()
 		{
 			return this.built;
+		}
+
+		public void setWhere (Transform w)
+		{
+			this.where = w;
 		}
 	}
 
@@ -292,11 +305,12 @@ public class AsteroidController : MonoBehaviour
 				//building = Building(player, GameObject someModel);
 				if (player == Master.Player)
 				{
-					this.building = new Building(player, this.prefabBuildingModel);
+					this.building = new Building(player, this.prefabBuildingModel, this.transform);
+
 				}
 				else if (player == Master.Enemy)
 				{
-					this.building = new Building(player, this.prefabEnemyBuildingModel);
+					this.building = new Building(player, this.prefabEnemyBuildingModel, this.transform);
 				}
 				else 
 				{
