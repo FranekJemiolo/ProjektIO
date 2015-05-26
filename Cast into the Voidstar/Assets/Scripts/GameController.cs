@@ -2,11 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 
-
-
+public class Tuple<T1, T2>
+{
+	public T1 First { get; private set; }
+	public T2 Second { get; private set; }
+	internal Tuple(T1 first, T2 second)
+	{
+		First = first;
+		Second = second;
+	}
+}
 
 // This script holds the main game api and contains main game loop.
 public class GameController : MonoBehaviour 
@@ -172,6 +182,105 @@ public class GameController : MonoBehaviour
 
 		
 	}
+
+	// The structure which holds player's
+	// upgrades and unlock progression etc.
+	public class GameData 
+	{
+		// The structure which holds the progression 
+		// of player on global map.
+		public class ProgressTree
+		{
+			public class MissionNode
+			{
+				// Is mission unlocked?
+				private bool unlocked;
+				// Sons of mission.
+				private List<int> sons;
+
+				public MissionNode (bool u, List<int> s)
+				{
+					this.unlocked = u;
+					this.sons = new List<int>();
+					foreach (int i in s)
+					{
+						this.sons.Add(i);
+					}
+				}
+
+				public bool isUnlocked ()
+				{
+					return this.unlocked;
+				}
+
+				public List<int> getSons()
+				{
+					return this.sons;
+				}
+
+				public void setUnlocked (bool u)
+				{
+					this.unlocked = u;
+				}
+
+				public void setSons (List<int> s)
+				{
+					this.sons.Clear();
+					foreach (int i in s)
+					{
+						this.sons.Add(i);
+					}
+				}
+
+
+			}
+
+			// The size of our tree.
+			private const int treeSize = 16;
+			// Which missions are unlocked.
+			private MissionNode[] nodes;
+
+			public ProgressTree (List<Tuple<bool, List<int>>> inputData)
+			{
+				this.nodes = new MissionNode[this.treeSize];
+				int i = 0;
+				foreach (Tuple<bool, List<int>> t in inputData)
+				{
+					MissionNode n = new MissionNode (t.First, t.Second);
+					this.nodes[i] = n;
+					i++;
+				}
+			}
+
+		}
+
+		// This class represent's upgrades done to units.
+		public class Upgrades 
+		{
+			private Dictionary<int, int> levels;
+			public Upgrades (List<Tuple<int, int>> l)
+			{
+				foreach (Tuple<int, int> t in l)
+				{
+					levels.Add(t.First, t.Second);
+				}
+			}
+		}
+		// How many resources player has gained.
+		// Used for upgrades.
+		private float resources;
+
+		// The structure used to represent the data
+		// about mission progression. So that they could
+		// be non-linear.
+		private ProgressTree progressTree;
+
+		// Now should be some structure for unit's upgrade.
+		private Upgrades upgrades;
+
+
+	}
+
 	// Space for game variables.
 	// The amount of credits that every player gets on start.
 	private const float START_CREDITS = 10000.0f;
@@ -248,6 +357,30 @@ public class GameController : MonoBehaviour
 	private float ten = 0.0f;
 
     // END OF DEBUG VARS
+
+	// Structure for saves.
+	public GameData gameData {get; private set;};
+
+
+	// This function loads all the parameters of player
+	// ships: it's upgrades, points etc.
+	private void loadData ()
+	{
+		BinaryFormatter binaryFormatter = new BinaryFormatter();
+	}
+
+	// Updates player data, saving his increased points
+	// after win, and unlocking new map.
+	private void saveData ()
+	{
+	}
+
+	// On the first run we would like to initialize
+	// our file after creation.
+	private void firstRun ()
+	{
+	}
+
 
 
 	void Start () 
