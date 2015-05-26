@@ -9,8 +9,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class Tuple<T1, T2>
 {
-	public T1 First { get; private set; }
-	public T2 Second { get; private set; }
+	public T1 First;
+	public T2 Second;
 	internal Tuple(T1 first, T2 second)
 	{
 		First = first;
@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour
 	public enum GameState {NotStarted, Playing, Paused, PlayerWon, EnemyWon, Draw};
 
 	public enum Who {Player = 0, Enemy};
+
+	private string gameDataPath = "/gameData.dat";
 
 	// Unit type translation.
 	public static UnitType getUnitType (GameObject ob)
@@ -185,12 +187,15 @@ public class GameController : MonoBehaviour
 
 	// The structure which holds player's
 	// upgrades and unlock progression etc.
+	[System.Serializable]
 	public class GameData 
 	{
 		// The structure which holds the progression 
 		// of player on global map.
+		[System.Serializable]
 		public class ProgressTree
 		{
+			[System.Serializable]
 			public class MissionNode
 			{
 				// Is mission unlocked?
@@ -240,9 +245,9 @@ public class GameController : MonoBehaviour
 			// Which missions are unlocked.
 			private MissionNode[] nodes;
 
-			public ProgressTree (List<Tuple<bool, List<int>>> inputData)
+			public ProgressTree (LinkedList<Tuple<bool, List<int>>> inputData)
 			{
-				this.nodes = new MissionNode[this.treeSize];
+				this.nodes = new MissionNode[ProgressTree.treeSize];
 				int i = 0;
 				foreach (Tuple<bool, List<int>> t in inputData)
 				{
@@ -278,6 +283,39 @@ public class GameController : MonoBehaviour
 		// Now should be some structure for unit's upgrade.
 		private Upgrades upgrades;
 
+		public GameData ()
+		{
+		}
+
+		public float getResources ()
+		{
+			return this.resources;
+		}
+
+		public void setResources (float f)
+		{
+			this.resources = f;
+		}
+
+		public ProgressTree getProgressTree ()
+		{
+			return this.progressTree;
+		}
+
+		public void loadProgressTree (LinkedList<Tuple<bool, List<int>>> l)
+		{
+			this.progressTree = new ProgressTree (l);
+		}
+
+		public Upgrades getUpgrades ()
+		{
+			return this.upgrades;
+		}
+
+		public void setUpgrades (List<Tuple<int, int>> l)
+		{
+			this.upgrades = new Upgrades (l);
+		}
 
 	}
 
@@ -359,26 +397,131 @@ public class GameController : MonoBehaviour
     // END OF DEBUG VARS
 
 	// Structure for saves.
-	public GameData gameData {get; private set;};
+	public GameData gameData {get; private set;}
 
 
 	// This function loads all the parameters of player
 	// ships: it's upgrades, points etc.
 	private void loadData ()
 	{
-		BinaryFormatter binaryFormatter = new BinaryFormatter();
+		if (File.Exists(Application.persistentDataPath + gameDataPath))
+		{
+			BinaryFormatter binaryFormatter = new BinaryFormatter();
+			FileStream stream = File.Open(Application.persistentDataPath + gameDataPath,
+			                              FileMode.Open, FileAccess.Read);
+			System.Object obj = (GameData)binaryFormatter.Deserialize(stream);
+			gameData = (GameData)obj; 
+			stream.Close();
+		}
+		else
+		{
+			firstRun();
+		}
 	}
 
 	// Updates player data, saving his increased points
 	// after win, and unlocking new map.
 	private void saveData ()
 	{
+		BinaryFormatter binaryFormatter = new BinaryFormatter();
+		FileStream stream = File.Open(Application.persistentDataPath + gameDataPath, FileMode.OpenOrCreate);
+		binaryFormatter.Serialize(stream, gameData);
+		stream.Close();
 	}
+	
 
 	// On the first run we would like to initialize
 	// our file after creation.
 	private void firstRun ()
 	{
+		gameData = new GameData ();
+		// Set resources.
+		int res = 0;
+		gameData.setResources(res);
+		// Set upgrades.
+		List<Tuple<int, int>> lev = new List<Tuple<int, int>>();
+		for (int i = 0; i < typeOfUnits; i++)
+		{
+			Tuple<int, int> t = new Tuple<int, int>(i, 0);
+			lev.Add(t);
+		}
+		gameData.setUpgrades(lev);
+		// Create progress tree.
+		LinkedList<Tuple<bool, List<int>>> progTree = new LinkedList<Tuple<bool, List<int>>>();
+		// Now we have to create manually the progress graph by neighbours list.
+		// First mission. (first = 0)
+		Tuple<bool, List<int>> mission1 = new Tuple<bool, List<int>>(true, new List<int> ());
+		mission1.Second.Add (1);
+		mission1.Second.Add (2);
+		mission1.Second.Add (3);
+		// Second mission.
+		Tuple<bool, List<int>> mission2 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission2.Second.Add (4);
+		// Third mission.
+		Tuple<bool, List<int>> mission3 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission3.Second.Add (1);
+		mission3.Second.Add (4);
+		mission3.Second.Add (5);
+		// Fourth mission.
+		Tuple<bool, List<int>> mission4 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission4.Second.Add (6);
+		// Fifth mission.
+		Tuple<bool, List<int>> mission5 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission1.Second.Add (10);
+		mission1.Second.Add (11);
+		mission1.Second.Add (3);
+		// Sixth mission.
+		Tuple<bool, List<int>> mission6 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission6.Second.Add (12);
+		// Seventh mission.
+		Tuple<bool, List<int>> mission7 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission7.Second.Add (4);
+		mission7.Second.Add (7);
+		// Eighth mission.
+		Tuple<bool, List<int>> mission8 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission8.Second.Add (8);
+		mission8.Second.Add (9);
+		// Nineth mission.
+		Tuple<bool, List<int>> mission9 = new Tuple<bool, List<int>>(false, new List<int> ());
+		// Tenth mission.
+		Tuple<bool, List<int>> mission10 = new Tuple<bool, List<int>>(false, new List<int> ());
+		// Eleventh mission.
+		Tuple<bool, List<int>> mission11 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission11.Second.Add (13);
+		// Twelveth mission.
+		Tuple<bool, List<int>> mission12 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission12.Second.Add (14);
+		// Thirteenth mission.
+		Tuple<bool, List<int>> mission13 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission13.Second.Add (11);
+		// Fourteenth mission.
+		Tuple<bool, List<int>> mission14 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission14.Second.Add (15);
+		// Fifteenth mission.
+		Tuple<bool, List<int>> mission15 = new Tuple<bool, List<int>>(false, new List<int> ());
+		mission15.Second.Add (15);
+		// Sixteenth mission.
+		Tuple<bool, List<int>> mission16 = new Tuple<bool, List<int>>(false, new List<int> ());
+		// Now into the list. Using add first is O(1) -> faster than addLast.
+		progTree.AddFirst(mission16);
+		progTree.AddFirst(mission15);
+		progTree.AddFirst(mission14);
+		progTree.AddFirst(mission13);
+		progTree.AddFirst(mission12);
+		progTree.AddFirst(mission11);
+		progTree.AddFirst(mission10);
+		progTree.AddFirst(mission9);
+		progTree.AddFirst(mission8);
+		progTree.AddFirst(mission7);
+		progTree.AddFirst(mission6);
+		progTree.AddFirst(mission5);
+		progTree.AddFirst(mission4);
+		progTree.AddFirst(mission3);
+		progTree.AddFirst(mission2);
+		progTree.AddFirst(mission1);
+
+		gameData.loadProgressTree (progTree);
+		saveData();
 	}
 
 
