@@ -257,14 +257,22 @@ public class GameController : MonoBehaviour
 				}
 			}
 
+			public MissionNode[] getNodes ()
+			{
+				return this.nodes;
+			}
+			
+
 		}
 
 		// This class represent's upgrades done to units.
+		[System.Serializable]
 		public class Upgrades 
 		{
 			private Dictionary<int, int> levels;
 			public Upgrades (List<Tuple<int, int>> l)
 			{
+				levels = new Dictionary<int, int> ();
 				foreach (Tuple<int, int> t in l)
 				{
 					levels.Add(t.First, t.Second);
@@ -285,6 +293,9 @@ public class GameController : MonoBehaviour
 
 		public GameData ()
 		{
+			resources = 0.0f;
+			progressTree = null;
+			upgrades = null;
 		}
 
 		public float getResources ()
@@ -398,6 +409,10 @@ public class GameController : MonoBehaviour
 
 	// Structure for saves.
 	public GameData gameData {get; private set;}
+	// How many resources are achieved for mission;
+	private const float rewardedResources = 100.0f;
+	// This should be the mission number.
+	public int missionNumber = 0; 
 
 
 	// This function loads all the parameters of player
@@ -409,9 +424,19 @@ public class GameController : MonoBehaviour
 			BinaryFormatter binaryFormatter = new BinaryFormatter();
 			FileStream stream = File.Open(Application.persistentDataPath + gameDataPath,
 			                              FileMode.Open, FileAccess.Read);
-			System.Object obj = (GameData)binaryFormatter.Deserialize(stream);
-			gameData = (GameData)obj; 
-			stream.Close();
+			try
+			{
+				System.Object obj = (GameData)binaryFormatter.Deserialize(stream);
+				gameData = (GameData)obj; 
+			}
+			catch (IOException e)
+			{
+				firstRun();
+			}
+			finally
+			{
+				stream.Close();
+			}
 		}
 		else
 		{
@@ -528,6 +553,7 @@ public class GameController : MonoBehaviour
 
 	void Start () 
 	{
+		loadData();
 		players = new Player[numberOfPlayers];
 		timeToSpawn[0] = 0.0f;
 		timeToSpawn[1] = 0.0f;
@@ -704,6 +730,17 @@ public class GameController : MonoBehaviour
 		// Stop game and show some screens.
 		else if (gameState == GameState.PlayerWon)
 		{
+			// Update resources.
+			gameData.setResources(gameData.getResources() + rewardedResources);
+			// Update progress.
+			GameData.ProgressTree progTree = gameData.getProgressTree();
+			GameData.ProgressTree.MissionNode[] nodes = progTree.getNodes();
+			GameData.ProgressTree.MissionNode node = nodes[missionNumber];
+			foreach (int neighbours in node.getSons())
+			{
+				nodes[neighbours].setUnlocked(true);
+			}
+			saveData();
 			gui.ShowGameOverScreen("You have won!");
 		}
 		else if (gameState == GameState.EnemyWon)

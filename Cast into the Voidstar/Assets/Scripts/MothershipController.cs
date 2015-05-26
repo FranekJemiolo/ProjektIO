@@ -74,7 +74,7 @@ public class MothershipController : MonoBehaviour {
 
 		//if (this.myRigidbody.velocity.sqrMagnitude < sqrSpeed)
 		//{
-			Debug.Log(this.transform.forward);
+			//Debug.Log(this.transform.forward);
 			//Vector3 res = this.transform.position - this.engines.transform.position;
 			//this.myRigidbody.AddForceAtPosition(this.transform.forward * this.acceleration * timeDelta, this.engines.transform.position);
 		//Vector3 relativeVector = new Vector3 (Mathf.Abs(this.transform.forward.x), Mathf.Abs(this.transform.forward.y), Mathf.Abs(this.transform.forward.z));
