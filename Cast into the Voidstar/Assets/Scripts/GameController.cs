@@ -29,7 +29,9 @@ public class GameController : MonoBehaviour
 
 	public enum Who {Player = 0, Enemy};
 
-	private string gameDataPath = "/gameData.dat";
+	public static string gameDataPath = "/gameData.dat";
+	public static string presetsPath = "/presets.dat";
+	public static int skirmishNumber = 16;
 
 	// Unit type translation.
 	public static UnitType getUnitType (GameObject ob)
@@ -330,17 +332,161 @@ public class GameController : MonoBehaviour
 
 	}
 
+	// Structure to save the presets for missions
+	// and for creating skirmishes.
+	[System.Serializable]
+	public class Presets
+	{
+		// The amount of credits that every player gets on start.
+		public float START_CREDITS;
+		// How many points player gets for holding an asteroid.
+		public float pointsForAsteroid;
+		// How many points player gets for killing enemy units.
+		public float pointsForKilling;
+		// How many credits player gets for building on asteroid.
+		public float creditsPerBuilding;
+		// How many points one has to get to win.
+		public float winPoints;
+		// The constraints of map.
+		public float minX;
+		public float maxX;
+		public float minZ;
+		public float maxZ;
+		public Vector3[] asteroids;
+		public Vector3 massP;
+		public Vector3 massE;
+		public Presets (float sc, float pa, float pk, float cb, float wp, 
+		        float mix, float mx, float miz, float mz, Vector3[] astero,
+		        Vector3 massP, Vector3 massE)
+		{
+			this.START_CREDITS = sc;
+			this.pointsForAsteroid = pa;
+			this.pointsForKilling = pk;
+			this.creditsPerBuilding = cb;
+			this.winPoints = wp;
+			this.minX = mix;
+			this.maxX = mx;
+			this.minZ = miz;
+			this.maxZ = mz;
+			astero.CopyTo(this.asteroids, 0);
+			this.massP = massP;
+			this.massE = massE;
+		}
+	}
+
+	// Method that returns random location for player mass relay
+	public static Vector3 getRandomMassRelayP (float size)
+	{
+		if (size == 500.0f)
+		{
+			return new Vector3(100.0f + Random.Range(-50.0f, 50.0f),
+			                   0.0f,
+			                   100.0f + Random.Range(-50.0f, 50.0f));
+		}
+		else if (size == 1000.0f)
+		{
+				return new Vector3(150.0f + Random.Range(-100.0f, 100.0f),
+				                   0.0f,
+				                   150.0f + Random.Range(-100.0f, 100.0f));
+		}
+		else if (size == 1500.0f)
+		{
+				return new Vector3(200.0f + Random.Range(-150.0f, 150.0f),
+				                   0.0f,
+				                   200.0f + Random.Range(-150.0f, 150.0f));
+		}
+		else
+		{
+			Debug.Log("WRONG PARAMETER!");
+			return new Vector3(50.0f, 0.0f, 50.0f);
+		}
+	}
+	// Method that returns random location for enemy mass relay
+	public static Vector3 getRandomMassRelayE (float size)
+	{
+		if (size == 500.0f)
+		{
+			return new Vector3(400.0f + Random.Range(-50.0f, 50.0f),
+			                   0.0f,
+			                   400.0f + Random.Range(-50.0f, 50.0f));
+		}
+		else if (size == 1000.0f)
+		{
+				return new Vector3(850.0f + Random.Range(-100.0f, 100.0f),
+				                   0.0f,
+				                   850.0f + Random.Range(-100.0f, 100.0f));
+		}
+		else if (size == 1500.0f)
+		{
+				return new Vector3(1300.0f + Random.Range(-150.0f, 150.0f),
+				                   0.0f,
+				                   1300.0f + Random.Range(-150.0f, 150.0f));
+		}
+		else
+		{
+			Debug.Log("WRONG PARAMETER!");
+			return new Vector3(450.0f, 0.0f, 450.0f);
+		}
+	}
+	// Method that returns random locations for asteroids
+	public static Vector3[] getRandomAsteroids (float size, int numOfAstero)
+	{
+		float space = Mathf.Floor(size / numOfAstero);
+		if (size == 500.0f)
+		{
+			Vector3[] results = new Vector3[numOfAstero];
+			for (int i = 1; i <= numOfAstero; i++)
+			{
+				results[i-1] = new Vector3 ((i * space) + Random.Range(-50.0f, 50.0f),
+				                          0.0f,
+				                          Random.Range(50.0f, 450.0f));
+			}
+			return results;
+		}
+		else if (size == 1000.0f)
+		{
+			Vector3[] results = new Vector3[numOfAstero];
+			for (int i = 1; i <= numOfAstero; i++)
+			{
+				results[i-1] = new Vector3 ((i * space) + Random.Range(-50.0f, 50.0f),
+				                          0.0f,
+				                          Random.Range(100.0f, 900.0f));
+			}
+			return results;
+		}
+		else if (size == 1500.0f)
+		{
+			Vector3[] results = new Vector3[numOfAstero];
+			for (int i = 1; i <= numOfAstero; i++)
+			{
+				results[i-1] = new Vector3 ((i * space) + Random.Range(-50.0f, 50.0f),
+				                          0.0f,
+				                          Random.Range(150.0f, 1350.0f));
+			}
+			return results;
+		}
+		else
+		{
+			Debug.Log("WRONG PARAMETER!");
+			Vector3[] vec = new Vector3[1];
+			vec[0] = new Vector3(450.0f, 0.0f, 450.0f);
+			return vec;
+		}
+	}
+	
+
+
 	// Space for game variables.
 	// The amount of credits that every player gets on start.
-	private const float START_CREDITS = 10000.0f;
+	private float START_CREDITS = 10000.0f;
 	// How many points player gets for holding an asteroid.
-	private const float pointsForAsteroid = 1.0f;
+	private float pointsForAsteroid = 1.0f;
 	// How many points player gets for killing enemy units.
-	private const float pointsForKilling = 1.0f;
+	private float pointsForKilling = 1.0f;
 	// How many credits player gets for building on asteroid.
-	private const float creditsPerBuilding = 1.0f;
+	private float creditsPerBuilding = 1.0f;
 	// How many points one has to get to win.
-	private const float winPoints = 1000.0f;
+	private float winPoints = 1000.0f;
 	// Array of players. Player[0] - is our player. Player[1] - enemy.
 	// This is only for know, because in future it will be possible to have
 	// many players at once.
@@ -350,6 +496,10 @@ public class GameController : MonoBehaviour
 	public GameObject[] asteroids;
 	// In which state of game are we?
 	private GameState gameState = GameState.NotStarted;
+	// Prefabs for asteroids and mass relays.
+	public GameObject asteroidPrefab;
+	public GameObject massRelayPrefab;
+	public GameObject enemyMassRelayPrefab;
 
 	// How many times we update the values?
 	private float updateRate = 1.0f;
@@ -415,6 +565,137 @@ public class GameController : MonoBehaviour
 	public int missionNumber = 0; 
 
 
+	// This function will load all the presets for maps
+	// e.g. map size, start credits.
+	public void loadPresets ()
+	{
+		// Read.
+		Presets presets;
+		if (File.Exists(Application.persistentDataPath + presetsPath))
+		{
+			BinaryFormatter binaryFormatter = new BinaryFormatter();
+			FileStream stream = File.Open(Application.persistentDataPath + presetsPath,
+			                              FileMode.Open, FileAccess.Read);
+			try
+			{
+				System.Object obj = (Presets)binaryFormatter.Deserialize(stream);
+				presets = (Presets)obj; 
+			}
+			catch (IOException e)
+			{
+				presets = createPresets();
+				Debug.Log (e.ToString());
+			}
+			finally
+			{
+				stream.Close();
+			}
+		}
+		else
+		{
+			presets = createPresets();
+		}
+
+		// Now load to gamecontroller variables.
+		this.START_CREDITS = presets.START_CREDITS;
+		this.pointsForAsteroid = presets.pointsForAsteroid;
+		this.pointsForKilling = presets.pointsForKilling;
+		this.winPoints = presets.winPoints;
+		this.minX = presets.minX;
+		this.maxX = presets.maxX;
+		this.minZ = presets.minZ;
+		this.maxZ = presets.maxZ;
+		foreach (Vector3 vec in presets.asteroids)
+		{
+			Instantiate(asteroidPrefab, vec, Quaternion.identity);
+		}
+		Instantiate(massRelayPrefab, presets.massP, Quaternion.identity);
+		Instantiate(enemyMassRelayPrefab, presets.massE, Quaternion.identity);
+	}
+
+	// Reads presets from file and returns the presets class.
+	public static Presets readPresets ()
+	{
+		Presets presets;
+		if (File.Exists(Application.persistentDataPath + presetsPath))
+		{
+			BinaryFormatter binaryFormatter = new BinaryFormatter();
+			FileStream stream = File.Open(Application.persistentDataPath + presetsPath,
+			                              FileMode.Open, FileAccess.Read);
+			try
+			{
+				System.Object obj = (Presets)binaryFormatter.Deserialize(stream);
+				presets = (Presets)obj; 
+			}
+			catch (IOException e)
+			{
+				presets = createPresets();
+				Debug.Log (e.ToString());
+			}
+			finally
+			{
+				stream.Close();
+			}
+		}
+		else
+		{
+			presets = createPresets();
+		}
+		return presets;
+	}
+
+	// Saves given preset.
+	public static void savePresets (Presets presets)
+	{
+		BinaryFormatter binaryFormatter = new BinaryFormatter();
+		FileStream stream = File.Open(Application.persistentDataPath + presetsPath, FileMode.OpenOrCreate);
+		binaryFormatter.Serialize(stream, presets);
+		stream.Close();
+	}
+
+	// Creates presets for 16 missions.
+	public static Presets createPresets ()
+	{
+		BinaryFormatter binaryFormatter = new BinaryFormatter();
+		FileStream stream = File.Open(Application.persistentDataPath + presetsPath, FileMode.OpenOrCreate);
+		// How many missions.
+		float creds;
+		float pts_astr;
+		float pts_kill;
+		float b_creds;
+		float win_pts;
+		float mix;
+		float mx;
+		float miz;
+		float mz;
+		Vector3[] asteros;
+		Vector3 massP;
+		Vector3 massE;
+		// Skirmish. (Mission 17)
+		creds = 10000.0f;
+		pts_astr = 1.0f;
+		pts_kill = 50.0f;
+		b_creds = 1.0f;
+		win_pts = 1000.0f;
+		mix = 0.0f;
+		mx = 1000.0f;
+		miz = 0.0f;
+		mz = 1000.0f;
+		asteros = new Vector3[3];
+		asteros[0] = new Vector3(50.0f, 0.0f, 50.0f);
+		asteros[1] = new Vector3(450.0f, 0.0f, 450.0f);
+		asteros[2] = new Vector3(250.0f, 0.0f, 250.0f);
+		massP = new Vector3(100.0f, 0.0f, 50.0f);
+		massE = new Vector3(400.0f, 0.0f, 450.0f);
+
+
+		Presets presets = new Presets(creds, pts_astr, pts_kill, b_creds, win_pts,
+		                              mix, mx, miz, mz, asteros, massP, massE);
+		binaryFormatter.Serialize(stream, presets);
+		stream.Close();
+		return presets;
+	}
+
 	// This function loads all the parameters of player
 	// ships: it's upgrades, points etc.
 	private void loadData ()
@@ -432,6 +713,7 @@ public class GameController : MonoBehaviour
 			catch (IOException e)
 			{
 				firstRun();
+				Debug.Log (e.ToString());
 			}
 			finally
 			{
@@ -554,6 +836,10 @@ public class GameController : MonoBehaviour
 	void Start () 
 	{
 		loadData();
+		if (missionNumber == skirmishNumber)
+		{
+			loadPresets();
+		}
 		players = new Player[numberOfPlayers];
 		timeToSpawn[0] = 0.0f;
 		timeToSpawn[1] = 0.0f;
@@ -566,6 +852,7 @@ public class GameController : MonoBehaviour
 		players[1].setPoints(0.0f);
 		players[0].setCredits(START_CREDITS);
 		players[1].setCredits(START_CREDITS);
+		// Now should begin the dynamic asteroid handling - if skirmish mode.
 		// Get all the asteroids so we can handle them.
 		asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 		// Set the game state to playing.

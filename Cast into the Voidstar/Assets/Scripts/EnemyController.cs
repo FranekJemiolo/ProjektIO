@@ -44,10 +44,14 @@ public class EnemyController : MonoBehaviour
 		private float timePassed;
 
 
-		public Agent (float agg, float def)
+		public Agent (float agg, float def, float minX, float maxX, float minZ, float maxZ)
 		{
 			this.allies = new List<GameObject>();
 			this.enemies = new List<GameObject>();
+			this.minX = minX;
+			this.maxX = maxX;
+			this.minZ = minZ;
+			this.maxZ = maxZ;
 			this.myStrength = 0.0f;
 			this.capping = 10.0f;
 			this.timePassed = 0.0f;
@@ -301,12 +305,36 @@ public class EnemyController : MonoBehaviour
 							if (this.asteroid.GetComponent<AsteroidController>().belongsTo != 
 							    AsteroidController.getPlayer(myTransform.parent.gameObject))
 							{
-								// We don't want to wait too much!
-								if (this.timePassed > this.capping)
+								// Check if building is there.
+								if (this.asteroid.GetComponent<AsteroidController>().getBuilding() != null)
 								{
-									this.timePassed = 0.0f;
-									this.asteroid = null;
-									this.scout();
+									if (this.asteroid.GetComponent<AsteroidController>().getBuilding().isBuilt())
+									{
+										this.target = this.asteroid.GetComponent<AsteroidController>().getBuilding().getBuilding();
+										this.asteroid.GetComponent<AsteroidController>().attackBuilding(this.myTransform.parent.gameObject);
+									}
+									else
+									{
+										// We don't want to wait too much!
+										if (this.timePassed > this.capping)
+										{
+											this.timePassed = 0.0f;
+											this.asteroid = null;
+											this.target = null;
+											this.scout();
+										}
+									}
+								}
+								else
+								{
+									// We don't want to wait too much!
+									if (this.timePassed > this.capping)
+									{
+										this.timePassed = 0.0f;
+										this.asteroid = null;
+										this.target = null;
+										this.scout();
+									}
 								}
 							}
 							else
@@ -368,7 +396,10 @@ public class EnemyController : MonoBehaviour
 		{
 			this.enemyTag = "Enemy";
 		}
-		this.agent = new Agent(1.0f, 1.0f);
+		GameController gameController = 
+			GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		this.agent = new Agent(1.0f, 1.0f, gameController.minX, gameController.maxX, 
+		                       gameController.minZ, gameController.maxZ);
 		this.agent.setTransform(this.transform);
 		float s = unitController.getAttackForce();
 		this.agent.setStrength(s);
