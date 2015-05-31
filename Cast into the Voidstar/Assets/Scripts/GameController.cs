@@ -478,15 +478,15 @@ public class GameController : MonoBehaviour
 
 	// Space for game variables.
 	// The amount of credits that every player gets on start.
-	private float START_CREDITS = 10000.0f;
+	public float START_CREDITS = 10000.0f;
 	// How many points player gets for holding an asteroid.
-	private float pointsForAsteroid = 1.0f;
+	public float pointsForAsteroid = 1.0f;
 	// How many points player gets for killing enemy units.
-	private float pointsForKilling = 1.0f;
+	public float pointsForKilling = 1.0f;
 	// How many credits player gets for building on asteroid.
-	private float creditsPerBuilding = 1.0f;
+	public float creditsPerBuilding = 1.0f;
 	// How many points one has to get to win.
-	private float winPoints = 1000.0f;
+	public float winPoints = 1000.0f;
 	// Array of players. Player[0] - is our player. Player[1] - enemy.
 	// This is only for know, because in future it will be possible to have
 	// many players at once.
@@ -836,7 +836,7 @@ public class GameController : MonoBehaviour
 	void Start () 
 	{
 		loadData();
-		if (missionNumber == skirmishNumber)
+		if (missionNumber >= skirmishNumber)
 		{
 			loadPresets();
 		}

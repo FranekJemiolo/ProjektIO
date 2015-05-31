@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: eda9255f763bbd5408c65e66522354bb
-timeCreated: 1430576160
+timeCreated: 1433082230
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - asteroidPrefab: {fileID: 176642, guid: 85594e83f30bae549b9c91c5778fa2bf, type: 2}
+  - massRelayPrefab: {fileID: 136654, guid: 3f2abcfe471ee1c4a92dabe3d0d35ab2, type: 2}
+  - enemyMassRelayPrefab: {fileID: 158842, guid: 295fd9659aefb0542b4c4425544b8093,
+      type: 2}
+  - mothership: {fileID: 112134, guid: 1e9c0bf9607616c4daf8ec497b9e72d7, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
