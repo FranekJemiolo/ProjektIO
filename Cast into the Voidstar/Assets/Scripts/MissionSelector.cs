@@ -44,6 +44,7 @@ public class MissionSelector : MonoBehaviour {
 
 	private void resizeMissionPanel(int x, int y) {
 		MissionPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+		//MissionPanel.GetComponent<RectTransform>().right = new Vector3(-x, 0, 0);
 	}
 
 	public void LoadLevel(int i) {
@@ -72,7 +73,7 @@ public class MissionSelector : MonoBehaviour {
 	void Start () {
 		unlocked = new bool[NumberOfMissions + 1];
 		loadData();
-		resizeMissionPanel(2000, 500);
+		resizeMissionPanel(1000, 500);
 		DetermineButtonState();
 	}
 	
