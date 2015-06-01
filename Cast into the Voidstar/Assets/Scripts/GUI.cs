@@ -84,9 +84,14 @@ public class GUI : MonoBehaviour {
     }
 
 	private void SetupControls() {
-		JoystickSystem.SetActive(android.IsJoystickEnabled());
-		LeftButton.SetActive(!android.IsJoystickEnabled());
-		RightButton.SetActive(!android.IsJoystickEnabled());
+
+		bool joystickActive = true;
+
+		if (android != null)
+			joystickActive = android.IsJoystickEnabled();
+		JoystickSystem.SetActive(joystickActive);
+		LeftButton.SetActive(!joystickActive);
+		RightButton.SetActive(!joystickActive);
 	}
 
 	private void UpdateAsteroidsInfo() {

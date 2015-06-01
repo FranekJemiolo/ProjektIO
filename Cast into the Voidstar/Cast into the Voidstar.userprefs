@@ -1,19 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GUI.cs">
     <Files>
-      <File FileName="Assets\Scripts\Android.cs" Line="11" Column="2" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="1315" Column="1" />
-      <File FileName="Assets\Scripts\MissionSelector.cs" Line="85" Column="1" />
-      <File FileName="Assets\Scripts\AIController.cs" Line="382" Column="1" />
-      <File FileName="Assets\Scripts\GUI.cs" Line="89" Column="26" />
-      <File FileName="Assets\Scripts\AsteroidController.cs" Line="102" Column="3" />
-      <File FileName="Assets\Scripts\TouchScript.cs" Line="287" Column="2" />
-      <File FileName="Assets\Scripts\Menu.cs" Line="49" Column="3" />
-      <File FileName="Assets\Scripts\MothershipController.cs" Line="170" Column="1" />
-      <File FileName="Assets\Scripts\UnitController.cs" Line="143" Column="1" />
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="496" Column="1" />
-      <File FileName="Assets\Scripts\MapSelector.cs" Line="46" Column="1" />
+      <File FileName="Assets\Scripts\GUI.cs" Line="94" Column="40" />
+      <File FileName="Assets\Scripts\Android.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MissionSelector.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AIController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AsteroidController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TouchScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MothershipController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UnitController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MapSelector.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
