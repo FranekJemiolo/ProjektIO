@@ -11,6 +11,7 @@ public class GUI : MonoBehaviour {
 	private TouchScript touchScript;
 	private AsteroidController asteroidController;
 	private GameObject asteroid;
+	private Android android;
 
 	public CNAbstractController MovementJoystick;
 
@@ -18,8 +19,13 @@ public class GUI : MonoBehaviour {
 	private bool hasGameEnded;
 	private bool MoveUp;
 	private bool MoveDown;
+	private bool MoveLeft;
+	private bool MoveRight;
 	//private bool ableToBuildMine;
 
+	public GameObject LeftButton;
+	public GameObject RightButton;
+	public GameObject JoystickSystem;
 	public GameObject GUIPanel;
 	public GameObject CommandPanel;
 	public GameObject InfoPanel;
@@ -33,6 +39,7 @@ public class GUI : MonoBehaviour {
 	public Text Credits;
 	public Text TimeToSpawn;
 	public Text buildMineOnAsteroidText;
+	public Text NumberOfAsteroids;
 
 	public Button switcher;
 	public Button fire;
@@ -46,7 +53,6 @@ public class GUI : MonoBehaviour {
 	public ProgressRadialBehaviour PlayerProgress;
 	public ProgressRadialBehaviour EnemyProgress;
 
-
 	
 	public void AllowToBuild(string Info, bool Allow) {
 		buildMineOnAsteroid.SetActive(Allow);
@@ -57,6 +63,7 @@ public class GUI : MonoBehaviour {
 		GameOver.SetActive(true);
 		WhoWon.text = Info;
 	}
+
     // Use this for initialization
 	void Start () {
 		switchToGui ();
@@ -68,10 +75,24 @@ public class GUI : MonoBehaviour {
 		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		mothershipController = gameController.getMothership().GetComponent<MothershipController>();
 		touchScript = GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>();
+		android = GameObject.Find("Android").GetComponent<Android>();
 
 		hasGameEnded = false;
 		MoveUp = false;
+
+		SetupControls();
     }
+
+	private void SetupControls() {
+		JoystickSystem.SetActive(android.IsJoystickEnabled());
+		LeftButton.SetActive(!android.IsJoystickEnabled());
+		RightButton.SetActive(!android.IsJoystickEnabled());
+	}
+
+	private void UpdateAsteroidsInfo() {
+		NumberOfAsteroids.text = "Info:\nAsteroid controlled:\n" +
+			"\nEnemy Asteroid controlled: \n" + "";
+	}
 
 	public void FocusCameraOnMothership() {
 		this.gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -130,6 +151,22 @@ public class GUI : MonoBehaviour {
 		MoveDown = false;
 	}
 
+	public void RotateLeftButton() {
+		MoveLeft = true;
+	}
+
+	public void RelaseRotateLeftButton() {
+		MoveLeft = false;
+	}
+
+	public void RotateRightButton() {
+		MoveRight = true;
+	}
+
+	public void RelaseRotateRightButton() {
+		MoveRight = false;
+	}
+
 	private void DrawPlayerStats() {
         PlayerHPACCStatus.text = "HP: " + mothershipController.getHitPoints().ToString();
 		Credits.text = "Credits: " + gameController.getPlayerCredits(GameController.Who.Player).ToString();
@@ -164,6 +201,7 @@ public class GUI : MonoBehaviour {
 		CommandPanel.SetActive (false);
 		InfoPanel.SetActive (true);
 		Time.timeScale = 0.0f;
+		UpdateAsteroidsInfo();
 	}
 
 	public void ResumeGame() {
@@ -232,6 +270,14 @@ public class GUI : MonoBehaviour {
 			FocusCameraOnMothership();
 			mothershipController.moveForward(Time.deltaTime);
         }
+		if (MoveLeft) {
+			FocusCameraOnMothership();
+			mothershipController.rotateLeft(Time.deltaTime);
+		}
+		if (MoveRight) {
+			FocusCameraOnMothership();
+			mothershipController.rotateRight(Time.deltaTime);
+		}
     }
 
 	private void DrawDeselection() {

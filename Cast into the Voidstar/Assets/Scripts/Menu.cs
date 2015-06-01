@@ -3,9 +3,12 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Menu : MonoBehaviour {
+
+	private Android android;
 	
 	public GameObject QuitPrompt;
 	public GameObject OptionsPrompt;
+	public Toggle JoystickToggle;
 
 	public void Exit() {
 		Debug.Log ("Quit");
@@ -46,10 +49,15 @@ public class Menu : MonoBehaviour {
 
 	}
 
+	public void OptionsChanged() {
+		android.SetJoystickStatus(JoystickToggle.isOn);
+	}
+
 	// Use this for initialization
 	void Start () {
 		QuitPrompt.SetActive(false);
 		OptionsPrompt.SetActive(false);
+		android = GameObject.Find("Android").GetComponent<Android>();
 	}
 	
 	// Update is called once per frame

@@ -3,10 +3,21 @@ using System.Collections;
 
 public class Android : MonoBehaviour {
 
+	private bool useVirtalJoystick;
+
+	public bool IsJoystickEnabled() {
+		return useVirtalJoystick;
+	}
+
+	public void SetJoystickStatus(bool enable) {
+		useVirtalJoystick = enable;
+	}
+
 	// Use this for initialization
 	void Start () {
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
+		useVirtalJoystick = true;
 	}
 
 	void Awake() {
