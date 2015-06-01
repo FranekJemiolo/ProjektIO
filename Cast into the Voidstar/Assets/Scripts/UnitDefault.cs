@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UnitDefault : MonoBehaviour {
 
@@ -29,8 +30,32 @@ public class UnitDefault : MonoBehaviour {
 		{
 			if (enemies.Count > 0)
 			{
-
+				if (unitController.getTarget() == null)
+				{
+					unitController.setTarget(enemies.First);
+				}
 			}
 		}
 	}
+
+	void OnTriggerEnter (Collider other) 
+	{
+		string enemyTag = "Enemy";
+		// Check if an enemy has come to our area?
+		if (other.gameObject.tag == enemyTag)
+		{
+			this.enemies.Add(other.gameObject);
+		}
+	}
+
+	void OnTriggerExit (Collider other) 
+	{
+		string enemyTag = "Enemy";
+		if (other.gameObject.tag == enemyTag)
+		{
+			this.enemies.Add(other.gameObject);
+			//Debug.Log("Enemy leaves " + other.gameObject);
+		}
+	}
+
 }

@@ -79,6 +79,11 @@ public class UnitController : MonoBehaviour
 		this.target = go;
 	}
 
+	public void getTarget ()
+	{
+		return this.target;
+	}
+
 	// Moves unit into desired position.
 	public void moveTo (Vector3 pos)
 	{
