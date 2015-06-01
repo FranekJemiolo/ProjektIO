@@ -20,6 +20,14 @@ public class Menu : MonoBehaviour {
 		Application.LoadLevel("Battleground");
 	}
 
+	public void loadSkirmish() {
+		Application.LoadLevel("SkirmishOptions");
+	}
+
+	public void selectMission() {
+		Application.LoadLevel("MissionSelector");
+	}
+
 
 	public void showQuitPrompt() {
 		QuitPrompt.SetActive(true);

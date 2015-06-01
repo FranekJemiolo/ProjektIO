@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\MissionSelector.cs" />
      <Compile Include="Assets\Scripts\MothershipController.cs" />
      <Compile Include="Assets\Scripts\Shot.cs" />
+     <Compile Include="Assets\Scripts\SkirmishOptions.cs" />
      <Compile Include="Assets\Scripts\TouchScript.cs" />
      <Compile Include="Assets\Scripts\UnitController.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
