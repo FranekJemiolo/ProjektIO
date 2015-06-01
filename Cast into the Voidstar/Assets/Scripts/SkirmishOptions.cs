@@ -85,9 +85,31 @@ public class SkirmishOptions : MonoBehaviour {
 	public void StartGame() {
 		//resolve size map, 1500.0f 
 		Vector3[] astero = GameController.getRandomAsteroids(resolveMapSize() , (int) AsteroidsSlider.value);
-		/*GameController.Presets preset = new GameController.Presets(
-			Player1Slider.);
-		GameController.savePresets(preset);*/
+		Vector3 massE = GameController.getRandomMassRelayE(resolveMapSize());
+		Vector3 massP = GameController.getRandomMassRelayP(resolveMapSize());
+		float startCredits = Player1Slider.value;
+		float pA = 1.0f;
+		float pForKilling = 50.0f;
+		float pointsToWin = Player2Slider.value;
+		float minX = 0.0f;
+		float minZ = 0.0f;
+		float maxX = resolveMapSize();
+		float maxZ = resolveMapSize();
+		float cB = 1.0f;
+
+		GameController.Presets preset = new GameController.Presets(startCredits, pA,
+		                                                           pForKilling,
+		                                                           cB,
+		                                                           pointsToWin,
+		                                                           minX,
+		                                                           maxX,
+		                                                           minZ,
+		                                                           maxZ,
+		                                                           astero,
+		                                                           massP,
+		                                                           massE);
+		                                                          
+		GameController.savePresets(preset);
 		Application.LoadLevel("16");
 	}
 

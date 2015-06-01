@@ -35,7 +35,7 @@ public class TouchScript : MonoBehaviour {
 		cam.transform.position = mov;
 	}
 
-	private GUI gui;
+	private GUIclass gui;
 	private AsteroidController asteroidController;
 	
 	/*public static Vector2 FixedTouchDelta(this Touch aTouch)
@@ -112,7 +112,7 @@ public class TouchScript : MonoBehaviour {
 		selected = new List<GameObject> ();
 		gameController = GameObject.Find("GameController").GetComponent<GameController>();
 		asteroid = null;
-		gui = GameObject.FindGameObjectWithTag("GUI").GetComponent<GUI>();
+		gui = GameObject.FindGameObjectWithTag("GUI").GetComponent<GUIclass>();
 	}
 
 	private void getAsteroidInfo() {

@@ -545,7 +545,7 @@ public class GameController : MonoBehaviour
 	}
 
 
-	private GUI gui;
+	private GUIclass gui;
 
 	// End of game variables.
 
@@ -858,7 +858,7 @@ public class GameController : MonoBehaviour
 		// Set the game state to playing.
 		gameState = GameState.Playing;
 
-		gui = GameObject.FindGameObjectWithTag("GUI").GetComponent<GUI>();
+		gui = GameObject.FindGameObjectWithTag("GUI").GetComponent<GUIclass>();
 		if (gui == null) {
 			Debug.LogError("NOGUI");
 		}

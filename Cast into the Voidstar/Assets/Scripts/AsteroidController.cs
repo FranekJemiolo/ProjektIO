@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class AsteroidController : MonoBehaviour 
 {
 
-	public enum Master{Player, Enemy, None};
+	public enum Master{Player = 0, Enemy, None};
 
 	public static Master getPlayer(GameObject ob)
 	{
@@ -199,7 +199,7 @@ public class AsteroidController : MonoBehaviour
 	// When unit is in asteroid vicinity.
 	void OnTriggerStay (Collider other) 
 	{
-		Master whoAmI = this.getPlayer(other.gameObject);
+		Master whoAmI = getPlayer(other.gameObject);
 		if (whoAmI == Master.None)
 		{
 			return;
@@ -337,7 +337,7 @@ public class AsteroidController : MonoBehaviour
 		if (this.building != null)
 		{
 			// If it belongs to our enemy.
-			if (this.getPlayer(unit) != this.building.whoControlls())
+			if (getPlayer(unit) != this.building.whoControlls())
 			{
 				unit.GetComponent<UnitController> ().setTarget(building.getBuilding());
 				return true;
@@ -356,7 +356,7 @@ public class AsteroidController : MonoBehaviour
 				
 			foreach(GameObject unit in units)
 			{
-				if (this.getPlayer(unit) != this.building.whoControlls())
+				if (getPlayer(unit) != this.building.whoControlls())
 				{
 					unit.GetComponent<UnitController> ().setTarget(this.building.getBuilding());
 				}

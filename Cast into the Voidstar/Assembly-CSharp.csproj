@@ -59,7 +59,7 @@
      <Compile Include="Assets\Scripts\Android.cs" />
      <Compile Include="Assets\Scripts\AsteroidController.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
-     <Compile Include="Assets\Scripts\GUI.cs" />
+     <Compile Include="Assets\Scripts\GUIclass.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\MapSelector.cs" />
      <Compile Include="Assets\Scripts\Menu.cs" />

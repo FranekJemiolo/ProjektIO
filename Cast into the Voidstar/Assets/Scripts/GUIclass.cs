@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using ProgressBar;
 using System.Threading;
 
-public class GUI : MonoBehaviour {
+public class GUIclass : MonoBehaviour {
 
 	private GameController gameController;
 	private MothershipController mothershipController;
