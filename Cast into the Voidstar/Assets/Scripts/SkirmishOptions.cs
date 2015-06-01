@@ -78,8 +78,17 @@ public class SkirmishOptions : MonoBehaviour {
 		Application.LoadLevel("Menu");
 	}
 
+	public float resolveMapSize() {
+		return (float) (500.0f * (currentSizeSelected + 1)); 
+	}
+
 	public void StartGame() {
-		//TODO
+		//resolve size map, 1500.0f 
+		Vector3[] astero = GameController.getRandomAsteroids(resolveMapSize() , (int) AsteroidsSlider.value);
+		/*GameController.Presets preset = new GameController.Presets(
+			Player1Slider.);
+		GameController.savePresets(preset);*/
+		Application.LoadLevel("16");
 	}
 
 	private void SnapToDesiredValues() {

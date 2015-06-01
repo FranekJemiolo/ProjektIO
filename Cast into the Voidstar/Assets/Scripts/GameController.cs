@@ -1311,4 +1311,18 @@ public class GameController : MonoBehaviour
 		return this.mothership;
 	}
 
+	public int getPlayerAsteroids (Who who)
+	{
+		int count = 0;
+		foreach (GameObject asteroid in asteroids)
+		{
+			AsteroidController.Master mas = (AsteroidController.Master) ((int) who);
+			if (asteroid.GetComponent<AsteroidController>().belongsTo == mas)
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+
 }

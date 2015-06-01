@@ -96,7 +96,9 @@ public class GUI : MonoBehaviour {
 
 	private void UpdateAsteroidsInfo() {
 		NumberOfAsteroids.text = "Info:\nAsteroid controlled:\n" +
-			"\nEnemy Asteroid controlled: \n" + "";
+			gameController.getPlayerAsteroids(GameController.Who.Player).ToString() +
+			"\nEnemy Asteroid controlled: \n" + 
+			gameController.getPlayerAsteroids(GameController.Who.Enemy).ToString();
 	}
 
 	public void FocusCameraOnMothership() {
