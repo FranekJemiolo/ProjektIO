@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\SkirmishOptions.cs" />
      <Compile Include="Assets\Scripts\TouchScript.cs" />
      <Compile Include="Assets\Scripts\UnitController.cs" />
+     <Compile Include="Assets\Scripts\UnitDefault.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />

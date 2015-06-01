@@ -45,7 +45,24 @@ public class UnitController : MonoBehaviour
 	void Update () 
 	{
 		timePassed += Time.deltaTime;
-	
+		if ( (this.GetComponentInChildren<Renderer>().isVisible) && (Input.touchCount == 2) && (this.tag=="Player")) 
+		{
+			Vector3 camPos = GameObject.Find("Main Camera").GetComponent<Camera>().WorldToScreenPoint(transform.position);
+			camPos.y = TouchScript.invertWithScreenHeight(camPos.y);
+			if( TouchScript.selectionBox.Contains(camPos) )
+			{
+				GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().Select(this.transform.gameObject);
+			}
+			else
+			{
+				GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().DeselectUnit(this.transform.gameObject);
+			}
+		}
+		if( GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().isSelected(this.transform.gameObject) )
+		{
+			//todo - here we have to change look of selected unit
+		}
+
 	}
 
 	void FixedUpdate ()

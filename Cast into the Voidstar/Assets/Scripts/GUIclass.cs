@@ -15,7 +15,7 @@ public class GUIclass : MonoBehaviour {
 
 	public CNAbstractController MovementJoystick;
 
-	private bool isCommandModeON;
+	public bool isCommandModeON;
 	private bool hasGameEnded;
 	private bool MoveUp;
 	private bool MoveDown;
@@ -75,7 +75,9 @@ public class GUIclass : MonoBehaviour {
 		gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		mothershipController = gameController.getMothership().GetComponent<MothershipController>();
 		touchScript = GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>();
-		android = GameObject.Find("Android").GetComponent<Android>();
+		GameObject androidalke = GameObject.Find ("Android");
+		if (androidalke != null)
+			android = androidalke.GetComponent<Android>();
 
 		hasGameEnded = false;
 		MoveUp = false;
@@ -248,7 +250,7 @@ public class GUIclass : MonoBehaviour {
 	}
 
 	public void Deselect() {
-		GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>().Deselect();
+		GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>().DeselectUnits();
 		//touchScript.Deselect();
 	}
 

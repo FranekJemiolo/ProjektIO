@@ -37,7 +37,11 @@ public class TouchScript : MonoBehaviour {
 
 	private GUIclass gui;
 	private AsteroidController asteroidController;
-	
+
+	// variables for selection multiple units
+	public Texture2D selectionHighlight = null;
+	public static Rect selectionBox = new Rect(0,0,0,0);
+
 	/*public static Vector2 FixedTouchDelta(this Touch aTouch)
         {
                 float dt = Time.deltaTime / aTouch.deltaTime;
@@ -55,13 +59,17 @@ public class TouchScript : MonoBehaviour {
 	/// This method will be ONLY available from GUI (as button click);
 	/// Unlike in any other RTS, we can't distinct between LMB and RMB
 	/// </summary>
-	public void Deselect() {
+	public void DeselectUnits() {
 		foreach (GameObject unit in selected) {
 			Debug.Log ("Deselecting" +  unit.name );
 			// TODO: graphical behaviour
 			//unit.GetComponentInChildren<Projector>().enabled = false;
 		}
 		selected.Clear();
+	}
+	
+	public void DeselectUnit(GameObject toDeselect) {
+		selected.Remove (toDeselect);
 	}
 	
 	/// <summary>
@@ -73,7 +81,7 @@ public class TouchScript : MonoBehaviour {
 	///
 	/// </summary>
 	/// <param name="unit">Unit.</param>
-	void Select(GameObject unit){
+	public void Select(GameObject unit){
 		
 		Debug.Log ("Selecting" + unit.name);
 		
@@ -92,7 +100,6 @@ public class TouchScript : MonoBehaviour {
 			Select(unit);
 		}
 	}
-	
 	// selected getter
 	List<GameObject> GetSelectedUnits() {
 		return selected;
@@ -102,12 +109,23 @@ public class TouchScript : MonoBehaviour {
 	public GameObject getAsteroid(){
 		return asteroid;
 	}
+
+
+	public bool isSelected(GameObject checkUnit)
+	{
+		return selected.Contains(checkUnit);
+	}
 	
+	public static float invertWithScreenHeight(float y)
+	{
+		return Screen.height - y;
+	}
 	
 	// Use this for initialization
 	// find main camera and gamecontroller
 	void Start ()
 	{
+		selectionBox = new Rect (0,0,0,0);
 		cam = GameObject.Find("Main Camera").GetComponent<Camera>();
 		selected = new List<GameObject> ();
 		gameController = GameObject.Find("GameController").GetComponent<GameController>();
