@@ -262,7 +262,7 @@ public class EnemyController : MonoBehaviour
 			//Debug.Log ("Aggresivnes is " + this.aggresivness);
 			//Debug.Log ("Defenisvness is " + this.defensivness);
 			// Check if enemy has decisive superiority.
-			if (this.enemiesStrength > ((1.0f + this.aggresivness) * this.groupStrength))
+			if (this.enemiesStrength > ((10.0f + this.aggresivness) * this.groupStrength))
 			{
 				// Flee!!!
 				this.flee();

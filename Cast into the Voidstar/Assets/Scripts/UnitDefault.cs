@@ -15,6 +15,7 @@ public class UnitDefault : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		isCommanded = false;
+		enemies = new List<GameObject>();
 	}
 	
 	// Update is called once per frame

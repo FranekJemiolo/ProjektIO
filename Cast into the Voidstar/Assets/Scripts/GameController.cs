@@ -627,8 +627,8 @@ public class GameController : MonoBehaviour
 		}
 		Vector3 newvec1 = new Vector3(presets.massP.x, presets.massP.y, presets.massP.z);
 		Vector3 newvec2 = new Vector3(presets.massE.x, presets.massE.y, presets.massE.z);
-		Instantiate(massRelayPrefab, newvec1, Quaternion.identity);
-		Instantiate(enemyMassRelayPrefab, newvec2, Quaternion.identity);
+		massRelays[0] = Instantiate(massRelayPrefab, newvec1, Quaternion.identity) as GameObject;
+		massRelays[1] = Instantiate(enemyMassRelayPrefab, newvec2, Quaternion.identity) as GameObject;
 	}
 
 	// Reads presets from file and returns the presets class.
