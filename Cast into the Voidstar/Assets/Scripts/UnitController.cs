@@ -79,7 +79,7 @@ public class UnitController : MonoBehaviour
 		this.target = go;
 	}
 
-	public void getTarget ()
+	public GameObject getTarget ()
 	{
 		return this.target;
 	}

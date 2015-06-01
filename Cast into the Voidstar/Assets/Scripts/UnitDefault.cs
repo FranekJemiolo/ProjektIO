@@ -32,7 +32,7 @@ public class UnitDefault : MonoBehaviour {
 			{
 				if (unitController.getTarget() == null)
 				{
-					unitController.setTarget(enemies.First);
+					unitController.setTarget(enemies.First());
 				}
 			}
 		}
