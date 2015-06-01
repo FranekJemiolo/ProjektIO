@@ -18,6 +18,21 @@ public class Tuple<T1, T2>
 	}
 }
 
+[System.Serializable]
+public class StupidVector3<T>
+{
+	public T x;
+	public T y;
+	public T z;
+	internal StupidVector3 (T x, T y, T z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+}
+
+
 // This script holds the main game api and contains main game loop.
 public class GameController : MonoBehaviour 
 {
@@ -352,12 +367,12 @@ public class GameController : MonoBehaviour
 		public float maxX;
 		public float minZ;
 		public float maxZ;
-		public Vector3[] asteroids;
-		public Vector3 massP;
-		public Vector3 massE;
+		public StupidVector3<float>[] asteroids;
+		public StupidVector3<float> massP;
+		public StupidVector3<float> massE;
 		public Presets (float sc, float pa, float pk, float cb, float wp, 
-		        float mix, float mx, float miz, float mz, Vector3[] astero,
-		        Vector3 massP, Vector3 massE)
+		                float mix, float mx, float miz, float mz, StupidVector3<float>[] astero,
+	                	StupidVector3<float> massP, StupidVector3<float> massE)
 		{
 			this.START_CREDITS = sc;
 			this.pointsForAsteroid = pa;
@@ -368,76 +383,76 @@ public class GameController : MonoBehaviour
 			this.maxX = mx;
 			this.minZ = miz;
 			this.maxZ = mz;
-			astero.CopyTo(this.asteroids, 0);
+			this.asteroids = astero;
 			this.massP = massP;
 			this.massE = massE;
 		}
 	}
 
 	// Method that returns random location for player mass relay
-	public static Vector3 getRandomMassRelayP (float size)
+	public static StupidVector3<float> getRandomMassRelayP (float size)
 	{
 		if (size == 500.0f)
 		{
-			return new Vector3(100.0f + Random.Range(-50.0f, 50.0f),
+			return new StupidVector3<float>(100.0f + Random.Range(-50.0f, 50.0f),
 			                   0.0f,
 			                   100.0f + Random.Range(-50.0f, 50.0f));
 		}
 		else if (size == 1000.0f)
 		{
-				return new Vector3(150.0f + Random.Range(-100.0f, 100.0f),
+			return new StupidVector3<float>(150.0f + Random.Range(-100.0f, 100.0f),
 				                   0.0f,
 				                   150.0f + Random.Range(-100.0f, 100.0f));
 		}
 		else if (size == 1500.0f)
 		{
-				return new Vector3(200.0f + Random.Range(-150.0f, 150.0f),
+			return new StupidVector3<float>(200.0f + Random.Range(-150.0f, 150.0f),
 				                   0.0f,
 				                   200.0f + Random.Range(-150.0f, 150.0f));
 		}
 		else
 		{
 			Debug.Log("WRONG PARAMETER!");
-			return new Vector3(50.0f, 0.0f, 50.0f);
+			return new StupidVector3<float>(50.0f, 0.0f, 50.0f);
 		}
 	}
 	// Method that returns random location for enemy mass relay
-	public static Vector3 getRandomMassRelayE (float size)
+	public static StupidVector3<float> getRandomMassRelayE (float size)
 	{
 		if (size == 500.0f)
 		{
-			return new Vector3(400.0f + Random.Range(-50.0f, 50.0f),
+			return new StupidVector3<float>(400.0f + Random.Range(-50.0f, 50.0f),
 			                   0.0f,
 			                   400.0f + Random.Range(-50.0f, 50.0f));
 		}
 		else if (size == 1000.0f)
 		{
-				return new Vector3(850.0f + Random.Range(-100.0f, 100.0f),
+			return new StupidVector3<float>(850.0f + Random.Range(-100.0f, 100.0f),
 				                   0.0f,
 				                   850.0f + Random.Range(-100.0f, 100.0f));
 		}
 		else if (size == 1500.0f)
 		{
-				return new Vector3(1300.0f + Random.Range(-150.0f, 150.0f),
+			return new StupidVector3<float>(1300.0f + Random.Range(-150.0f, 150.0f),
 				                   0.0f,
 				                   1300.0f + Random.Range(-150.0f, 150.0f));
 		}
 		else
 		{
 			Debug.Log("WRONG PARAMETER!");
-			return new Vector3(450.0f, 0.0f, 450.0f);
+			return new StupidVector3<float>(450.0f, 0.0f, 450.0f);
 		}
 	}
 	// Method that returns random locations for asteroids
-	public static Vector3[] getRandomAsteroids (float size, int numOfAstero)
+	public static StupidVector3<float>[] getRandomAsteroids (float size, int numOfAstero)
 	{
 		float space = Mathf.Floor(size / numOfAstero);
 		if (size == 500.0f)
 		{
-			Vector3[] results = new Vector3[numOfAstero];
+			StupidVector3<float>[] results = new StupidVector3<float>[numOfAstero];
 			for (int i = 1; i <= numOfAstero; i++)
 			{
-				results[i-1] = new Vector3 ((i * space) + Random.Range(-50.0f, 50.0f),
+				results[i-1] = new StupidVector3<float> ((i * space) + Random.Range(-50.0f, 50.0f),
 				                          0.0f,
 				                          Random.Range(50.0f, 450.0f));
 			}
@@ -445,10 +460,10 @@ public class GameController : MonoBehaviour
 		}
 		else if (size == 1000.0f)
 		{
-			Vector3[] results = new Vector3[numOfAstero];
+			StupidVector3<float>[] results = new StupidVector3<float>[numOfAstero];
 			for (int i = 1; i <= numOfAstero; i++)
 			{
-				results[i-1] = new Vector3 ((i * space) + Random.Range(-50.0f, 50.0f),
+				results[i-1] = new StupidVector3<float> ((i * space) + Random.Range(-50.0f, 50.0f),
 				                          0.0f,
 				                          Random.Range(100.0f, 900.0f));
 			}
@@ -456,10 +471,10 @@ public class GameController : MonoBehaviour
 		}
 		else if (size == 1500.0f)
 		{
-			Vector3[] results = new Vector3[numOfAstero];
+			StupidVector3<float>[] results = new StupidVector3<float>[numOfAstero];
 			for (int i = 1; i <= numOfAstero; i++)
 			{
-				results[i-1] = new Vector3 ((i * space) + Random.Range(-50.0f, 50.0f),
+				results[i-1] = new StupidVector3<float> ((i * space) + Random.Range(-50.0f, 50.0f),
 				                          0.0f,
 				                          Random.Range(150.0f, 1350.0f));
 			}
@@ -468,8 +483,8 @@ public class GameController : MonoBehaviour
 		else
 		{
 			Debug.Log("WRONG PARAMETER!");
-			Vector3[] vec = new Vector3[1];
-			vec[0] = new Vector3(450.0f, 0.0f, 450.0f);
+			StupidVector3<float>[] vec = new StupidVector3<float>[1];
+			vec[0] = new StupidVector3<float>(450.0f, 0.0f, 450.0f);
 			return vec;
 		}
 	}
@@ -605,12 +620,15 @@ public class GameController : MonoBehaviour
 		this.maxX = presets.maxX;
 		this.minZ = presets.minZ;
 		this.maxZ = presets.maxZ;
-		foreach (Vector3 vec in presets.asteroids)
+		foreach (StupidVector3<float> vec in presets.asteroids)
 		{
-			Instantiate(asteroidPrefab, vec, Quaternion.identity);
+			Vector3 newvec = new Vector3(vec.x, vec.y, vec.z);
+			Instantiate(asteroidPrefab, newvec, Quaternion.identity);
 		}
-		Instantiate(massRelayPrefab, presets.massP, Quaternion.identity);
-		Instantiate(enemyMassRelayPrefab, presets.massE, Quaternion.identity);
+		Vector3 newvec1 = new Vector3(presets.massP.x, presets.massP.y, presets.massP.z);
+		Vector3 newvec2 = new Vector3(presets.massE.x, presets.massE.y, presets.massE.z);
+		Instantiate(massRelayPrefab, newvec1, Quaternion.identity);
+		Instantiate(enemyMassRelayPrefab, newvec2, Quaternion.identity);
 	}
 
 	// Reads presets from file and returns the presets class.
@@ -668,9 +686,9 @@ public class GameController : MonoBehaviour
 		float mx;
 		float miz;
 		float mz;
-		Vector3[] asteros;
-		Vector3 massP;
-		Vector3 massE;
+		StupidVector3<float>[] asteros;
+		StupidVector3<float> massP;
+		StupidVector3<float> massE;
 		// Skirmish. (Mission 17)
 		creds = 10000.0f;
 		pts_astr = 1.0f;
@@ -681,12 +699,12 @@ public class GameController : MonoBehaviour
 		mx = 1000.0f;
 		miz = 0.0f;
 		mz = 1000.0f;
-		asteros = new Vector3[3];
-		asteros[0] = new Vector3(50.0f, 0.0f, 50.0f);
-		asteros[1] = new Vector3(450.0f, 0.0f, 450.0f);
-		asteros[2] = new Vector3(250.0f, 0.0f, 250.0f);
-		massP = new Vector3(100.0f, 0.0f, 50.0f);
-		massE = new Vector3(400.0f, 0.0f, 450.0f);
+		asteros = new StupidVector3<float>[3];
+		asteros[0] = new StupidVector3<float>(50.0f, 0.0f, 50.0f);
+		asteros[1] = new StupidVector3<float>(450.0f, 0.0f, 450.0f);
+		asteros[2] = new StupidVector3<float>(250.0f, 0.0f, 250.0f);
+		massP = new StupidVector3<float>(100.0f, 0.0f, 50.0f);
+		massE = new StupidVector3<float>(400.0f, 0.0f, 450.0f);
 
 
 		Presets presets = new Presets(creds, pts_astr, pts_kill, b_creds, win_pts,

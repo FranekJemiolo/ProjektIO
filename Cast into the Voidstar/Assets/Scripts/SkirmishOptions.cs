@@ -84,9 +84,9 @@ public class SkirmishOptions : MonoBehaviour {
 
 	public void StartGame() {
 		//resolve size map, 1500.0f 
-		Vector3[] astero = GameController.getRandomAsteroids(resolveMapSize() , (int) AsteroidsSlider.value);
-		Vector3 massE = GameController.getRandomMassRelayE(resolveMapSize());
-		Vector3 massP = GameController.getRandomMassRelayP(resolveMapSize());
+		StupidVector3<float>[] astero = GameController.getRandomAsteroids(resolveMapSize() , (int) AsteroidsSlider.value);
+		StupidVector3<float> massE = GameController.getRandomMassRelayE(resolveMapSize());
+		StupidVector3<float> massP = GameController.getRandomMassRelayP(resolveMapSize());
 		float startCredits = Player1Slider.value;
 		float pA = 1.0f;
 		float pForKilling = 50.0f;
