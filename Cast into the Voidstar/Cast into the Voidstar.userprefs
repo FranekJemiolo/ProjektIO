@@ -1,20 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GUIclass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TouchScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\Android.cs" Line="17" Column="17" />
+      <File FileName="Assets\Scripts\TouchScript.cs" Line="386" Column="46" />
+      <File FileName="Assets\Scripts\Android.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SkirmishOptions.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GUIclass.cs" Line="231" Column="2" />
+      <File FileName="Assets\Scripts\GUIclass.cs" Line="236" Column="30" />
       <File FileName="Assets\Scripts\MissionSelector.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AIController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AsteroidController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TouchScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Menu.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MothershipController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UnitController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MapSelector.cs" Line="1" Column="1" />
+      <File FileName="E:\unityfiles\TouchScript.cs" Line="143" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

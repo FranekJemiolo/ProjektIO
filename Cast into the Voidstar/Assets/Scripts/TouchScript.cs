@@ -39,7 +39,7 @@ public class TouchScript : MonoBehaviour {
 	private AsteroidController asteroidController;
 
 	// variables for selection multiple units
-	public Texture2D selectionHighlight = null;
+	public Texture2D selectionHighlight;
 	public static Rect selectionBox = new Rect(0,0,0,0);
 
 	/*public static Vector2 FixedTouchDelta(this Touch aTouch)
@@ -120,7 +120,12 @@ public class TouchScript : MonoBehaviour {
 	{
 		return Screen.height - y;
 	}
-	
+
+	private Touch touchZero;
+	private Touch touchOne;
+	private Touch touchTwo;
+
+
 	// Use this for initialization
 	// find main camera and gamecontroller
 	void Start ()
@@ -172,12 +177,12 @@ public class TouchScript : MonoBehaviour {
 			//single touch - detect taps (select) and drags (move camera)
 			switch(Input.touchCount) {
 			case 1:
-				Touch touch = Input.GetTouch(0);
+				touchZero = Input.GetTouch(0);
 				//checking if any unit is selected
 				
-				switch( touch.phase ) {
+				switch( touchZero.phase ) {
 				case TouchPhase.Began:
-					Ray ray1 = Camera.main.ScreenPointToRay(touch.position);
+					Ray ray1 = Camera.main.ScreenPointToRay(touchZero.position);
 					
 					Debug.Log("touchphase began");
 					// we have to detect what we are hitting - it must be unit(s)
@@ -188,9 +193,9 @@ public class TouchScript : MonoBehaviour {
 					}
 					break;
 				case TouchPhase.Moved:
-					distanceMoved += Mathf.Abs(touch.deltaPosition.x) + Mathf.Abs(touch.deltaPosition.y);
-					sumXaxis += touch.deltaPosition.x;
-					sumYaxis += touch.deltaPosition.y;
+					distanceMoved += Mathf.Abs(touchZero.deltaPosition.x) + Mathf.Abs(touchZero.deltaPosition.y);
+					sumXaxis += touchZero.deltaPosition.x;
+					sumYaxis += touchZero.deltaPosition.y;
 					
 					if( distanceMoved>10 ){
 						Debug.Log("swipe");
@@ -262,6 +267,56 @@ public class TouchScript : MonoBehaviour {
 				break;
 				//resize camera (move by Y axis)
 			case 2:
+				//new code implements traditional RTS selection box
+				
+				touchZero = Input.GetTouch(0);
+				touchOne = Input.GetTouch(1);
+				
+				float largerX = 0;
+				float smallerX = 0;
+				
+				float largerY = 0;
+				float smallerY = 0;
+				
+				if (touchZero.position.x > touchOne.position.x)
+				{
+					largerX = touchZero.position.x;
+					smallerX = touchOne.position.x;
+				}
+				else
+				{
+					largerX = touchOne.position.x;
+					smallerX = touchZero.position.x;
+				}
+				
+				if ( touchZero.position.y > touchOne.position.y)
+				{
+					largerY = touchZero.position.y;
+					smallerY = touchOne.position.y;
+				}
+				else
+				{
+					largerY = touchOne.position.y;
+					smallerY = touchZero.position.y;
+				}
+				
+				if( touchZero.phase==TouchPhase.Began || touchOne.phase==TouchPhase.Began ||
+				   touchZero.phase==TouchPhase.Moved || touchOne.phase==TouchPhase.Moved )
+				{
+					selectionBox = new Rect(smallerX, largerY, largerX-smallerX, largerY-smallerY);
+				}
+				if( touchZero.phase==TouchPhase.Ended || touchOne.phase==TouchPhase.Ended )
+				{
+					selectionBox = new Rect(0,0,0,0);
+					
+					largerX = 0;
+					smallerX = 0;
+					
+					largerY = 0;
+					smallerY = 0;
+				}
+				
+				/** old code implementing pinch to zoom
 				// Store both touches.
 				Touch touchZero = Input.GetTouch(0);
 				Touch touchOne = Input.GetTouch(1);
@@ -293,13 +348,58 @@ public class TouchScript : MonoBehaviour {
 					
 					// Clamp the field of view to make sure it's between 0 and 180.
 					cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 10.0f, 90.0f);
-				}
+				}*/
 				break;
-				//selecting groups
 			case 3:
+				/** New code implementing pinch to zoom with 3 touches.
+				 * 	with 3 touches we want to calculate distance between them and move camera by
+					Y axis proportionally
+				 */
+				
+				touchZero = Input.GetTouch(0);
+				touchOne = Input.GetTouch(1);
+				touchTwo = Input.GetTouch(2);
+				
+				float distance, changedDistance, ratio;
+				
+				distance = 0.0f;
+				
+				//calculate distance
+				distance = 	Vector2.Distance(touchZero.position, touchOne.position) +
+					Vector2.Distance(touchOne.position, touchTwo.position);
+				
+				changedDistance = 	Vector2.Distance(touchZero.position-touchZero.deltaPosition, touchOne.position-touchOne.deltaPosition) +
+					Vector2.Distance(touchOne.position-touchOne.deltaPosition, touchTwo.position-touchTwo.deltaPosition);
+				
+				if( distance != 0 ){
+					ratio = changedDistance/distance;
+				}
+				else{
+					ratio = 1;
+				}
+				gameController.moveCamera( new Vector3(cam.transform.position.x, cam.transform.position.y * ratio, cam.transform.position.z));
+				//change camera position
+				
+				
+				/*else if(touchZero.phase==TouchPhase.Ended ||
+				        touchOne.phase==TouchPhase.Ended ||
+				        touchTwo.phase==TouchPhase.Ended)
+				{
+					//end, reinit variables
+				}*/
+				
 				break;
 			}
 		}
 		isOverUI = false;
 	}
+
+	private void OnGUI()
+	{
+		if (Input.touchCount == 2) 
+		{
+			GUI.color = new Color(1, 1, 1, 0.5f);
+			GUI.DrawTexture( selectionBox, selectionHighlight );
+        }
+    }
 }
