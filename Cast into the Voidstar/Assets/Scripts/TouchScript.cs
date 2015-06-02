@@ -63,13 +63,18 @@ public class TouchScript : MonoBehaviour {
 		foreach (GameObject unit in selected) {
 			Debug.Log ("Deselecting" +  unit.name );
 			// TODO: graphical behaviour
-			//unit.GetComponentInChildren<Projector>().enabled = false;
+			/*Projector proj = unit.GetComponent<Projector>();
+			Debug.Log (proj);//.enabled = false;
+			proj.enabled = false;*/
 		}
 		selected.Clear();
 	}
 	
 	public void DeselectUnit(GameObject toDeselect) {
 		selected.Remove (toDeselect);
+		/*Projector proj = toDeselect.GetComponent<Projector>();
+		Debug.Log (proj);//.enabled = false;
+		proj.enabled = false;*/
 	}
 	
 	/// <summary>
@@ -86,8 +91,9 @@ public class TouchScript : MonoBehaviour {
 		Debug.Log ("Selecting" + unit.name);
 		
 		selected.Add (unit);
-		//unit.GetComponentInChildren<Projector>().enabled = true;
-		
+		/*Projector proj = unit.GetComponent<Projector>();
+		Debug.Log (proj);
+		proj.enabled = true;*/
 		// TODO:
 		// change graphical behaviour of unit i.e. highlighted.
 		// projector - additive shader (shadow material)
