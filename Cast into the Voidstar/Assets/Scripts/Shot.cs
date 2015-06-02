@@ -49,6 +49,7 @@ public class Shot : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
+		Debug.Log(other.name);
 		if (other.gameObject == this.owner)
 		{
 			return;

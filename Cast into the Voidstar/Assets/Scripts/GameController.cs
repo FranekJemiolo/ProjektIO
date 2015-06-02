@@ -932,7 +932,10 @@ public class GameController : MonoBehaviour
 	// Unit attacks enemy unit.
 	public void attackUnit (GameObject unit, GameObject enemy)
 	{
-		unit.GetComponent<UnitController> ().setTarget (enemy);
+		if (unit != null)
+		{
+			unit.GetComponent<UnitController> ().setTarget (enemy);
+		}
 	}
 
 	// Many units attack enemy unit.
@@ -1090,6 +1093,20 @@ public class GameController : MonoBehaviour
 		{
 			agent.GetComponent<EnemyController>().removeUnit(unit);
 		}
+		GameObject[] units = GameObject.FindGameObjectsWithTag("UnitMover");
+		if ((unit.tag == "Player") && (unit.name != "Mothership"))
+		{
+			foreach (GameObject u in units)
+			{
+				if (u.transform.parent.gameObject.GetComponent<UnitController>().getTarget() == unit)
+				{
+					u.transform.parent.gameObject.GetComponent<UnitController>().setTarget(null);
+				}
+			}
+			TouchScript touchsc = GameObject.FindGameObjectWithTag("TouchScript").GetComponent<TouchScript>();
+			touchsc.DeselectUnit(unit);
+		}
+
 	}
 
 	// Returns vector around some vector.

@@ -60,10 +60,19 @@ public class UnitController : MonoBehaviour
 				Debug.Log("deselecting rect");
 				GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().DeselectUnit(this.transform.gameObject);
 			}
-		}
-		if( GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().isSelected(this.transform.gameObject) )
-		{
-			//todo - here we have to change look of selected unit
+			if( GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().isSelected(this.transform.gameObject) )
+			{
+				//todo - here we have to change look of selected unit
+				Projector proj = this.transform.gameObject.transform.GetChild(2).gameObject.GetComponent<Projector>();
+				Debug.Log (proj);
+				proj.enabled = true;
+			}
+			else
+			{
+				Projector proj = this.transform.gameObject.transform.GetChild(2).gameObject.GetComponent<Projector>();
+				Debug.Log (proj);//.enabled = false;
+				proj.enabled = false;
+			}
 		}
 
 	}

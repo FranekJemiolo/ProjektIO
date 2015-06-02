@@ -79,9 +79,10 @@ public class TouchScript : MonoBehaviour {
 		{
 			selected.Remove (toDeselect);
 			Debug.Log ("Deselecting" +  toDeselect.name );
-			Projector proj = toDeselect.transform.GetChild(2).gameObject.GetComponent<Projector>();
+			Projector proj =  toDeselect.transform.GetChild(2).gameObject.GetComponent<Projector>();
 			Debug.Log (proj);//.enabled = false;
 			proj.enabled = false;
+
 		}
 
 	}
@@ -99,11 +100,11 @@ public class TouchScript : MonoBehaviour {
 		if (unit != null)
 		{
 			Debug.Log ("Selecting" + unit.name);
-			
-			selected.Add (unit);
 			Projector proj = unit.transform.GetChild(2).gameObject.GetComponent<Projector>();
-			Debug.Log (proj);
+			Debug.Log (proj);//.enabled = false;
 			proj.enabled = true;
+			selected.Add (unit);
+
 		}
 
 		// TODO:
