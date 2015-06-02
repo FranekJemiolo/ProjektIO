@@ -265,14 +265,13 @@ public class TouchScript : MonoBehaviour {
 								{
 									Select( hit.transform.gameObject );
 								}
-								deselectAsteroid();
+								asteroid = null;
 							}
 							else if( hit.collider.gameObject.tag == "AsteroidBody" ){
 								asteroid = hit.collider.gameObject.transform.parent.gameObject;
 							}
 							else{
-								deselectAsteroid();
-
+								asteroid = null;
 							}
 						}
 					}
@@ -319,10 +318,16 @@ public class TouchScript : MonoBehaviour {
 					smallerY = touchZero.position.y;
 				}
 				
+				Debug.Log (smallerX+" smallerX");
+				Debug.Log (largerX+" largerX");
+				Debug.Log (smallerY+" smallerY");
+				Debug.Log (largerY+" largerY");
+				
 				if( touchZero.phase==TouchPhase.Began || touchOne.phase==TouchPhase.Began ||
 				   touchZero.phase==TouchPhase.Moved || touchOne.phase==TouchPhase.Moved )
 				{
-					selectionBox = new Rect(smallerX, largerY, largerX-smallerX, largerY-smallerY);
+					selectionBox = new Rect(largerX, invertWithScreenHeight(smallerY), smallerX - largerX,
+					                        smallerY - largerY );
 				}
 				if( touchZero.phase==TouchPhase.Ended || touchOne.phase==TouchPhase.Ended )
 				{
@@ -412,13 +417,13 @@ public class TouchScript : MonoBehaviour {
 		}
 		isOverUI = false;
 	}
-
+	
 	private void OnGUI()
 	{
 		if (Input.touchCount == 2) 
 		{
 			GUI.color = new Color(1, 1, 1, 0.5f);
 			GUI.DrawTexture( selectionBox, selectionHighlight );
-        }
-    }
+		}
+	}
 }

@@ -47,14 +47,17 @@ public class UnitController : MonoBehaviour
 		timePassed += Time.deltaTime;
 		if ( (this.GetComponentInChildren<Renderer>().isVisible) && (Input.touchCount == 2) && (this.tag=="Player")) 
 		{
+			Debug.Log("making campos");
 			Vector3 camPos = GameObject.Find("Main Camera").GetComponent<Camera>().WorldToScreenPoint(transform.position);
 			//camPos.y = TouchScript.invertWithScreenHeight(camPos.y);
-			if( TouchScript.selectionBox.Contains(camPos) )
+			if( TouchScript.selectionBox.Contains(camPos, true) )
 			{
+				Debug.Log("selecting rect");
 				GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().Select(this.transform.gameObject);
 			}
 			else
 			{
+				Debug.Log("deselecting rect");
 				GameObject.FindGameObjectWithTag ("TouchScript").GetComponent<TouchScript> ().DeselectUnit(this.transform.gameObject);
 			}
 		}
