@@ -286,61 +286,63 @@ public class TouchScript : MonoBehaviour {
 				//resize camera (move by Y axis)
 			case 2:
 				//new code implements traditional RTS selection box
-				
-				touchZero = Input.GetTouch(0);
-				touchOne = Input.GetTouch(1);
-				
-				float largerX = 0;
-				float smallerX = 0;
-				
-				float largerY = 0;
-				float smallerY = 0;
-				
-				if (touchZero.position.x > touchOne.position.x)
+
+				if (GameObject.FindGameObjectWithTag("GUI").GetComponent<GUIclass>().isCommandModeON)
 				{
-					largerX = touchZero.position.x;
-					smallerX = touchOne.position.x;
-				}
-				else
-				{
-					largerX = touchOne.position.x;
-					smallerX = touchZero.position.x;
-				}
-				
-				if ( touchZero.position.y > touchOne.position.y)
-				{
-					largerY = touchZero.position.y;
-					smallerY = touchOne.position.y;
-				}
-				else
-				{
-					largerY = touchOne.position.y;
-					smallerY = touchZero.position.y;
-				}
-				
-				Debug.Log (smallerX+" smallerX");
-				Debug.Log (largerX+" largerX");
-				Debug.Log (smallerY+" smallerY");
-				Debug.Log (largerY+" largerY");
-				
-				if( touchZero.phase==TouchPhase.Began || touchOne.phase==TouchPhase.Began ||
-				   touchZero.phase==TouchPhase.Moved || touchOne.phase==TouchPhase.Moved )
-				{
-					selectionBox = new Rect(largerX, invertWithScreenHeight(smallerY), smallerX - largerX,
-					                        smallerY - largerY );
-				}
-				if( touchZero.phase==TouchPhase.Ended || touchOne.phase==TouchPhase.Ended )
-				{
-					selectionBox = new Rect(0,0,0,0);
+					touchZero = Input.GetTouch(0);
+					touchOne = Input.GetTouch(1);
 					
-					largerX = 0;
-					smallerX = 0;
+					float largerX = 0;
+					float smallerX = 0;
 					
-					largerY = 0;
-					smallerY = 0;
-				}
-				
-				/** old code implementing pinch to zoom
+					float largerY = 0;
+					float smallerY = 0;
+					
+					if (touchZero.position.x > touchOne.position.x)
+					{
+						largerX = touchZero.position.x;
+						smallerX = touchOne.position.x;
+					}
+					else
+					{
+						largerX = touchOne.position.x;
+						smallerX = touchZero.position.x;
+					}
+					
+					if ( touchZero.position.y > touchOne.position.y)
+					{
+						largerY = touchZero.position.y;
+						smallerY = touchOne.position.y;
+					}
+					else
+					{
+						largerY = touchOne.position.y;
+						smallerY = touchZero.position.y;
+					}
+					
+					Debug.Log (smallerX+" smallerX");
+					Debug.Log (largerX+" largerX");
+					Debug.Log (smallerY+" smallerY");
+					Debug.Log (largerY+" largerY");
+					
+					if( touchZero.phase==TouchPhase.Began || touchOne.phase==TouchPhase.Began ||
+					   touchZero.phase==TouchPhase.Moved || touchOne.phase==TouchPhase.Moved )
+					{
+						selectionBox = new Rect(largerX, invertWithScreenHeight(smallerY), smallerX - largerX,
+						                        smallerY - largerY );
+					}
+					if( touchZero.phase==TouchPhase.Ended || touchOne.phase==TouchPhase.Ended )
+					{
+						selectionBox = new Rect(0,0,0,0);
+						
+						largerX = 0;
+						smallerX = 0;
+						
+						largerY = 0;
+						smallerY = 0;
+					}
+					
+					/** old code implementing pinch to zoom
 				// Store both touches.
 				Touch touchZero = Input.GetTouch(0);
 				Touch touchOne = Input.GetTouch(1);
@@ -373,6 +375,9 @@ public class TouchScript : MonoBehaviour {
 					// Clamp the field of view to make sure it's between 0 and 180.
 					cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 10.0f, 90.0f);
 				}*/
+
+				}
+
 				break;
 			case 3:
 				/** New code implementing pinch to zoom with 3 touches.

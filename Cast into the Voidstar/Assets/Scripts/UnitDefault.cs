@@ -27,6 +27,7 @@ public class UnitDefault : MonoBehaviour {
 			unitController = unit.GetComponent<UnitController>();
 			first = false;
 		}
+		isCommanded = gui.isCommandModeON;
 		if (!isCommanded)
 		{
 			if (enemies.Count > 0)
