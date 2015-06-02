@@ -61,20 +61,29 @@ public class TouchScript : MonoBehaviour {
 	/// </summary>
 	public void DeselectUnits() {
 		foreach (GameObject unit in selected) {
-			Debug.Log ("Deselecting" +  unit.name );
-			// TODO: graphical behaviour
-			/*Projector proj = unit.GetComponent<Projector>();
-			Debug.Log (proj);//.enabled = false;
-			proj.enabled = false;*/
+			if (unit != null)
+			{
+				Debug.Log ("Deselecting" +  unit.name );
+				// TODO: graphical behaviour
+				Projector proj =  unit.transform.GetChild(2).gameObject.GetComponent<Projector>();
+				Debug.Log (proj);//.enabled = false;
+				proj.enabled = false;
+			}
+
 		}
 		selected.Clear();
 	}
 	
 	public void DeselectUnit(GameObject toDeselect) {
-		selected.Remove (toDeselect);
-		/*Projector proj = toDeselect.GetComponent<Projector>();
-		Debug.Log (proj);//.enabled = false;
-		proj.enabled = false;*/
+		if (toDeselect != null)
+		{
+			selected.Remove (toDeselect);
+			Debug.Log ("Deselecting" +  toDeselect.name );
+			Projector proj = toDeselect.transform.GetChild(2).gameObject.GetComponent<Projector>();
+			Debug.Log (proj);//.enabled = false;
+			proj.enabled = false;
+		}
+
 	}
 	
 	/// <summary>
@@ -87,13 +96,16 @@ public class TouchScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="unit">Unit.</param>
 	public void Select(GameObject unit){
-		
-		Debug.Log ("Selecting" + unit.name);
-		
-		selected.Add (unit);
-		/*Projector proj = unit.GetComponent<Projector>();
-		Debug.Log (proj);
-		proj.enabled = true;*/
+		if (unit != null)
+		{
+			Debug.Log ("Selecting" + unit.name);
+			
+			selected.Add (unit);
+			Projector proj = unit.transform.GetChild(2).gameObject.GetComponent<Projector>();
+			Debug.Log (proj);
+			proj.enabled = true;
+		}
+
 		// TODO:
 		// change graphical behaviour of unit i.e. highlighted.
 		// projector - additive shader (shadow material)
