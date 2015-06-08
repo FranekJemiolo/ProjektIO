@@ -1,15 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MothershipController.cs">
     <Files>
-      <File FileName="Assets\Scripts\MothershipController.cs" Line="24" Column="9" />
-      <File FileName="Assets\Scripts\UnitController.cs" Line="51" Column="93" />
+      <File FileName="Assets\Scripts\SkirmishOptions.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MothershipController.cs" Line="191" Column="2" />
+      <File FileName="Assets\Scripts\UnitController.cs" Line="53" Column="76" />
       <File FileName="Assets\Scripts\GameController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TouchScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GUIclass.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UnitDefault.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Android.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SkirmishOptions.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MissionSelector.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AIController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AsteroidController.cs" Line="1" Column="1" />
@@ -17,10 +17,14 @@
       <File FileName="Assets\Scripts\EnemyController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MapSelector.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shot.cs" Line="1" Column="1" />
+      <File FileName="E:\unity\Prefabs\Scripts\UnitController.cs" Line="47" Column="76" />
+      <File FileName="E:\unity\Prefabs\Scripts\MothershipController.cs" Line="180" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="E:\unity\Prefabs\Scripts\MothershipController.cs" line="20" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
