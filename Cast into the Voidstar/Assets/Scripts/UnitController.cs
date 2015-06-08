@@ -39,6 +39,8 @@ public class UnitController : MonoBehaviour
 
 	private AudioSource source;
 
+	public GameObject explosion;
+
 	
 	void Start () 
 	{
@@ -172,6 +174,7 @@ public class UnitController : MonoBehaviour
 		GameController gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		gc.givePointsForKilling(this.transform.gameObject);
 		gc.deleteUnit(this.transform.gameObject);
+		Instantiate(explosion, this.transform.position, Quaternion.identity);
 		foreach (Transform child in this.transform)
 		{
 			Destroy(child.gameObject);

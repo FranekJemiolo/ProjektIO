@@ -36,6 +36,8 @@ public class MothershipController : MonoBehaviour {
 	private Rigidbody myRigidbody;
 
 	AudioSource[] sources;
+
+	public GameObject explosion;
 	
 
 	void Start () 
@@ -164,6 +166,7 @@ public class MothershipController : MonoBehaviour {
 
 		// This script is only available for player now.
 		gc.mothershipKilled (GameController.Who.Player);
+		Instantiate(explosion, this.transform.position, Quaternion.identity);
 		foreach (Transform child in this.transform)
 		{
 			Destroy(child.gameObject);
