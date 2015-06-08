@@ -39,6 +39,8 @@ public class UnitController : MonoBehaviour
 
 	private AudioSource source;
 
+	private AudioSource explosion_source;
+
 	public GameObject explosion;
 
 	
@@ -46,6 +48,7 @@ public class UnitController : MonoBehaviour
 	{
 		this.navAgent = this.GetComponent<NavMeshAgent> ();
 		source = GetComponentInChildren<AudioSource>();
+		explosion_source = this.transform.FindChild("ExplosionAudio").GetComponent<AudioSource>();
 	}
 
 	void Update () 
@@ -175,6 +178,7 @@ public class UnitController : MonoBehaviour
 		gc.givePointsForKilling(this.transform.gameObject);
 		gc.deleteUnit(this.transform.gameObject);
 		Instantiate(explosion, this.transform.position, Quaternion.identity);
+		explosion_source.Play();
 		foreach (Transform child in this.transform)
 		{
 			Destroy(child.gameObject);

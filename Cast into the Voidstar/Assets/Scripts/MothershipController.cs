@@ -19,12 +19,12 @@ public class MothershipController : MonoBehaviour {
 	public const int numberOfProjectiles = 2;
 
 	// The firing rate of our unit. How many seconds between attacks.
-	private float[] firingRate = new float[numberOfProjectiles];
+	public float[] firingRate = new float[numberOfProjectiles];
 	// How many time passed from last firing.
 	private float[] timePassed = new float[numberOfProjectiles];
 
 	// The strength of the attack of the unit.
-	private float[] attackForce = new float[numberOfProjectiles];
+	public float[] attackForce = new float[numberOfProjectiles];
 
 	// The gameobject of a shot.
 	public GameObject[] projectiles = new GameObject[numberOfProjectiles];
@@ -35,7 +35,9 @@ public class MothershipController : MonoBehaviour {
 	// The rigidbody attached to the unit.
 	private Rigidbody myRigidbody;
 
-	AudioSource[] sources;
+	private AudioSource[] sources;
+
+	private AudioSource explosion_source;
 
 	public GameObject explosion;
 	
@@ -44,6 +46,7 @@ public class MothershipController : MonoBehaviour {
 	{
 		this.myRigidbody = this.GetComponent<Rigidbody>();
 		sources = GetComponentsInChildren<AudioSource>();
+		explosion_source = this.transform.FindChild("ExplosionAudio").GetComponent<AudioSource>();
 	}
 
 
