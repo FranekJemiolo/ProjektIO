@@ -34,11 +34,14 @@ public class MothershipController : MonoBehaviour {
 
 	// The rigidbody attached to the unit.
 	private Rigidbody myRigidbody;
+
+	AudioSource[] sources;
 	
 
 	void Start () 
 	{
 		this.myRigidbody = this.GetComponent<Rigidbody>();
+		sources = GetComponentsInChildren<AudioSource>();
 	}
 
 
@@ -105,6 +108,7 @@ public class MothershipController : MonoBehaviour {
 			timePassed[whichAttack] = 0;
 			GameObject firedShot;
 			firedShot = Instantiate(projectiles[whichAttack], shotSpawn.position, this.transform.rotation) as GameObject;
+			sources[whichAttack].Play();
 			firedShot.GetComponent<Shot>().setOwner(this.gameObject);
 			firedShot.GetComponent<Shot>().fire(this.attackForce[whichAttack]);
 			return true;

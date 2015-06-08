@@ -36,10 +36,14 @@ public class UnitController : MonoBehaviour
 
 	// Unit navigation agent.
 	private NavMeshAgent navAgent;
+
+	private AudioSource source;
+
 	
 	void Start () 
 	{
 		this.navAgent = this.GetComponent<NavMeshAgent> ();
+		source = GetComponentInChildren<AudioSource>();
 	}
 
 	void Update () 
@@ -106,6 +110,7 @@ public class UnitController : MonoBehaviour
 	{
 		GameObject firedShot;
 		firedShot = Instantiate(shot, shotSpawn.position, this.transform.rotation) as GameObject;
+		source.Play();
 		firedShot.GetComponent<Shot>().setOwner(this.gameObject);
 		firedShot.GetComponent<Shot>().fire(this.attackForce);
 	}
