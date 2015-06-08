@@ -22,6 +22,8 @@ public class SkirmishOptions : MonoBehaviour {
 	public Text MediumText;
 	public Text LargeText;
 
+	public GameObject LoadingScreen;
+
 	// 0 - small, 1 - medium, 2 - large
 	private int currentSizeSelected; 
 
@@ -72,6 +74,7 @@ public class SkirmishOptions : MonoBehaviour {
 		SetupSlider(AsteroidsSlider, MinNumberOfAsteroids, MaxNumberOfAsteroids, 1);
 		SetupSlider (Player1Slider, MinNumberOfCredits, MaxNumberOfCredits, 100);
 		SetupSlider (Player2Slider, MinNumberOfCredits, MaxNumberOfCredits, 100);
+		LoadingScreen.SetActive(false);
 	}
 
 	public void GoBackToMenu() {
@@ -110,6 +113,7 @@ public class SkirmishOptions : MonoBehaviour {
 		                                                           massE);
 		                                                          
 		GameController.savePresets(preset);
+		LoadingScreen.SetActive(true);
 		Application.LoadLevel("16");
 	}
 

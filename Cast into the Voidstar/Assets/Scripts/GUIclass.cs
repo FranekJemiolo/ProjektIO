@@ -177,7 +177,7 @@ public class GUIclass : MonoBehaviour {
 	}
 
 	private void DrawPlayerStats() {
-        PlayerHPACCStatus.text = "HP: " + mothershipController.getHitPoints().ToString();
+        // PlayerHPACCStatus.text = "HP: " + mothershipController.getHitPoints().ToString();
 		Credits.text = "Credits: " + gameController.getPlayerCredits(GameController.Who.Player).ToString();
 		TimeToSpawn.text = "Time to spawn: " + gameController.playerTimeLeftToBuild(GameController.Who.Player).ToString();
 		
