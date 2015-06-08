@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using ProgressBar;
 
 // This script describes unit function and it's attributes.
 public class UnitController : MonoBehaviour 
@@ -43,13 +43,24 @@ public class UnitController : MonoBehaviour
 
 	public GameObject explosion;
 
+
+	// Mothership HP bar
+	private ProgressBarBehaviour hpProgressBar;
 	
 	void Start () 
 	{
 		this.navAgent = this.GetComponent<NavMeshAgent> ();
 		source = GetComponentInChildren<AudioSource>();
 		explosion_source = this.transform.FindChild("ExplosionAudio").GetComponent<AudioSource>();
+		this.hpProgressBar = this.GetComponentInChildren<ProgressBarBehaviour>();
 	}
+
+	private void updateHPBar() 
+	{
+		hpProgressBar.Value = (float) hitPoints;
+	}
+
+
 
 	void Update () 
 	{
@@ -83,6 +94,8 @@ public class UnitController : MonoBehaviour
 				proj.enabled = false;
 			}
 		}
+
+		updateHPBar();
 
 	}
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ProgressBar;
 
 public class MothershipController : MonoBehaviour {
 
@@ -41,12 +42,16 @@ public class MothershipController : MonoBehaviour {
 
 	public GameObject explosion;
 	
+	// Mothership HP bar
+	private ProgressBarBehaviour hpProgressBar;
+
 
 	void Start () 
 	{
 		this.myRigidbody = this.GetComponent<Rigidbody>();
 		sources = GetComponentsInChildren<AudioSource>();
 		explosion_source = this.transform.FindChild("ExplosionAudio").GetComponent<AudioSource>();
+		this.hpProgressBar = this.GetComponentInChildren<ProgressBarBehaviour>();
 	}
 
 
@@ -56,6 +61,7 @@ public class MothershipController : MonoBehaviour {
 		{
 			timePassed[i] += Time.deltaTime;
 		}
+		updateHPBar();
 		
 	}
 	
@@ -175,5 +181,10 @@ public class MothershipController : MonoBehaviour {
 			Destroy(child.gameObject);
 		}
 		Destroy(this.transform.gameObject);
+	}
+
+	private void updateHPBar()
+	{
+		hpProgressBar.Value = (float) hitPoints;
 	}
 }
