@@ -92,7 +92,12 @@ public class AsteroidController : MonoBehaviour
 		public void destroyBuilding ()
 		{
 			// Calls destructor and create some form of explosion.
+			foreach (Transform child in this.building.transform)
+			{
+				Destroy (child);
+			}
 			Destroy(this.building);
+
 		}
 		
 		public GameObject getBuilding ()

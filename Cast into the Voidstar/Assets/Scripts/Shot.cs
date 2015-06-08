@@ -57,6 +57,10 @@ public class Shot : MonoBehaviour
 		//Debug.Log ("Collision with " + other.gameObject);
 		if (other.gameObject.tag == "Enemy")
 		{
+			/*if (this.owner.tag == "Enemy")
+			{
+				return;
+			}*/
 			UnitController uc = other.gameObject.GetComponent<UnitController>();
 			uc.setHitPoints(uc.getHitPoints() - this.damage);
 			if (uc.getHitPoints() <= 0.0f)
@@ -67,6 +71,10 @@ public class Shot : MonoBehaviour
 		}
 		else if (other.gameObject.tag == "Player")
 		{
+			/*if (this.owner.tag == "Player")
+			{
+				return;
+			}*/
 			if (other.gameObject.name != "Mothership")
 			{
 				UnitController uc = other.gameObject.GetComponent<UnitController>();
@@ -92,6 +100,7 @@ public class Shot : MonoBehaviour
 		{
 			AsteroidController ac = other.gameObject.transform.parent.gameObject.GetComponent<AsteroidController>();
 			ac.getBuilding().setHP (ac.getBuilding().getHP() - this.damage);
+			this.blowUp();
 		}
 
 	}
