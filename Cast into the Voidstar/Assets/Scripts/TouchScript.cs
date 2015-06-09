@@ -336,6 +336,7 @@ public class TouchScript : MonoBehaviour {
 					if( touchZero.phase==TouchPhase.Ended || touchOne.phase==TouchPhase.Ended )
 					{
 						selectionBox = new Rect(0,0,0,0);
+
 						
 						largerX = 0;
 						smallerX = 0;
@@ -379,13 +380,13 @@ public class TouchScript : MonoBehaviour {
 				}*/
 
 				}
+				else
+				{
+					selectionBox = new Rect(0,0,0,0);
+				}
 
 				break;
-			case 3:
-				/** New code implementing pinch to zoom with 3 touches.
-				 * 	with 3 touches we want to calculate distance between them and move camera by
-					Y axis proportionally
-				 */
+			/*case 3:
 				
 				touchZero = Input.GetTouch(0);
 				touchOne = Input.GetTouch(1);
@@ -412,14 +413,14 @@ public class TouchScript : MonoBehaviour {
 				//change camera position
 				
 				
-				/*else if(touchZero.phase==TouchPhase.Ended ||
+				else if(touchZero.phase==TouchPhase.Ended ||
 				        touchOne.phase==TouchPhase.Ended ||
 				        touchTwo.phase==TouchPhase.Ended)
 				{
 					//end, reinit variables
-				}*/
+				}
 				
-				break;
+				break;*/
 			}
 		}
 		isOverUI = false;
