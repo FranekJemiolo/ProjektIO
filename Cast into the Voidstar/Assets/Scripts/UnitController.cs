@@ -7,21 +7,21 @@ public class UnitController : MonoBehaviour
 {
 
 	// The firing range of our unit. Range = 50.0f
-	private float rangeSqr = 2500.0f;
+	public float rangeSqr = 2500.0f;
 
 	// The firing rate of our unit. How many seconds between attacks.
-	private float firingRate = 2.0f;
+	public float firingRate = 2.0f;
 	// How many time passed from last firing.
 	private float timePassed = 0.0f;
 	
 	// Time needed for rotation so the unit faces enemy.
-	private float damping = 2.0f;
+	public float damping = 2.0f;
 
 	// The life points of the unit.
-	private float hitPoints = 100.0f;
+	public float hitPoints = 100.0f;
 
 	// The strength of the attack of the unit.
-	private float attackForce = 10.0f;
+	public float attackForce = 10.0f;
 
 	// The gameobject of a shot.
 	public GameObject shot;

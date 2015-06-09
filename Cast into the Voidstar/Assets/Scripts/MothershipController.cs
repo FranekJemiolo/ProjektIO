@@ -5,16 +5,16 @@ using ProgressBar;
 public class MothershipController : MonoBehaviour {
 
 	// Rotation speed in degrees.
-	private float rotateSpeed = 10.0f;
-	private float rotationConst = 10.0f;
+	public float rotateSpeed = 10.0f;
+	public float rotationConst = 10.0f;
 
 	// The speed and acceleration
-	private float speed = 0.5f;
-	private float sqrSpeed = 100.0f;
-	private float acceleration = 500.0f;
+	public float speed = 0.5f;
+	public float sqrSpeed = 100.0f;
+	public float acceleration = 500.0f;
 	
 	// The life points of the unit.
-	private float hitPoints = 100.0f;
+	public float hitPoints = 100.0f;
 
 	// Number of attacks
 	public const int numberOfProjectiles = 2;

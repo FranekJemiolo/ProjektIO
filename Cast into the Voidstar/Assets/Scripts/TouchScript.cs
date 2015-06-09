@@ -266,13 +266,14 @@ public class TouchScript : MonoBehaviour {
 								{
 									Select( hit.transform.gameObject );
 								}
-								asteroid = null;
+								deselectAsteroid();
 							}
 							else if( hit.collider.gameObject.tag == "AsteroidBody" ){
 								asteroid = hit.collider.gameObject.transform.parent.gameObject;
+								getAsteroidInfo();
 							}
 							else{
-								asteroid = null;
+								deselectAsteroid();
 							}
 						}
 					}
