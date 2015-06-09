@@ -45,6 +45,8 @@ public class MothershipController : MonoBehaviour {
 	// Mothership HP bar
 	private ProgressBarBehaviour hpProgressBar;
 
+	private float maxHitPoints;
+
 
 	void Start () 
 	{
@@ -52,6 +54,7 @@ public class MothershipController : MonoBehaviour {
 		sources = GetComponentsInChildren<AudioSource>();
 		explosion_source = this.transform.FindChild("ExplosionAudio").GetComponent<AudioSource>();
 		this.hpProgressBar = this.GetComponentInChildren<ProgressBarBehaviour>();
+		this.maxHitPoints = hitPoints;
 	}
 
 
@@ -185,6 +188,6 @@ public class MothershipController : MonoBehaviour {
 
 	private void updateHPBar()
 	{
-		hpProgressBar.Value = (float) hitPoints;
+		hpProgressBar.Value = (float) ((hitPoints)/ maxHitPoints) * (100.0f);
 	}
 }

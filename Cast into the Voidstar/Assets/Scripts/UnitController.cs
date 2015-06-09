@@ -20,6 +20,8 @@ public class UnitController : MonoBehaviour
 	// The life points of the unit.
 	public float hitPoints = 100.0f;
 
+	private float maxHitPoints;
+
 	// The strength of the attack of the unit.
 	public float attackForce = 10.0f;
 
@@ -53,11 +55,12 @@ public class UnitController : MonoBehaviour
 		source = GetComponentInChildren<AudioSource>();
 		explosion_source = this.transform.FindChild("ExplosionAudio").GetComponent<AudioSource>();
 		this.hpProgressBar = this.GetComponentInChildren<ProgressBarBehaviour>();
+		this.maxHitPoints = this.hitPoints;
 	}
 
 	private void updateHPBar() 
 	{
-		hpProgressBar.Value = (float) hitPoints;
+		hpProgressBar.Value = (float) ((hitPoints)/ maxHitPoints) * (100.0f);
 	}
 
 

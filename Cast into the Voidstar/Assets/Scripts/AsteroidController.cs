@@ -36,6 +36,7 @@ public class AsteroidController : MonoBehaviour
 
 		// Building's life points. Some size.
 		private float hitPoints;
+
 		
 		// Who controlls our building.
 		private Master who;
