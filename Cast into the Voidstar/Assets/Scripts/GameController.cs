@@ -550,7 +550,7 @@ public class GameController : MonoBehaviour
 
 	// Camera constraints
 	public float minY = 50.0f;
-	public float maxY = 1000.0f;
+	public float maxY = 200.0f;
 
 	// Just for getting the mothership of a player.
 	public GameObject mothership;

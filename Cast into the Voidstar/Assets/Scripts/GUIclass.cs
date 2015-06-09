@@ -57,7 +57,7 @@ public class GUIclass : MonoBehaviour {
 	public ProgressRadialBehaviour PlayerProgress;
 	public ProgressRadialBehaviour EnemyProgress;
 
-	public float ratio = 0.2f;
+	public float ratio = 0.4f;
 
 	
 	public void AllowToBuild(string Info, bool Allow) {
@@ -350,11 +350,11 @@ public class GUIclass : MonoBehaviour {
 	private void HandleCamera() {
 		if (CameraMinus) {
 			Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-			gameController.moveCamera(new Vector3(cam.transform.position.x, cam.transform.position.y * (1 - (ratio * Time.deltaTime)), cam.transform.position.z));
+			gameController.moveCamera(new Vector3(cam.transform.position.x, cam.transform.position.y * (1 + (ratio * Time.deltaTime)), cam.transform.position.z));
 		}
 		if (CameraPlus) {
 			Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-			gameController.moveCamera(new Vector3(cam.transform.position.x, cam.transform.position.y * (1 + (ratio * Time.deltaTime)), cam.transform.position.z));
+			gameController.moveCamera(new Vector3(cam.transform.position.x, cam.transform.position.y * (1 - (ratio * Time.deltaTime)), cam.transform.position.z));
 		}
 	}
 
