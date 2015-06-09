@@ -21,6 +21,9 @@ public class GUIclass : MonoBehaviour {
 	private bool MoveDown;
 	private bool MoveLeft;
 	private bool MoveRight;
+	private bool CameraMinus;
+	private bool CameraPlus;
+	private bool gamePaused;
 	//private bool ableToBuildMine;
 
 	public GameObject LeftButton;
@@ -40,6 +43,7 @@ public class GUIclass : MonoBehaviour {
 	public Text TimeToSpawn;
 	public Text buildMineOnAsteroidText;
 	public Text NumberOfAsteroids;
+	public Text PauseGameText;
 
 	public Button switcher;
 	public Button fire;
@@ -52,6 +56,8 @@ public class GUIclass : MonoBehaviour {
 
 	public ProgressRadialBehaviour PlayerProgress;
 	public ProgressRadialBehaviour EnemyProgress;
+
+	public float ratio = 0.2f;
 
 	
 	public void AllowToBuild(string Info, bool Allow) {
@@ -81,6 +87,10 @@ public class GUIclass : MonoBehaviour {
 
 		hasGameEnded = false;
 		MoveUp = false;
+		gamePaused = false;
+
+		CameraMinus = false;
+		CameraPlus = false;
 
 		SetupControls();
     }
@@ -118,6 +128,18 @@ public class GUIclass : MonoBehaviour {
 				    )
 				);
 			} 
+		}
+	}
+
+	public void PauseGame() {
+		if (!gamePaused) {
+			gamePaused = true;
+			Time.timeScale = 0.0f;
+			PauseGameText.text = "Resume";
+		} else {
+			gamePaused = false;
+			Time.timeScale = 1.0f;
+			PauseGameText.text = "Pause";
 		}
 	}
 
@@ -195,6 +217,9 @@ public class GUIclass : MonoBehaviour {
 		GUIPanel.SetActive (true);
 		Joystick.SetActive(true);
 		FocusCameraOnMothership();
+		if (!gamePaused)
+			Time.timeScale = 1.0f;
+
 	}
 
 	public void switchButton() {
@@ -306,6 +331,32 @@ public class GUIclass : MonoBehaviour {
 		touchScript.createBuilding();
 	}
 
+	public void ActivatePlusCamera() {
+		CameraPlus = true;
+	}
+
+	public void RelasePlusCamera() {
+		CameraPlus = false;
+	}
+
+	public void ActivateMinusCamera() {
+		CameraMinus = true;
+	}
+
+	public void RelaseMinusCamera() {
+		CameraMinus = false;
+	}
+
+	private void HandleCamera() {
+		if (CameraMinus) {
+			Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+			gameController.moveCamera(new Vector3(cam.transform.position.x, cam.transform.position.y * (1 - (ratio * Time.deltaTime)), cam.transform.position.z));
+		}
+		if (CameraPlus) {
+			Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+			gameController.moveCamera(new Vector3(cam.transform.position.x, cam.transform.position.y * (1 + (ratio * Time.deltaTime)), cam.transform.position.z));
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -313,6 +364,7 @@ public class GUIclass : MonoBehaviour {
 		DrawPlayerStats();
 		DrawScore();
 		HandleMovement();
+		HandleCamera();
 		DrawDeselection();
 	}
 }

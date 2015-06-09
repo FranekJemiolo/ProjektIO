@@ -548,6 +548,10 @@ public class GameController : MonoBehaviour
 	public float minZ = 0.0f;
 	public float maxZ = 1000.0f;
 
+	// Camera constraints
+	public float minY = 50.0f;
+	public float maxY = 1000.0f;
+
 	// Just for getting the mothership of a player.
 	public GameObject mothership;
 
@@ -950,7 +954,17 @@ public class GameController : MonoBehaviour
 	// Moves main camera into desired position.
 	public void moveCamera(Vector3 pos)
 	{
-		GameObject.FindGameObjectWithTag("MainCamera").transform.position = pos;
+		Debug.Log (minY);
+		Debug.Log (maxY);
+		Debug.Log (pos.y);
+		if (pos.y > minY)
+		{
+			if (pos.y < maxY)
+			{
+				GameObject.FindGameObjectWithTag("MainCamera").transform.position = pos;
+			}
+		}
+	
 	}
 
 	// Should be called before the destruction of enemy unit.
