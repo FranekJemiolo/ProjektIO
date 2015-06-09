@@ -15,6 +15,7 @@ public class MissionSelector : MonoBehaviour {
 
 	public GameObject MissionPanel;
 	public GameObject Button;
+	public GameObject LoadingScreen;
 
 	private const int NumberOfMissions = 16;
 
@@ -48,7 +49,8 @@ public class MissionSelector : MonoBehaviour {
 	}
 
 	public void LoadLevel(int i) {
-		Application.LoadLevel(i.ToString());
+		LoadingScreen.SetActive(true);
+		Application.LoadLevel("0");
 	}
 
 	public void returnToMenu() {
@@ -75,6 +77,7 @@ public class MissionSelector : MonoBehaviour {
 		loadData();
 		resizeMissionPanel(1000, 500);
 		DetermineButtonState();
+		LoadingScreen.SetActive(false);
 	}
 	
 	// Update is called once per frame
